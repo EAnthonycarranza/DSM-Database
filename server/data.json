@@ -1,0 +1,44 @@
+{
+  "students": [],
+  "tasks": [],
+  "classes": [],
+  "service": [],
+  "documents": [],
+  "pdfTemplates": [],
+  "envelopes": [],
+  "notifications": [],
+  "messages": [],
+  "users": [
+    {
+      "id": "44522ab2-471e-44e8-bfaa-27c716ce2971",
+      "createdAt": 1757225573293,
+      "lastSeen": 1757225573293,
+      "presence": "online",
+      "updatedAt": 1757225573293
+    },
+    {
+      "id": "u-admin",
+      "createdAt": 1757256276432,
+      "lastSeen": 1757460326711,
+      "presence": "online",
+      "updatedAt": 1757460326711
+    }
+  ],
+  "settings": {
+    "id": "settings",
+    "capacity": 0,
+    "dorms": [],
+    "lists": {
+      "statuses": [],
+      "phases": [],
+      "squads": [],
+      "recordTypes": []
+    },
+    "visionApiKey": "",
+    "visionProxyUrl": ""
+  },
+  "audit": [],
+  "events": [],
+  "forms": [],
+  "formSubmissions": []
+}
