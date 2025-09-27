@@ -2689,7 +2689,11 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
   
   // Handle React Router - send all non-API requests to index.html
-  app.get('*', (req, res) => {
+  const nonApiRoutePattern = new RegExp(
+    `^(?!${escapeRegExp(API_PREFIX)}(?:$|/)).*`
+  );
+
+  app.get(nonApiRoutePattern, (req, res) => {
     // Skip API routes
     if (req.path.startsWith(API_PREFIX)) {
       return res.status(404).json({ error: "Not found" });
