@@ -28,7 +28,11 @@
     "socket.io": "^4.8.1",
     "speakeasy": "^2.0.0"
   },
-  "keywords": ["react", "express", "mongodb"],
+  "keywords": [
+    "react",
+    "express",
+    "mongodb"
+  ],
   "author": "",
   "license": "ISC"
 }
