@@ -66,14 +66,24 @@ function deriveSocketUrl(apiBase) {
     // If apiBase is absolute, use its origin.
     const u = new URL(apiBase, typeof window !== "undefined" ? window.location.href : "http://localhost");
     // If apiBase was relative (e.g., "/api"), URL(...) resolves to the page origin (e.g., http://localhost:3000).
-    // In CRA dev we need to talk directly to the API server (default 4000) for websockets.
+    // In CRA/Vite dev we still want to talk directly to the API server (default 4000) for websockets, but in
+    // production we must reuse the same origin/port so the connection works on Heroku/Render/etc.
     const isRelative = /^\/(?!\/)/.test(apiBase || "");
     if (isRelative) {
-      return `${u.protocol}//${u.hostname}:4000`;
+      if (typeof window !== "undefined") {
+        const { protocol, hostname, port } = window.location;
+        const localHosts = new Set(["localhost", "127.0.0.1", "::1"]);
+        const devPorts = new Set(["3000", "5173", "4173", "5174", "8080"]);
+        if (localHosts.has(hostname) && devPorts.has(port || "")) {
+          return `${protocol}//${hostname}:4000`;
+        }
+        return window.location.origin;
+      }
+      // Server-side rendering fallback
+      return "http://localhost:4000";
     }
-    // Absolute URL: return its protocol+host+port
-    const port = u.port ? `:${u.port}` : "";
-    return `${u.protocol}//${u.hostname}${port}`;
+    // Absolute URL: return its origin (protocol + host + optional port)
+    return u.origin;
   } catch {
     // Final fallback
     if (typeof window !== "undefined") {
