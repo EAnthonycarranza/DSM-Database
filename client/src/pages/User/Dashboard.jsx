@@ -346,6 +346,14 @@ export default function Dashboard() {
   const [imgWin, setImgWin] = useState(null);
   const [pdfDoc, setPdfDoc] = useState(null);
   const [inbox, setInbox] = useState([]);
+  const handleReturnToLogin = React.useCallback(() => {
+    // Clear any stale session so we don't bounce back into the not-found screen
+    try {
+      logout("/login");
+    } catch {
+      navigate("/login", { replace: true });
+    }
+  }, [logout, navigate]);
 
   useEffect(() => {
     ensureFontAwesome();
@@ -355,7 +363,7 @@ export default function Dashboard() {
   // Immediately redirect to login if the user is not authenticated
   useEffect(() => {
     if (ready && !user) {
-  navigate("/login", { replace: true });
+      navigate("/login", { replace: true });
     }
   }, [ready, user, navigate]);
 
@@ -475,7 +483,7 @@ export default function Dashboard() {
               We couldn't locate the requested student profile.
             </div>
             <button
-              onClick={() => navigate("/login")}
+              onClick={handleReturnToLogin}
               style={{
                 ...styles.backButton,
                 backgroundColor: "#4f46e5",
