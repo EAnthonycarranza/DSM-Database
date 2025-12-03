@@ -135,9 +135,9 @@
       "studentId": "ae34973c-30ce-431c-bd50-735b4ad92de9",
       "id": "a3427a2d-5f6c-4188-ae0f-97e6bd073315",
       "createdAt": 1764771668654,
-      "updatedAt": 1764771720389,
+      "updatedAt": 1764798966809,
       "presence": "offline",
-      "lastSeen": 1764771720389
+      "lastSeen": 1764798966809
     },
     {
       "name": "Admin User",
@@ -147,9 +147,9 @@
       "role": "admin",
       "id": "49c2b39f-c3b3-4dea-9ad2-4eb61108b8b1",
       "createdAt": 1764772648651,
-      "updatedAt": 1764787067140,
-      "presence": "offline",
-      "lastSeen": 1764787067140
+      "updatedAt": 1764796323848,
+      "presence": "online",
+      "lastSeen": 1764796323848
     },
     {
       "name": "Anthony Carranza",
@@ -163,6 +163,53 @@
       "updatedAt": 1764779419219,
       "presence": "offline",
       "lastSeen": 1764779419219
+    },
+    {
+      "name": "Rafael Ortega",
+      "username": "rafael.ortega",
+      "password": "!UNmJ?TbN#t2",
+      "role": "student",
+      "studentId": "92b26568-d344-4e2c-b81f-69bac478d8c9",
+      "presence": "offline",
+      "id": "05a884a4-3479-4a37-b4d4-bd7ddca87c01",
+      "createdAt": 1764794248771,
+      "updatedAt": 1764794248771,
+      "_id": "69309f88356f043e77d87fc4"
+    },
+    {
+      "id": "6c86502e-9f81-4659-8ab7-cd4c909bd834",
+      "createdAt": 1764794279145,
+      "presence": "online",
+      "lastSeen": 1764796443478,
+      "updatedAt": 1764796443478
+    },
+    {
+      "name": "Rafael Ortega",
+      "username": "rafael.ortega",
+      "password": "3MdCYp!s0HiW",
+      "role": "student",
+      "studentId": "92b26568-d344-4e2c-b81f-69bac478d8c9",
+      "presence": "offline",
+      "id": "73e907e5-8802-4d1f-8e6a-5c565ee4368c",
+      "createdAt": 1764795497467,
+      "updatedAt": 1764795497467,
+      "_id": "6930a46986d3d89ed51158b0"
+    },
+    {
+      "id": "u-fabian",
+      "createdAt": 1764798708373,
+      "role": "student",
+      "updatedAt": 1764798708373
+    },
+    {
+      "name": "Fabian Ybarra",
+      "email": "fabian.ybarra@example.com",
+      "username": "fabian",
+      "password": "ChooseAStrongPassword123!",
+      "role": "admin",
+      "id": "8ea14665-0bc0-47e4-9091-9223c2dce23c",
+      "createdAt": 1764799028995,
+      "updatedAt": 1764799028995
     }
   ],
   "settings": {
