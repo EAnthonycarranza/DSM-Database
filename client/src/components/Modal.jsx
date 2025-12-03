@@ -26,6 +26,8 @@ export default function Modal() {
       body = (
         <StudentForm
           existing={modal.props?.existing || null}
+          cardStyle={{ width: "min(1100px, 95vw)" }}
+          embedded
           onClose={close}
           onSaved={modal.props?.onSaved}
         />
