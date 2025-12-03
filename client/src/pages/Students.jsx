@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
-import StudentForm from "./StudentForm";
+import Modal from "../components/Modal";
 
 
 /* helpers */
@@ -38,34 +38,53 @@ function StudentChip({ student, onClick }) {
 }
 
 export default function Students() {
-  const { api, data } = useApp();
+  const { api, data, setModal } = useApp();
   const navigate = useNavigate();
 
   const [rows, setRows] = useState([]);
   const [q, setQ] = useState("");
-  const [showForm, setShowForm] = useState(false);
-  const [edit, setEdit] = useState(null);
 
   // NEW: hidden file input for import
   const importRef = React.useRef(null);
 
-useEffect(() => {
-  const list = Array.isArray(data?.students) ? data.students : [];
-  console.log("[Students] Context students updated", {
-    count: list.length,
-    first: list[0],
-    fetchedAt: new Date().toISOString(),
-  });
-  setRows(list);
-}, [data?.students]);
+  const onSaved = async () => {
+    const list = await api.getAll("students");
+    console.log("[Students] After save, refetched /students", {
+      count: Array.isArray(list) ? list.length : 0,
+      first: Array.isArray(list) ? list[0] : null,
+    });
+    setRows(Array.isArray(list) ? list : []);
+  };
 
   useEffect(() => {
-    const openAdd = () => { setEdit(null); setShowForm(true); };
-    const openFuture = () => { setEdit({ status: "Future Applicant", recordType: "Prospect" }); setShowForm(true); };
+    const list = Array.isArray(data?.students) ? data.students : [];
+    console.log("[Students] Context students updated", {
+      count: list.length,
+      first: list[0],
+      fetchedAt: new Date().toISOString(),
+    });
+    setRows(list);
+  }, [data?.students]);
+
+  const openStudentModal = React.useCallback((prefill = null) => {
+    setModal((m) => ({
+      ...m,
+      open: true,
+      type: "student",
+      props: {
+        existing: prefill,
+        onSaved,
+      },
+    }));
+  }, [setModal, onSaved]);
+
+  useEffect(() => {
+    const openAdd = () => { openStudentModal(null); };
+    const openFuture = () => { const pre = { status: "Future Applicant", recordType: "Prospect" }; openStudentModal(pre); };
     const openAlumni = () => {
       const today = new Date().toISOString().slice(0, 10);
-      setEdit({ status: "Alumni", recordType: "Alumni", exitDate: today });
-      setShowForm(true);
+      const pre = { status: "Alumni", recordType: "Alumni", exitDate: today };
+      openStudentModal(pre);
     };
     const openTask = () => alert("Task form (placeholder)");
     window.addEventListener("open:add-student", openAdd);
@@ -78,22 +97,13 @@ useEffect(() => {
       window.removeEventListener("open:add-alumni", openAlumni);
       window.removeEventListener("open:add-task", openTask);
     };
-  }, []);
+  }, [openStudentModal]);
 
   const filtered = useMemo(() => {
     const txt = q.trim().toLowerCase();
     if (!txt) return rows;
     return rows.filter((r) => Object.values(r).some((v) => String(v ?? "").toLowerCase().includes(txt)));
   }, [rows, q]);
-
-const onSaved = async () => {
-  const list = await api.getAll("students");
-  console.log("[Students] After save, refetched /students", {
-    count: Array.isArray(list) ? list.length : 0,
-    first: Array.isArray(list) ? list[0] : null,
-  });
-  setRows(Array.isArray(list) ? list : []);
-};
 
   // NEW: parse JSON with tolerance for trailing commas
   function safeParseJson(str) {
@@ -195,7 +205,6 @@ const onSaved = async () => {
       <div className="card" style={{ overflow: "hidden" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
           <h3 style={{ margin: 0 }}>Roster</h3>
-          <button className="btn small" onClick={() => { setEdit(null); setShowForm(true); }}>+ Add Student</button>
         </div>
         <div className="roster-scroll">
           {rows.map((s) => (
@@ -271,13 +280,8 @@ const onSaved = async () => {
         </table>
       </div>
 
-      {showForm && (
-        <StudentForm
-          existing={edit}
-          onClose={() => setShowForm(false)}
-          onSaved={onSaved}
-        />
-      )}
+      {/* Shared modal (AppContext-driven) */}
+      <Modal />
     </section>
   );
 }

@@ -162,7 +162,7 @@ async function ensurePdfWorker() {
 export default function StudentProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { api, data } = useApp();
+  const { api, data, refreshStore } = useApp();
   const location = useLocation();
 
   const [student, setStudent] = useState(null);
@@ -293,6 +293,102 @@ export default function StudentProfile() {
   }, [activity, createdFilter, searchQ]);
 
   const [programEditOpen, setProgramEditOpen] = useState(false);
+  const [loginUsername, setLoginUsername] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginShowPwd, setLoginShowPwd] = useState(false);
+  const [loginBusy, setLoginBusy] = useState(false);
+  const [loginError, setLoginError] = useState("");
+  const [loginMessage, setLoginMessage] = useState("");
+
+  const studentUser = useMemo(() => {
+    const users = Array.isArray(data?.users) ? data.users : [];
+    const byStudent = users.find((u) => String(u.studentId || "") === String(id));
+    if (byStudent) return byStudent;
+    const em = String(student?.email || "").toLowerCase();
+    if (!em) return null;
+    return users.find((u) => String(u.email || "").toLowerCase() === em) || null;
+  }, [data?.users, id, student?.email]);
+
+  useEffect(() => {
+    if (!studentUser) return;
+    setLoginUsername(studentUser.username || "");
+    setLoginEmail(studentUser.email || student?.email || "");
+  }, [studentUser, student?.email]);
+
+  useEffect(() => {
+    if (!student) return;
+    const first = String(student.firstName || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const last = String(student.lastName || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const emailPart = String(student.email || "").split("@")[0] || "";
+    const guess =
+      [first, last].filter(Boolean).join(".") ||
+      emailPart.replace(/[^a-z0-9]/g, "") ||
+      `student-${String(id).slice(0, 6)}`;
+    setLoginUsername((u) => u || guess);
+    setLoginEmail((e) => e || student.email || "");
+  }, [student, id]);
+
+  function makeRandomPassword(len = 12) {
+    const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@#$%?";
+    let out = "";
+    for (let i = 0; i < len; i++) {
+      out += alphabet[Math.floor(Math.random() * alphabet.length)];
+    }
+    return out;
+  }
+
+  function handleGeneratePassword() {
+    const pwd = makeRandomPassword(12);
+    setLoginPassword(pwd);
+    setLoginShowPwd(true);
+    setLoginMessage("Generated password — copy it and share with the student.");
+  }
+
+  async function handleSaveLogin() {
+    if (!student) return;
+    const username = loginUsername.trim();
+    const password = loginPassword.trim();
+    const email = loginEmail.trim();
+    if (!username || !password) {
+      setLoginError("Username and password are required.");
+      return;
+    }
+
+    const users = Array.isArray(data?.users) ? data.users : [];
+    const clash = users.find(
+      (u) =>
+        u.id !== (studentUser?.id || "") &&
+        ((username && String(u.username || "").toLowerCase() === username.toLowerCase()) ||
+          (email && String(u.email || "").toLowerCase() === email.toLowerCase()))
+    );
+    if (clash) {
+      setLoginError("That username or email is already in use.");
+      return;
+    }
+
+    setLoginBusy(true);
+    setLoginError("");
+    setLoginMessage("");
+    try {
+      const res = await api.provisionStudentLogin(student.id, {
+        username,
+        email,
+        password,
+        generate: false,
+      });
+
+      const serverPwd = res?.password || password;
+      setLoginPassword(serverPwd);
+      const msg = res?.action === "updated" ? "Password updated. Share it with the student:" : "Login created. Share it with the student:";
+      setLoginMessage(msg);
+      setLoginShowPwd(true);
+    } catch (e) {
+      setLoginError(e?.message || "Failed to save login.");
+    } finally {
+      setLoginBusy(false);
+    }
+  }
 
   if (!id) {
     return (<section className="page active"><div className="card">No student selected.</div></section>);
@@ -502,6 +598,98 @@ export default function StudentProfile() {
           <span className="pill">Dorm: {dormDisplay || "—"}</span>
           <span className="pill">Intake: {fmtDate(student.intakeDate)}</span>
           {student.exitDate && <span className="pill red">Exit: {fmtDate(student.exitDate)}</span>}
+        </div>
+      </div>
+
+      {/* Student login provisioning */}
+      <div className="card" style={{ marginTop: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+          <div>
+            <h3 style={{ margin: "0 0 4px 0" }}>Student Login</h3>
+            <div style={{ color: "var(--text-dim)", fontSize: 12 }}>
+              Create credentials this student will use to sign in. You can generate a secure password and share it once.
+            </div>
+          </div>
+          <span className="pill" style={{ background: studentUser ? "#123f2b" : "#2b2e38", border: "1px solid #1f3d2a" }}>
+            {studentUser ? "Login exists" : "Not provisioned"}
+          </span>
+        </div>
+
+        {studentUser && (
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
+            <span className="pill">Username: {studentUser.username || "—"}</span>
+            <span className="pill">Email: {studentUser.email || "—"}</span>
+          </div>
+        )}
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 10, marginTop: 12 }}>
+          <label style={{ display: "grid", gap: 4 }}>
+            <span className="cap">Username</span>
+            <input
+              className="btn"
+              value={loginUsername}
+              onChange={(e) => setLoginUsername(e.target.value)}
+              placeholder="e.g., j.smith"
+              autoComplete="username"
+            />
+          </label>
+
+          <label style={{ display: "grid", gap: 4 }}>
+            <span className="cap">Email (optional)</span>
+            <input
+              className="btn"
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
+              placeholder="student@example.com"
+              autoComplete="email"
+            />
+          </label>
+
+          <label style={{ display: "grid", gap: 4 }}>
+            <span className="cap">Password</span>
+            <div style={{ display: "flex", gap: 8 }}>
+              <input
+                className="btn"
+                style={{ flex: 1 }}
+                type={loginShowPwd ? "text" : "password"}
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                placeholder="Set or generate a password"
+                autoComplete="new-password"
+              />
+              <button className="btn small" onClick={() => setLoginShowPwd((v) => !v)} type="button">
+                {loginShowPwd ? "Hide" : "Show"}
+              </button>
+            </div>
+          </label>
+        </div>
+
+        {loginError && (
+          <div style={{ marginTop: 10, color: "#ff9d9d", background: "rgba(255,92,92,.1)", border: "1px solid rgba(255,92,92,.35)", padding: "8px 10px", borderRadius: 8 }}>
+            {loginError}
+          </div>
+        )}
+
+        {loginMessage && (
+          <div style={{ marginTop: 10, background: "rgba(34,197,94,.1)", border: "1px solid rgba(34,197,94,.4)", padding: "10px 12px", borderRadius: 8 }}>
+            <div style={{ color: "#b8ffcc", fontWeight: 700, marginBottom: 6 }}>{loginMessage}</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <span style={{ fontFamily: "monospace", fontSize: 15, background: "#0f162b", padding: "6px 10px", borderRadius: 8 }}>
+                {loginPassword || "—"}
+              </span>
+              <span style={{ color: "var(--text-dim)", fontSize: 12 }}>Copy and hand to the student now; it will not be shown again.</span>
+            </div>
+          </div>
+        )}
+
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginTop: 12 }}>
+          <button className="btn outline" type="button" onClick={handleGeneratePassword} disabled={loginBusy}>
+            <i className="fa-solid fa-wand-magic-sparkles" /> Generate secure password
+          </button>
+          <div style={{ flex: 1 }} />
+          <button className="btn primary" type="button" onClick={handleSaveLogin} disabled={loginBusy}>
+            {studentUser ? "Update password" : "Create login"}
+          </button>
         </div>
       </div>
 
