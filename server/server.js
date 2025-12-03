@@ -187,7 +187,26 @@ function initGCS() {
   try {
     const opts = {};
     if (GCS_PROJECT_ID) opts.projectId = GCS_PROJECT_ID;
-    if (GCS_KEYFILE) opts.keyFilename = GCS_KEYFILE;
+    
+    // Use environment variables for credentials in production, fallback to keyfile for development
+    if (process.env.GOOGLE_CLOUD_PRIVATE_KEY && process.env.GOOGLE_CLOUD_CLIENT_EMAIL) {
+      opts.credentials = {
+        type: 'service_account',
+        project_id: process.env.GOOGLE_CLOUD_PROJECT_ID,
+        private_key_id: process.env.GOOGLE_CLOUD_PRIVATE_KEY_ID,
+        private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
+        client_id: process.env.GOOGLE_CLOUD_CLIENT_ID,
+        auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+        token_uri: 'https://oauth2.googleapis.com/token',
+        auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
+        client_x509_cert_url: `https://www.googleapis.com/robot/v1/metadata/x509/${process.env.GOOGLE_CLOUD_CLIENT_EMAIL}`,
+        universe_domain: 'googleapis.com'
+      };
+    } else if (GCS_KEYFILE) {
+      opts.keyFilename = GCS_KEYFILE;
+    }
+    
     gcs = new Storage(opts);
     gcsBucket = gcs.bucket(GCS_BUCKET);
     console.log(`GCS initialized. Bucket=${GCS_BUCKET}`);
@@ -212,6 +231,15 @@ function randomBackupCode() {
   let s = "";
   for (let i = 0; i < 12; i++) s += alphabet[Math.floor(Math.random() * alphabet.length)];
   return `${s.slice(0, 4)}-${s.slice(4, 8)}-${s.slice(8, 12)}`;
+}
+
+function randomPassword(length = 12) {
+  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@#$%?";
+  let out = "";
+  for (let i = 0; i < length; i++) {
+    out += alphabet[Math.floor(Math.random() * alphabet.length)];
+  }
+  return out;
 }
 
 function generateBackupCodes(n = 8) {
@@ -1208,6 +1236,69 @@ app.post(`${API_PREFIX}/students`, async (req, res) => {
     res.status(201).json(rec);
   } catch (error) {
     handleError(res, error, "Failed to create student");
+  }
+});
+
+// Create or update a login for this student (role: student). Returns plain password for admin to share.
+app.post(`${API_PREFIX}/students/:id/credentials`, async (req, res) => {
+  try {
+    const studentId = req.params.id;
+    const { username = "", email = "", password = "", generate = false } = req.body || {};
+
+    const student = await dbGet("students", studentId);
+    if (!student) return res.status(404).json({ success: false, error: "Student not found" });
+
+    const uname = String(username || "").trim();
+    if (!uname) return res.status(400).json({ success: false, error: "Username is required" });
+    const em = String(email || "").trim();
+    const pwd = String(password || "").trim() || (generate ? randomPassword(12) : "");
+    if (!pwd) return res.status(400).json({ success: false, error: "Password is required" });
+
+    const users = await dbList("users");
+    const arr = Array.isArray(users) ? users : [];
+    const lowerU = uname.toLowerCase();
+    const lowerE = em.toLowerCase();
+
+    const existingForStudent = arr.find((u) => String(u.studentId || "") === String(studentId));
+    const conflict = arr.find((u) => {
+      if (existingForStudent && u.id === existingForStudent.id) return false;
+      const uUser = String(u.username || "").toLowerCase();
+      const uEmail = String(u.email || "").toLowerCase();
+      if (lowerU && uUser === lowerU) return true;
+      if (lowerE && uEmail === lowerE) return true;
+      return false;
+    });
+    if (conflict) {
+      return res.status(409).json({ success: false, error: "Username or email already exists" });
+    }
+
+    const baseUser = {
+      name: `${student.firstName || ""} ${student.lastName || ""}`.trim() || uname || "Student",
+      username: uname,
+      email: em || undefined,
+      password: pwd,
+      role: "student",
+      studentId,
+      presence: existingForStudent?.presence || "offline",
+    };
+
+    let saved = null;
+    let action = "created";
+    if (existingForStudent) {
+      action = "updated";
+      saved = await dbUpdate("users", existingForStudent.id, { ...baseUser });
+    } else {
+      saved = await dbInsert("users", baseUser);
+    }
+
+    res.json({
+      success: true,
+      action,
+      user: sanitizeUser(saved),
+      password: pwd,
+    });
+  } catch (error) {
+    handleError(res, error, "Failed to provision student login");
   }
 });
 
@@ -2689,15 +2780,12 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
   
   // Handle React Router - send all non-API requests to index.html
-  const nonApiRoutePattern = new RegExp(
-    `^(?!${escapeRegExp(API_PREFIX)}(?:$|/)).*`
-  );
-
-  app.get(nonApiRoutePattern, (req, res) => {
+  app.use((req, res, next) => {
     // Skip API routes
     if (req.path.startsWith(API_PREFIX)) {
       return res.status(404).json({ error: "Not found" });
     }
+    // Send all other requests to React app
     res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
   });
 } else {
