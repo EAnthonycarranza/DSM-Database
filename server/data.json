@@ -1,12 +1,102 @@
 {
-  "students": [],
+  "students": [
+    {
+      "id": "4964db3b-15b5-409d-97d2-17daa54cfac3",
+      "firstName": "Dsmdonotreply",
+      "lastName": "",
+      "status": "Current",
+      "phase": "1",
+      "recordType": "Resident",
+      "dormId": "",
+      "squad": "",
+      "intakeDate": null,
+      "exitDate": null,
+      "archived": false,
+      "email": "dsmdonotreply@gmail.com",
+      "createdAt": 1764771564710,
+      "updatedAt": 1764771564710
+    },
+    {
+      "id": "ae34973c-30ce-431c-bd50-735b4ad92de9",
+      "firstName": "Fabian",
+      "lastName": "",
+      "status": "Current",
+      "phase": "1",
+      "recordType": "Resident",
+      "dormId": "",
+      "squad": "",
+      "intakeDate": null,
+      "exitDate": null,
+      "archived": false,
+      "email": "fabian@example.com",
+      "createdAt": 1764771668642,
+      "updatedAt": 1764771668642
+    },
+    {
+      "id": "5db341ea-fe51-46ab-b3e5-c309cb72d2a6",
+      "firstName": "Anthony",
+      "lastName": "Carranza",
+      "status": "Current",
+      "phase": "1",
+      "recordType": "Resident",
+      "dormId": "",
+      "squad": "A",
+      "intakeDate": "2025-12-03",
+      "exitDate": "2025-12-12",
+      "archived": false,
+      "email": "anthonycarranza123@gmail.com",
+      "mobile": "2109972900",
+      "mentor": "No",
+      "readiness": "Yes",
+      "employmentPlacement": "Yes",
+      "createdAt": 1764773252659,
+      "updatedAt": 1764773252659
+    }
+  ],
   "tasks": [],
   "classes": [],
   "service": [],
   "documents": [],
   "pdfTemplates": [],
-  "envelopes": [],
-  "notifications": [],
+  "envelopes": [
+    {
+      "id": "env_fv8xndyptdfmiq80zhz",
+      "formId": "dcdae597-0dff-44aa-8f6a-211d0fa1a5fb",
+      "kind": "form",
+      "subject": "Form: DSM Admission Packet (1)",
+      "message": "",
+      "recipients": [
+        {
+          "id": "5db341ea-fe51-46ab-b3e5-c309cb72d2a6",
+          "studentId": "5db341ea-fe51-46ab-b3e5-c309cb72d2a6",
+          "userId": "a4d5a2fe-69ba-4e3b-acd1-5d07c7d82f63",
+          "name": "Anthony Carranza",
+          "email": "anthonycarranza123@gmail.com",
+          "status": "pending",
+          "invitedAt": 1764779295675
+        }
+      ],
+      "status": "queued",
+      "createdAt": 1764779295675,
+      "updatedAt": 1764779295675,
+      "sentBy": "49c2b39f-c3b3-4dea-9ad2-4eb61108b8b1",
+      "emailRecipients": false
+    }
+  ],
+  "notifications": [
+    {
+      "id": "b9f541c6-d3f3-4f23-80da-59b4eabff466",
+      "kind": "envelope",
+      "title": "Form: DSM Admission Packet (1)",
+      "body": "You have a document to complete.",
+      "at": 1764779295684,
+      "read": false,
+      "action": "open:envelope",
+      "to": "a4d5a2fe-69ba-4e3b-acd1-5d07c7d82f63",
+      "envelopeId": "env_fv8xndyptdfmiq80zhz",
+      "studentId": "5db341ea-fe51-46ab-b3e5-c309cb72d2a6"
+    }
+  ],
   "messages": [],
   "users": [
     {
@@ -22,6 +112,57 @@
       "lastSeen": 1757460326711,
       "presence": "online",
       "updatedAt": 1757460326711
+    },
+    {
+      "name": "Dsmdonotreply",
+      "username": "dsmdonotreply@gmail.com",
+      "email": "dsmdonotreply@gmail.com",
+      "password": "Eac123456789",
+      "role": "student",
+      "studentId": "4964db3b-15b5-409d-97d2-17daa54cfac3",
+      "id": "b47cc8df-86d1-4d7a-b57f-8b93cff3daa0",
+      "createdAt": 1764771564721,
+      "updatedAt": 1764776499127,
+      "presence": "offline",
+      "lastSeen": 1764776499127
+    },
+    {
+      "name": "Fabian",
+      "username": "fabian@example.com",
+      "email": "fabian@example.com",
+      "password": "ChooseAStrongPassword123!",
+      "role": "student",
+      "studentId": "ae34973c-30ce-431c-bd50-735b4ad92de9",
+      "id": "a3427a2d-5f6c-4188-ae0f-97e6bd073315",
+      "createdAt": 1764771668654,
+      "updatedAt": 1764771720389,
+      "presence": "offline",
+      "lastSeen": 1764771720389
+    },
+    {
+      "name": "Admin User",
+      "email": "admin@example.com",
+      "username": "admin",
+      "password": "ChangeMe123!",
+      "role": "admin",
+      "id": "49c2b39f-c3b3-4dea-9ad2-4eb61108b8b1",
+      "createdAt": 1764772648651,
+      "updatedAt": 1764787067140,
+      "presence": "offline",
+      "lastSeen": 1764787067140
+    },
+    {
+      "name": "Anthony Carranza",
+      "username": "anthony.carranza",
+      "email": "anthonycarranza123@gmail.com",
+      "password": "ekJAas1s9bdu",
+      "role": "student",
+      "studentId": "5db341ea-fe51-46ab-b3e5-c309cb72d2a6",
+      "id": "a4d5a2fe-69ba-4e3b-acd1-5d07c7d82f63",
+      "createdAt": 1764776570368,
+      "updatedAt": 1764779419219,
+      "presence": "offline",
+      "lastSeen": 1764779419219
     }
   ],
   "settings": {
@@ -39,6 +180,2054 @@
   },
   "audit": [],
   "events": [],
-  "forms": [],
+  "forms": [
+    {
+      "id": "dcdae597-0dff-44aa-8f6a-211d0fa1a5fb",
+      "title": "DSM Admission Packet (1)",
+      "description": "Complete Admission Agreement, Liability Release & Waiver, Personal Information Survey, Code of Conduct, Home Rules, and Statement of Legal Status for the Discipleship School of Ministry",
+      "fields": [
+        {
+          "id": "field_1757439919201_0_oe3znla",
+          "type": "heading",
+          "name": "sec_main_title",
+          "label": "Discipleship School of Ministry",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 1
+        },
+        {
+          "id": "field_1757439919201_1_vfte8gf",
+          "type": "heading",
+          "name": "sec_admission_agreement",
+          "label": "ADMISSION AGREEMENT",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 2
+        },
+        {
+          "id": "field_1757439919201_2_0ayhi7d",
+          "type": "inlineText",
+          "name": "admission_intro",
+          "label": "Admission Agreement",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "parts": [
+            {
+              "t": "text",
+              "v": "I, "
+            },
+            {
+              "t": "input",
+              "inputType": "text",
+              "name": "student_name_admission",
+              "required": true
+            },
+            {
+              "t": "text",
+              "v": " understand that, as a condition of acceptance into the Discipleship School of Ministry (DSM), I must abide by all rules and regulations of the school. I understand that it is my responsibility to know and understand the rules and regulations, as they apply to me, and that if I violate any of these rules I may be terminated from this school and required to leave the DSM. I understand that any questions regarding rules and regulations can be directed to the school director. Furthermore, I acknowledge the DSM is not a licensed treatment facility."
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_3_8o6cox5",
+          "type": "adminText",
+          "name": "admission_terms",
+          "label": "Agreement Terms",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "content": "Additionally, I agree that the DSM is not responsible for administering any medical treatment that I may need or am currently receiving. I agree that in the event medical treatment is required, I may have to pay for the medical treatment and provide documentation from the treating physician of the nature of the treatment and the dates and times of any appointments.\n\nThe DSM will provide my room and board to help me focus on the school curriculum. However, any personal items kept by me are done so at my own risk. I understand that if I leave or am dismissed from the DSM, any and all personal property left at the facility will be held for twenty-four (24) hours, after which they are expressly donated to the school to do with as they see fit.\n\nI understand that the DSM will not house sex offenders. Background checks will be given to all new members. If the background check is refused by an applicant, admission into the DSM will be denied. I hereby give my consent for the DSM to perform a background check of my criminal history in any and all jurisdictions. I acknowledge that if anything of that nature described above is found, my enrollment into the school will be denied or terminated as applicable.\n\nI come to the DISCIPLESHIP SCHOOL OF MINISTRY (DSM) voluntarily and of my own free will. I come asking for help with my spiritual growth in Christ. I understand that the DSM is a place of spiritual healing and restoration, and that the possession of any illegal contraband or illegal controlled substances is not permitted in this school.\n\nI understand that the DSM is not responsible for any personal injuries, sickness, accidents, acts of God, or other similar incidents during or after my being in the school or traveling in their vehicles. I also understand that the DSM is not responsible for theft, damage, or loss of any personal property in any way.\n\nI give the DSM permission to search my property upon arrival and at any time during my stay.\n\nI understand that the DSM is a full-time commitment and that I will not be allowed to seek outside employment without the full consent of the school's director during the Phase 1 part of the program.\n\nI understand that any fighting, stealing, or use of obscene language (as determined by the DSM leaders and staff) may be grounds for automatic dismissal from the program."
+        },
+        {
+          "id": "field_1757439919201_4_h1c2s9h",
+          "type": "adminText",
+          "name": "admission_voluntary",
+          "label": "Voluntary Participation",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "content": "I understand that participation in this program is voluntary and that either the DSM or I may terminate my stay in the school at any time without cause.\n\nI understand that if I choose to leave the school, I will have to wait a minimum of 30 days before I may apply for the program again. If I am expelled from the school, I will have to wait a minimum of 45 days before I can appeal the decision and apply for re-entry. This will be a case-by-case scenario.\n\nI have read and understand the above agreement and hereby agree to comply with the rules and regulations set forth by the DSM. I also understand that any violation of the rules and regulations may result in loss of privileges and/or expulsion from the DISCIPLESHIP SCHOOL OF MINISTRY."
+        },
+        {
+          "id": "field_1757439919201_5_zt79eoz",
+          "type": "date",
+          "name": "admission_date",
+          "label": "Date",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "autoToday": false
+        },
+        {
+          "id": "field_1757439919201_6_73h6doy",
+          "type": "text",
+          "name": "admission_student_printed_name",
+          "label": "Student Printed Name",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "full",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_7_xp68yhk",
+          "type": "signature",
+          "name": "admission_student_signature",
+          "label": "Student Signature",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_8_9108leu",
+          "type": "divider",
+          "name": "div_admission",
+          "label": "Field 9",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_9_9ueq15n",
+          "type": "heading",
+          "name": "sec_liability_release",
+          "label": "Liability Release and Waiver",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 2
+        },
+        {
+          "id": "field_1757439919201_10_akadql8",
+          "type": "adminText",
+          "name": "liability_terms",
+          "label": "Liability Release Terms",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "content": "1. I, the undersigned, am at least 18 years of age and desire to participate in the Discipleship School of Ministry program housed at San Antonio Christian Church. This program has been explained to me and I fully understand and appreciate the dangers, risks and hazards that may arise from my participation in the activities of this program. These dangers, risks and hazards can result in injury and impairment to my body, general health, well-being, property damage and could include serious or even fatal injuries.\n\n2. Knowing the dangers, hazards, and risks of the program's activities and in consideration of being permitted to participate in the program, on behalf of myself, my family, my spouse, heirs, next of kin and personal representative(s) (the \"Releasors\"), I agree to assume all the risks and responsibilities surrounding my participation in the Discipleship School of Ministry's program. On behalf of myself and the Releasors, I hereby covenant not to sue the San Antonio Christian Church nor the Discipleship School of Ministry, or its trustees, officers, representatives and employees (\"Releasees\") and I hereby release, waive, forever discharge the Releasees from and against any and all liability for any harm, injury, damage, claims, demands, actions, causes of action, costs, and expenses of any nature that I may have or that may hereafter accrue to me or a Releasor, arising out of, or related to, or in relation to the DSM and/or associated with San Antonio Christian Church including but not limited to any volunteer activities, or community events or leagues, using the facility and its equipment practicing and or engaging in church functions, philanthropic activities, other nonprofit or for profit engagements or functions and fundraisers or other related activities on and off the premises, provided that this waiver of liability does not apply to any acts of gross negligence or intentional, willful or wanton misconduct of Releasees or otherwise. I further agree to indemnify and hold harmless and forever discharge the Releasees from any and all claims, demands, debts, contracts, expenses, causes of action, lawsuits, damages and liabilities, of every kind and nature, whether known or unknown in law or equity, that I ever had or may have, arising from or in any way related to my participation in any of the events or activities conducted by, on the premises of, or for the benefit of the Releasees. It is my expressed intent that this Liability Release and Waiver shall bind me, the members of my family and spouse, if I am alive, and my estate, family, heirs, administrators, personal representatives, or assigns, if I am deceased, and shall be deemed as a legally binding release, waiver, discharge, and covenant not to sue the Releasees.\n\n3. I agree to conduct myself in accordance with the rules of conduct and standards of behavior that are expected of me as a student of the DSM and to abide by the various instructions and guidance I am given by the DSM or by a Program Director designated by the DSM.\n\n4. The provision of this Liability Release and Waiver will continue in full force and effect even after the termination of the activities conducted by, on the premises of, or for the benefit of San Antonio Christian Church and the DSM, whether by agreement, by operation of law, or otherwise.\n\n5. I have read, understand, and fully agree to the terms of this Liability Release and Waiver. I understand and confirm that by signing this Liability Release and Waiver I have given up considerable future legal rights. I have signed this Agreement freely, voluntarily, under no duress or threat of duress, without inducement, promise or guarantee being communicated to me. My signature is proof of my intention to execute a complete and unconditional Liability Release and Waiver of all liability to the full extent of the law. I am 18 years of age or older and mentally competent to enter into this waiver."
+        },
+        {
+          "id": "field_1757439919201_11_9bcfugc",
+          "type": "adminText",
+          "name": "liability_legal_notice",
+          "label": "Legal Notice",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "content": "THIS IS A LEGAL AGREEMENT AND INCLUDES A RELEASE OF LEGAL RIGHTS, READ AND BE CERTAIN YOU UNDERSTAND IT BEFORE SIGNING."
+        },
+        {
+          "id": "field_1757439919201_12_gl0drja",
+          "type": "date",
+          "name": "liability_date",
+          "label": "Date",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "autoToday": false
+        },
+        {
+          "id": "field_1757439919201_13_435pjex",
+          "type": "text",
+          "name": "liability_student_printed_name",
+          "label": "Student Printed Name",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "full",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_14_gaztuk0",
+          "type": "signature",
+          "name": "liability_student_signature",
+          "label": "Student Signature",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_15_d7ypd9c",
+          "type": "divider",
+          "name": "div_liability",
+          "label": "Field 16",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_16_rd87bm3",
+          "type": "heading",
+          "name": "sec_personal_info",
+          "label": "PERSONAL INFORMATION SURVEY",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 2
+        },
+        {
+          "id": "field_1757439919201_17_fv92llg",
+          "type": "adminText",
+          "name": "survey_instructions",
+          "label": "Instructions",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "content": "This form is to be filled out completely by either checking appropriate boxes or filling in the space provided. The information gathered on this form will be used to help make an accurate assessment of your situation, determine your fit here at the DISCIPLESHIP SCHOOL OF MINISTRY, and to report demographic data to our funding sources. No identifying information from your records will be released to anyone without your express written consent. PLEASE PRINT LEGIBLY. PUT N/A WHERE APPLICABLE. NO BLANKS."
+        },
+        {
+          "id": "field_1757439919201_18_cubdd1l",
+          "type": "date",
+          "name": "survey_date",
+          "label": "Date",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "quarter",
+          "validation": {},
+          "autoToday": false
+        },
+        {
+          "id": "field_1757439919201_19_3lurunq",
+          "type": "heading",
+          "name": "sec_personal_details",
+          "label": "Personal Information",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 3
+        },
+        {
+          "id": "field_1757439919201_20_19wsroe",
+          "type": "text",
+          "name": "last_name",
+          "label": "Last Name",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "third",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_21_zbad9fe",
+          "type": "text",
+          "name": "first_name",
+          "label": "First Name",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "third",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_22_osrbmfc",
+          "type": "text",
+          "name": "middle_name",
+          "label": "Middle Name",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "third",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_23_cgynvl0",
+          "type": "date",
+          "name": "date_of_birth",
+          "label": "Date of Birth",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "third",
+          "validation": {},
+          "autoToday": false
+        },
+        {
+          "id": "field_1757439919201_24_m5l7r0y",
+          "type": "number",
+          "name": "age",
+          "label": "Age",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "third",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_25_91vwglw",
+          "type": "text",
+          "name": "ssn",
+          "label": "SSN",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "third",
+          "validation": {},
+          "mask": true
+        },
+        {
+          "id": "field_1757439919201_26_v9fla3a",
+          "type": "text",
+          "name": "dl_or_id",
+          "label": "DL or ID #",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "third",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_27_9ngt2mo",
+          "type": "text",
+          "name": "state_issued",
+          "label": "State Issued",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "third",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_28_o5i9tlq",
+          "type": "date",
+          "name": "revoked_suspended_date",
+          "label": "Revoked or Suspended Date",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "third",
+          "validation": {},
+          "autoToday": false
+        },
+        {
+          "id": "field_1757439919201_29_2hsh1rl",
+          "type": "text",
+          "name": "address",
+          "label": "Address",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "full",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_30_cr6szgw",
+          "type": "text",
+          "name": "city_state_zip",
+          "label": "City, State, Zip",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "full",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_31_p962r2o",
+          "type": "phone",
+          "name": "home_phone",
+          "label": "Home Phone",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_32_js0x2f4",
+          "type": "phone",
+          "name": "work_phone",
+          "label": "Work Phone",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_33_amjo9q7",
+          "type": "radio",
+          "name": "gender",
+          "label": "Gender",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "male",
+              "label": "Male"
+            },
+            {
+              "value": "female",
+              "label": "Female"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_34_f62dqh6",
+          "type": "radio",
+          "name": "race",
+          "label": "Race",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "white",
+              "label": "White"
+            },
+            {
+              "value": "black",
+              "label": "Black"
+            },
+            {
+              "value": "asian",
+              "label": "Asian"
+            },
+            {
+              "value": "native_american",
+              "label": "Native American"
+            },
+            {
+              "value": "other",
+              "label": "Other"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_35_jownkb7",
+          "type": "text",
+          "name": "race_other_specify",
+          "label": "If Other, specify",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "fieldId": "field_1757439919201_34_f62dqh6",
+            "operator": "equals",
+            "value": "other",
+            "thenRequired": "required"
+          },
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_36_vi7b3pa",
+          "type": "radio",
+          "name": "nationality",
+          "label": "Nationality",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "hispanic",
+              "label": "Hispanic"
+            },
+            {
+              "value": "non_hispanic",
+              "label": "Non-Hispanic"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_37_69jnqjt",
+          "type": "radio",
+          "name": "marital_status",
+          "label": "Marital Status",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "single",
+              "label": "Single"
+            },
+            {
+              "value": "married",
+              "label": "Married"
+            },
+            {
+              "value": "divorced",
+              "label": "Divorced"
+            },
+            {
+              "value": "separated",
+              "label": "Separated"
+            },
+            {
+              "value": "widowed",
+              "label": "Widowed"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_38_7tmf1vk",
+          "type": "radio",
+          "name": "us_citizen",
+          "label": "US Citizen",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_39_jvs4sn0",
+          "type": "text",
+          "name": "residency_number",
+          "label": "Residency #",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "fieldId": "field_1757439919201_38_7tmf1vk",
+            "operator": "equals",
+            "value": "no",
+            "thenRequired": "required"
+          },
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_40_04k2lv4",
+          "type": "text",
+          "name": "primary_language",
+          "label": "Primary Language Spoken",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_41_eeal6tm",
+          "type": "text",
+          "name": "referred_by",
+          "label": "Referred By",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_42_r2i3sel",
+          "type": "divider",
+          "name": "div_personal",
+          "label": "Field 43",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_43_56c12lh",
+          "type": "heading",
+          "name": "sec_education",
+          "label": "Education",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 3
+        },
+        {
+          "id": "field_1757439919201_44_pwui8pu",
+          "type": "radio",
+          "name": "highest_grade_completed",
+          "label": "Highest Grade Completed",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "full",
+          "validation": {},
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "5",
+              "label": "5"
+            },
+            {
+              "value": "6",
+              "label": "6"
+            },
+            {
+              "value": "7",
+              "label": "7"
+            },
+            {
+              "value": "8",
+              "label": "8"
+            },
+            {
+              "value": "9",
+              "label": "9"
+            },
+            {
+              "value": "10",
+              "label": "10"
+            },
+            {
+              "value": "11",
+              "label": "11"
+            },
+            {
+              "value": "12",
+              "label": "12"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_45_q1j08nz",
+          "type": "text",
+          "name": "year_graduated_ged",
+          "label": "Year Graduated/Completed GED",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_46_d7qwoov",
+          "type": "number",
+          "name": "college_hours_completed",
+          "label": "College Hrs Completed",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "quarter",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_47_ztkff1r",
+          "type": "text",
+          "name": "degree",
+          "label": "Degree",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "quarter",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_48_vldn6x5",
+          "type": "divider",
+          "name": "div_education",
+          "label": "Field 49",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_49_rajfz8c",
+          "type": "heading",
+          "name": "sec_employment",
+          "label": "Employment",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 3
+        },
+        {
+          "id": "field_1757439919201_50_20p8i5f",
+          "type": "radio",
+          "name": "currently_employed",
+          "label": "Are you currently employed?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_51_ktqgkt1",
+          "type": "radio",
+          "name": "employment_type",
+          "label": "If yes, are you",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "fieldId": "field_1757439919201_50_20p8i5f",
+            "operator": "equals",
+            "value": "yes",
+            "thenRequired": "required"
+          },
+          "options": [
+            {
+              "value": "full_time",
+              "label": "Full Time"
+            },
+            {
+              "value": "part_time",
+              "label": "Part Time"
+            },
+            {
+              "value": "temporary",
+              "label": "Temporary"
+            },
+            {
+              "value": "seasonal",
+              "label": "Seasonal"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_52_hh5ftsq",
+          "type": "text",
+          "name": "employer",
+          "label": "Employer",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "fieldId": "field_1757439919201_50_20p8i5f",
+            "operator": "equals",
+            "value": "yes",
+            "thenRequired": "required"
+          },
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_53_x9pqc5b",
+          "type": "text",
+          "name": "occupation",
+          "label": "Occupation",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "fieldId": "field_1757439919201_50_20p8i5f",
+            "operator": "equals",
+            "value": "yes",
+            "thenRequired": "required"
+          },
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_54_sbagzva",
+          "type": "number",
+          "name": "hourly_income",
+          "label": "Hourly Income ($)",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "third",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "fieldId": "field_1757439919201_50_20p8i5f",
+            "operator": "equals",
+            "value": "yes",
+            "thenRequired": "inherit"
+          },
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_55_h7izge9",
+          "type": "radio",
+          "name": "pay_schedule",
+          "label": "Paid",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "third",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "fieldId": "field_1757439919201_50_20p8i5f",
+            "operator": "equals",
+            "value": "yes",
+            "thenRequired": "inherit"
+          },
+          "options": [
+            {
+              "value": "weekly",
+              "label": "Wkly"
+            },
+            {
+              "value": "bi_weekly",
+              "label": "Bi-Wkly"
+            },
+            {
+              "value": "monthly",
+              "label": "Monthly"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_56_k6fioww",
+          "type": "textarea",
+          "name": "special_skills",
+          "label": "List any special skills, trades, or vocations",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_57_ou5voez",
+          "type": "divider",
+          "name": "div_employment",
+          "label": "Field 58",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_58_mqzjgkr",
+          "type": "heading",
+          "name": "sec_history",
+          "label": "History",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 3
+        },
+        {
+          "id": "field_1757439919201_59_zp358ek",
+          "type": "radio",
+          "name": "treated_substance_abuse",
+          "label": "Have you ever been in treatment for substance abuse?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_60_cbfj6o9",
+          "type": "text",
+          "name": "substance_treatment_where",
+          "label": "Where?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "quarter",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "fieldId": "field_1757439919201_59_zp358ek",
+            "operator": "equals",
+            "value": "yes",
+            "thenRequired": "required"
+          },
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_61_mvkj1wt",
+          "type": "text",
+          "name": "substance_treatment_when",
+          "label": "When?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "quarter",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "fieldId": "field_1757439919201_59_zp358ek",
+            "operator": "equals",
+            "value": "yes",
+            "thenRequired": "required"
+          },
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_62_zs34bkl",
+          "type": "radio",
+          "name": "treated_mental_health",
+          "label": "Have you ever been in treatment for mental health?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_63_i222kvm",
+          "type": "text",
+          "name": "mental_treatment_where",
+          "label": "Where?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "quarter",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "fieldId": "field_1757439919201_62_zs34bkl",
+            "operator": "equals",
+            "value": "yes",
+            "thenRequired": "required"
+          },
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_64_px7w9ni",
+          "type": "text",
+          "name": "mental_treatment_when",
+          "label": "When?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "quarter",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "fieldId": "field_1757439919201_62_zs34bkl",
+            "operator": "equals",
+            "value": "yes",
+            "thenRequired": "required"
+          },
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_65_v5nuy1p",
+          "type": "radio",
+          "name": "received_dsm_help_before",
+          "label": "Have you ever received help from the DSM previously?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_66_bapgqju",
+          "type": "text",
+          "name": "dsm_help_when",
+          "label": "When?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "fieldId": "field_1757439919201_65_v5nuy1p",
+            "operator": "equals",
+            "value": "yes",
+            "thenRequired": "required"
+          },
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_67_7io870b",
+          "type": "radio",
+          "name": "thought_about_suicide",
+          "label": "Have you ever thought about committing suicide?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_68_xkymoll",
+          "type": "radio",
+          "name": "ever_arrested",
+          "label": "Have you ever been arrested?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_69_sbs11xz",
+          "type": "radio",
+          "name": "in_criminal_justice",
+          "label": "Are you currently involved in the criminal justice system?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_70_7zge7fd",
+          "type": "date",
+          "name": "incarceration_date",
+          "label": "Date of Incarceration",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "third",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "anyOf": [
+              {
+                "fieldId": "field_1757439919201_69_sbs11xz",
+                "operator": "equals",
+                "value": "yes"
+              }
+            ],
+            "thenRequired": "required",
+            "fieldId": "field_1757439919201_68_xkymoll",
+            "operator": "equals",
+            "value": "yes"
+          },
+          "autoToday": false
+        },
+        {
+          "id": "field_1757439919201_71_cubab66",
+          "type": "text",
+          "name": "charge",
+          "label": "Charge",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "third",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "anyOf": [
+              {
+                "fieldId": "field_1757439919201_69_sbs11xz",
+                "operator": "equals",
+                "value": "yes"
+              }
+            ],
+            "thenRequired": "required",
+            "fieldId": "field_1757439919201_68_xkymoll",
+            "operator": "equals",
+            "value": "yes"
+          },
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_72_1vi7d0k",
+          "type": "text",
+          "name": "location",
+          "label": "Location",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "third",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "anyOf": [
+              {
+                "fieldId": "field_1757439919201_69_sbs11xz",
+                "operator": "equals",
+                "value": "yes"
+              }
+            ],
+            "thenRequired": "required",
+            "fieldId": "field_1757439919201_68_xkymoll",
+            "operator": "equals",
+            "value": "yes"
+          },
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_73_3z8af6n",
+          "type": "textarea",
+          "name": "upcoming_court_and_probation",
+          "label": "Upcoming Court Dates / Probation Officer Name & Number",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "anyOf": [
+              {
+                "fieldId": "field_1757439919201_69_sbs11xz",
+                "operator": "equals",
+                "value": "yes"
+              }
+            ],
+            "thenRequired": "inherit",
+            "fieldId": "field_1757439919201_68_xkymoll",
+            "operator": "equals",
+            "value": "yes"
+          }
+        },
+        {
+          "id": "field_1757439919201_74_u4m3d6m",
+          "type": "divider",
+          "name": "div_history",
+          "label": "Field 75",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_75_zangzhv",
+          "type": "radio",
+          "name": "consumed_alcohol",
+          "label": "Have you consumed alcohol or beer, past or present?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_76_3rgk1px",
+          "type": "radio",
+          "name": "used_drugs",
+          "label": "Have you used drugs, past or present?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_77_gnhk078",
+          "type": "textarea",
+          "name": "preferred_substance_last_use",
+          "label": "If yes, which drug (including alcohol) is your preference and when was the last time you used?",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "conditional": {
+            "enabled": true,
+            "anyOf": [
+              {
+                "fieldId": "field_1757439919201_75_zangzhv",
+                "operator": "equals",
+                "value": "yes"
+              },
+              {
+                "fieldId": "field_1757439919201_76_3rgk1px",
+                "operator": "equals",
+                "value": "yes"
+              }
+            ],
+            "thenRequired": "required"
+          }
+        },
+        {
+          "id": "field_1757439919201_78_v8iav5g",
+          "type": "divider",
+          "name": "div_substance",
+          "label": "Field 79",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_79_7uz25lt",
+          "type": "heading",
+          "name": "sec_health",
+          "label": "Health Information",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 3
+        },
+        {
+          "id": "field_1757439919201_80_rfjqczb",
+          "type": "multiselect",
+          "name": "current_health_care",
+          "label": "Do you currently have health care? (Select all that apply)",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "full",
+          "validation": {},
+          "options": [
+            {
+              "value": "medicaid",
+              "label": "Medicaid"
+            },
+            {
+              "value": "medicare",
+              "label": "Medicare"
+            },
+            {
+              "value": "private_insurance",
+              "label": "Private Insurance"
+            },
+            {
+              "value": "veterans_benefits",
+              "label": "Veterans Benefits"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_81_cbxon2o",
+          "type": "textarea",
+          "name": "terminal_illnesses",
+          "label": "Do you have any terminal illnesses, viruses, or any other medical conditions? If yes, please list.",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_82_ufd8znz",
+          "type": "textarea",
+          "name": "current_medications",
+          "label": "Do you currently take any medications? If yes, please list.",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_83_zj0th27",
+          "type": "divider",
+          "name": "div_health",
+          "label": "Field 84",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_84_yn7bmxu",
+          "type": "heading",
+          "name": "sec_reason_admission",
+          "label": "Reason for Seeking Admission in the D.S.M.",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 3
+        },
+        {
+          "id": "field_1757439919201_85_q0e7ozf",
+          "type": "multiselect",
+          "name": "reasons_for_admission",
+          "label": "Check all that apply",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "full",
+          "validation": {},
+          "options": [
+            {
+              "value": "shelter",
+              "label": "SHELTER"
+            },
+            {
+              "value": "spiritual_growth",
+              "label": "SPIRITUAL GROWTH"
+            },
+            {
+              "value": "restoration",
+              "label": "RESTORATION"
+            },
+            {
+              "value": "overcome_drug_alcohol",
+              "label": "TO OVERCOME DRUG/ALCOHOL ABUSE"
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919201_86_wxurixj",
+          "type": "textarea",
+          "name": "goals_description",
+          "label": "Brief description of what you hope to accomplish while you attend the DSM",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_87_lpjbcms",
+          "type": "textarea",
+          "name": "talents_gifts",
+          "label": "List your talents & gifts",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_88_qt8qvum",
+          "type": "divider",
+          "name": "div_reason",
+          "label": "Field 89",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_89_w4s3ndv",
+          "type": "heading",
+          "name": "sec_emergency_contacts",
+          "label": "Emergency Contact(s) Information",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 3
+        },
+        {
+          "id": "field_1757439919201_90_5x14a51",
+          "type": "heading",
+          "name": "sec_ec1",
+          "label": "Emergency Contact #1",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 4
+        },
+        {
+          "id": "field_1757439919201_91_nj0668a",
+          "type": "text",
+          "name": "ec1_name",
+          "label": "Name",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_92_p0s2xye",
+          "type": "text",
+          "name": "ec1_full_address",
+          "label": "Full Address",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "full",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_93_spak5xy",
+          "type": "phone",
+          "name": "ec1_phone",
+          "label": "Phone",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_94_jxq3wnh",
+          "type": "phone",
+          "name": "ec1_alt_phone",
+          "label": "Alternate Phone",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_95_tutdltd",
+          "type": "text",
+          "name": "ec1_relationship",
+          "label": "Relationship",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_96_ltaon4u",
+          "type": "heading",
+          "name": "sec_ec2",
+          "label": "Emergency Contact #2",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 4
+        },
+        {
+          "id": "field_1757439919201_97_57rxyl8",
+          "type": "text",
+          "name": "ec2_name",
+          "label": "Name",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_98_3ocgs68",
+          "type": "text",
+          "name": "ec2_full_address",
+          "label": "Full Address",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_99_mkj8tv8",
+          "type": "phone",
+          "name": "ec2_phone",
+          "label": "Phone",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_100_80gzrpf",
+          "type": "phone",
+          "name": "ec2_alt_phone",
+          "label": "Alternate Phone",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_101_us6kppg",
+          "type": "text",
+          "name": "ec2_relationship",
+          "label": "Relationship",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "half",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919201_102_9pjhv5i",
+          "type": "divider",
+          "name": "div_contacts",
+          "label": "Field 103",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919201_103_xug4brc",
+          "type": "heading",
+          "name": "sec_code_conduct",
+          "label": "DSM Code of Conduct",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 2
+        },
+        {
+          "id": "field_1757439919201_104_stsx2xg",
+          "type": "adminText",
+          "name": "conduct_ethical_policies",
+          "label": "Ethical Conduct Policies",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "content": "As part of its mission and its academic program, the Discipleship School of Ministry (DSM) is entitled to prescribe appropriate standards of conduct in addition to, and independent of, those prescribed by San Antonio Christian Church (SACC). Accordingly, students are expected to conduct themselves in an ethical and moral manner becoming of a Christian.\n\nThe DSM reserves the right to place a student on discipline and to suspend or expel a student from the DSM, if the conduct of the student prevents, or will prevent, acceptable representation of Christianity as outlined in the Bible.\n\nStudents accepted in the DSM will be made aware of the expected conduct, disciplinary action, and the consequences of continual failure to adhere to the DSM's ethical conduct policies. There will be a period of grace determined by the pastor (per individual case), after which, each student will be held accountable.\n\nStudents accepted in the DSM, are subject also to general SACC regulations."
+        },
+        {
+          "id": "field_1757439919201_105_wzmlk1u",
+          "type": "adminText",
+          "name": "conduct_general_info",
+          "label": "General Information",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "content": "1. The DSM is a Christian ministry whose primary purpose is to train men for successful Christian living.\n\n2. The DSM may take disciplinary action as it deems necessary should the standard of personal and ethical conduct be violated. Violation of this standard shall include, but is not limited to:\n• Public or private alcohol intoxication\n• Use of illegal drugs\n• Abuse of any drugs\n• Heterosexual misconduct or homosexual behavior\n• Sexual harassment\n• Fraternization\n• Involvement with pornography\n• Giving false statements to the DSM orally or in writing including, but not limited to, one's intake application form\n• Threats of violence\n• Fighting\n• Abusive or vulgar language\n• Theft of DSM, SACC or personal property\n• Violation of SACC regulations and policies\n• Disrespect toward the leadership of SACC pastoral staff and/or its family members\n• Refusal to participate in all scheduled activities of the DSM\n• Refusal to do assigned chores\n• Outright disobedience\n\n3. Students involved in a civil infraction are accountable to civil authorities but may also be subject to discipline by the DSM."
+        },
+        {
+          "id": "field_1757439919201_106_a6bf54k",
+          "type": "adminText",
+          "name": "conduct_organization",
+          "label": "Organization",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "content": "1. Students who have violated the ethical conduct code listed above, or who have committed any act that is not congruent with their calling as a student will be subject to a write up.\n\n2. The DSM leadership, comprised of the SACC board, the Pastor, the Pastor's wife, and appointed Pastoral leadership, shall administer this DSM policy.\n\n3. The DSM leadership will exercise Christian concern in its dealings with students, and its actions will be intended to be occasions for learning, personal growth, and character development.\n• The welfare of the student, of the DSM community, and of the church and its members are its primary concerns. The DSM leadership, or any member thereof, shall provide written notice of the allegations, and of supporting information, to the student of a violation of the requirements of Ethical Conduct. The DSM leadership shall provide the student with an opportunity to be heard in person and in writing.\n\n4. The DSM leadership will decide if the student has demonstrated ethical misconduct that would indicate the student does not want to participate in the DSM daily operations. If the DSM leadership so finds, the DSM leadership shall also determine the appropriate discipline. The student will be notified in writing of the results.\n\n5. Definition of a write up: a written form indicating a minor or major violation and the consequences of that violation.\n\n6. If a student chooses to leave the school of their own accord, they will have to wait a minimum of 30 days before they can re-apply for the program again. If they are expelled from the school, they will have to wait a minimum of 45 days before they can appeal the decision and apply for re-entry. This will be a case-by-case scenario."
+        },
+        {
+          "id": "field_1757439919202_107_vg5kef4",
+          "type": "signature",
+          "name": "conduct_student_signature",
+          "label": "Student Signature",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919202_108_1wjci4v",
+          "type": "date",
+          "name": "conduct_date",
+          "label": "Date",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "autoToday": false
+        },
+        {
+          "id": "field_1757439919202_109_0ptybsi",
+          "type": "divider",
+          "name": "div_conduct",
+          "label": "Field 110",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919202_110_oa7jzhg",
+          "type": "heading",
+          "name": "sec_home_rules",
+          "label": "Discipleship School of Ministry Home Rules",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 2
+        },
+        {
+          "id": "field_1757439919202_111_eqgrjq4",
+          "type": "adminText",
+          "name": "home_rules_list",
+          "label": "Home Rules",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "content": "1) Student residents must have and maintain a desire to change.\n\n2) Student residents must have and maintain a willingness to surrender.\n\n3) Student residents that receive income must contribute a percentage of their income to the program. It is for this very reason that you receive your benefits.\n\n4) Student residents caught possessing or under the influence of any alcohol or drugs will be expelled from the program. This includes smelling like alcohol.\n\n5) Student residents must always maintain a neat appearance. Showers must be taken daily within 7 minutes for conservation purposes.\n\n6) Laundry is done once a week and turns must be taken in an orderly fashion.\n\n7) Everyone will always keep his area in the dorm clean and submit to all chores and other work assignments.\n\n8) Student residents will conduct themselves in a respectful manner. Arguing, fighting and or foul language will not be tolerated at any time.\n\n9) All student residents must follow the daily schedule. Student residents are required to attend all church services, prayer meetings and Bible studies that are held several times throughout the week. Student residents must remain in the church or classroom until the church service, prayer time or Bible study is over. Student residents must sit in the first three rows during church services and Bible studies.\n\n10) Student residents are not allowed in the kitchen after church services or Bible studies. They must not mingle with church members of the opposite sex. Student residents are required to sit together while eating at all times.\n\n11) Student residents are encouraged to fast half a day on Sundays and on Wednesdays.\n\n12) The program consists of three phases. Every individual's growth pattern will determine their transition to the next phase depending on the pastor's/council members consent.\n\n13) Student residents in the first 30 days may receive visits or receive/make a phone calls on assigned visitation and call dates.\n    A) Visits are after Bible studies or church services only.\n    B) Phone calls are made on off days.\n\n14) Student residents are not allowed in the administrative office without permission.\n\n15) Every resident is responsible for their own personal belongings. Upon departure, the student residents must take all of their belongings with them. Items left behind will be disposed of within 24 hours of their departure. No exception."
+        },
+        {
+          "id": "field_1757439919202_112_d5ugcra",
+          "type": "adminText",
+          "name": "home_rules_violations",
+          "label": "Rule Violations",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "content": "** If a student resident breaks any of these rules, he/she will receive a written reprimand, be put on discipline, and be subject to immediate expulsion.\n\n** If a student chooses to leave the school, he will have to wait a minimum of 30 days before he may apply for the program again. If a student is expelled from the school, he will have to wait a minimum of 45 days before he can appeal the decision and apply for re-entry. This will be a case-by-case scenario.\n\nIT IS OUR HOPE THAT YOUR STAY WILL BE A GREAT SPIRITUAL EXPERIENCE FOR YOU AND THAT YOU FIND YOUR PLACE IN GOD'S PLAN FOR YOUR LIFE!!\n\nALWAYS REMEMBER THAT OUR GOD IS A GOD OF ORDER AND THAT ALL RULES ARE MADE TO KEEP THAT ORDER.\n\nALL RULES ARE SUBJECT TO CHANGE!\n\nI have read and understand these rules. I agree to follow them fully during my stay at the Discipleship School of Ministry."
+        },
+        {
+          "id": "field_1757439919202_113_kcienu6",
+          "type": "text",
+          "name": "home_rules_student_printed_name",
+          "label": "Student Resident's Printed Name",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "full",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919202_114_46d95rw",
+          "type": "signature",
+          "name": "home_rules_student_signature",
+          "label": "Student Resident's Signature",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919202_115_w3z0stl",
+          "type": "date",
+          "name": "home_rules_date",
+          "label": "Date",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "autoToday": false
+        },
+        {
+          "id": "field_1757439919202_116_7zvbc6p",
+          "type": "divider",
+          "name": "div_home_rules",
+          "label": "Field 117",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919202_117_xiio1im",
+          "type": "heading",
+          "name": "sec_legal_status",
+          "label": "Statement of Legal Status",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "level": 2
+        },
+        {
+          "id": "field_1757439919202_118_jv7tiwf",
+          "type": "inlineText",
+          "name": "legal_status_statement",
+          "label": "Legal Status Statement",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "parts": [
+            {
+              "t": "text",
+              "v": "I, "
+            },
+            {
+              "t": "input",
+              "inputType": "text",
+              "name": "legal_student_name",
+              "required": true
+            },
+            {
+              "t": "text",
+              "v": " understand that as a student of the DSM that I am not a lessee and have no rights of residential tenancy. I also have no property rights to the facilities or its contents."
+            }
+          ]
+        },
+        {
+          "id": "field_1757439919202_119_kdy07uu",
+          "type": "adminText",
+          "name": "legal_status_terms",
+          "label": "Legal Terms",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": false,
+          "width": "full",
+          "validation": {},
+          "content": "I agree and understand that I am a guest of the DSM and that violation of the rules will result in termination of the relationship between the DSM and myself. Upon request of the DSM staff, I will immediately leave the premises of the DSM and San Antonio Christian Church. My failure to do so will constitute criminal trespass and I may be subject to arrest.\n\nSince I have no legal rights of tenancy, I understand that I may not receive mail of any kind here at this address. If mail is received in my name, it will be marked 'return to sender' without notice.\n\nI have read and understand the above agreement and hereby agree to comply."
+        },
+        {
+          "id": "field_1757439919202_120_bazl615",
+          "type": "text",
+          "name": "legal_student_printed_name",
+          "label": "Student Resident's Printed Name",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "full",
+          "validation": {},
+          "mask": false
+        },
+        {
+          "id": "field_1757439919202_121_jtayx13",
+          "type": "signature",
+          "name": "legal_student_signature",
+          "label": "Student Resident's Signature",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {}
+        },
+        {
+          "id": "field_1757439919202_122_nfgz0rz",
+          "type": "date",
+          "name": "legal_date",
+          "label": "Date",
+          "placeholder": "",
+          "helpText": "",
+          "defaultValue": "",
+          "required": true,
+          "width": "half",
+          "validation": {},
+          "autoToday": false
+        }
+      ],
+      "status": "active",
+      "submissions": 0,
+      "createdBy": "49c2b39f-c3b3-4dea-9ad2-4eb61108b8b1",
+      "isPublic": false,
+      "settings": {
+        "requireAuth": false,
+        "multipleSubmissions": false,
+        "notifyEmail": "",
+        "successMessage": "Thank you for submitting your DSM application!",
+        "submitButtonText": "Submit Application",
+        "maxSubmissions": null,
+        "startDate": null,
+        "endDate": null,
+        "redirectUrl": "",
+        "isPublic": true
+      },
+      "createdAt": 1764779281599,
+      "updatedAt": 1764779281599
+    }
+  ],
   "formSubmissions": []
 }
