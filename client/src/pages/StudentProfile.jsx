@@ -610,7 +610,7 @@ export default function StudentProfile() {
               Create credentials this student will use to sign in. You can generate a secure password and share it once.
             </div>
           </div>
-          <span className="pill" style={{ background: studentUser ? "#123f2b" : "#2b2e38", border: "1px solid #1f3d2a" }}>
+          <span className="pill">
             {studentUser ? "Login exists" : "Not provisioned"}
           </span>
         </div>
@@ -674,7 +674,7 @@ export default function StudentProfile() {
           <div style={{ marginTop: 10, background: "rgba(34,197,94,.1)", border: "1px solid rgba(34,197,94,.4)", padding: "10px 12px", borderRadius: 8 }}>
             <div style={{ color: "#b8ffcc", fontWeight: 700, marginBottom: 6 }}>{loginMessage}</div>
             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <span style={{ fontFamily: "monospace", fontSize: 15, background: "#0f162b", padding: "6px 10px", borderRadius: 8 }}>
+              <span style={{ fontFamily: "monospace", fontSize: 15, padding: "6px 10px", borderRadius: 8 }}>
                 {loginPassword || "—"}
               </span>
               <span style={{ color: "var(--text-dim)", fontSize: 12 }}>Copy and hand to the student now; it will not be shown again.</span>
