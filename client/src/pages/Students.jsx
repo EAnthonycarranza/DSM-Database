@@ -50,8 +50,24 @@ export default function Students() {
   const onlyStudents = React.useCallback((list) => {
     const arr = Array.isArray(list) ? list : [];
     return arr.filter((s) => {
+      // Filter out explicit user/admin records
       const role = String(s.role || "").toLowerCase();
-      return !role || role === "student";
+      if (role === "user" || role === "admin" || role === "staff") {
+        return false;
+      }
+
+      // Keep records that look like students (have firstName/lastName or status)
+      // and either have no role, role="student", or have student-specific fields
+      const hasStudentFields = s.firstName || s.lastName || s.status || s.intakeDate || s.recordType;
+      const hasUserFields = s.username || s.password;
+
+      // Reject if it has user-specific fields but no student fields
+      if (hasUserFields && !hasStudentFields) {
+        return false;
+      }
+
+      // Accept if it's explicitly a student or looks like a student record
+      return (!role || role === "student") && hasStudentFields;
     });
   }, []);
 
