@@ -47,8 +47,16 @@ export default function Students() {
   // NEW: hidden file input for import
   const importRef = React.useRef(null);
 
+  const onlyStudents = React.useCallback((list) => {
+    const arr = Array.isArray(list) ? list : [];
+    return arr.filter((s) => {
+      const role = String(s.role || "").toLowerCase();
+      return !role || role === "student";
+    });
+  }, []);
+
   const onSaved = async () => {
-    const list = await api.getAll("students");
+    const list = onlyStudents(await api.getAll("students"));
     console.log("[Students] After save, refetched /students", {
       count: Array.isArray(list) ? list.length : 0,
       first: Array.isArray(list) ? list[0] : null,
@@ -57,14 +65,14 @@ export default function Students() {
   };
 
   useEffect(() => {
-    const list = Array.isArray(data?.students) ? data.students : [];
+    const list = onlyStudents(data?.students);
     console.log("[Students] Context students updated", {
       count: list.length,
       first: list[0],
       fetchedAt: new Date().toISOString(),
     });
     setRows(list);
-  }, [data?.students]);
+  }, [data?.students, onlyStudents]);
 
   const openStudentModal = React.useCallback((prefill = null) => {
     setModal((m) => ({
@@ -98,6 +106,18 @@ export default function Students() {
       window.removeEventListener("open:add-task", openTask);
     };
   }, [openStudentModal]);
+
+  // Defensive: hydrate directly from /students on mount (never /users)
+  useEffect(() => {
+    (async () => {
+      try {
+        const list = onlyStudents(await api.getAll("students"));
+        if (Array.isArray(list)) setRows(list);
+      } catch (e) {
+        console.warn("Failed to refresh students list", e);
+      }
+    })();
+  }, [api, onlyStudents]);
 
   const filtered = useMemo(() => {
     const txt = q.trim().toLowerCase();
