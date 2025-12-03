@@ -242,6 +242,18 @@ function randomPassword(length = 12) {
   return out;
 }
 
+function ensureUserEmail(doc) {
+  const out = { ...doc };
+  const em = String(out.email || "").trim();
+  if (!em) {
+    // Use a placeholder unique email to avoid duplicate null/undefined issues with Mongo unique indexes
+    out.email = `user-${out.id || uid()}@placeholder.local`;
+  } else {
+    out.email = em;
+  }
+  return out;
+}
+
 function generateBackupCodes(n = 8) {
   const plain = [];
   for (let i = 0; i < n; i++) plain.push(randomBackupCode());
@@ -495,6 +507,9 @@ async function dbInsert(store, rec) {
   if (!doc.createdAt) doc.createdAt = now;
   if (!doc.updatedAt) doc.updatedAt = now;
   delete doc._id;
+  if (store === "users") {
+    Object.assign(doc, ensureUserEmail(doc));
+  }
   if (USE_MONGO) {
     try {
       if (store === "settings") {
@@ -527,6 +542,9 @@ async function dbInsert(store, rec) {
 async function dbUpdate(store, id, patch) {
   const now = Date.now();
   const update = { ...patch, updatedAt: now };
+  if (store === "users" && Object.prototype.hasOwnProperty.call(update, "email")) {
+    Object.assign(update, ensureUserEmail({ ...update, id }));
+  }
   if (USE_MONGO) {
     try {
       if (store === "settings") {
@@ -1242,10 +1260,19 @@ app.post(`${API_PREFIX}/students`, async (req, res) => {
 // Create or update a login for this student (role: student). Returns plain password for admin to share.
 app.post(`${API_PREFIX}/students/:id/credentials`, async (req, res) => {
   try {
-    const studentId = req.params.id;
+    const studentId = String(req.params.id || "").trim();
     const { username = "", email = "", password = "", generate = false } = req.body || {};
 
-    const student = await dbGet("students", studentId);
+    // Defensive: try both direct get and a list scan (handles fallback DBs/desynced stores)
+    let student = await dbGet("students", studentId);
+    if (!student) {
+      try {
+        const all = await dbList("students");
+        if (Array.isArray(all)) {
+          student = all.find((s) => String(s.id) === studentId) || null;
+        }
+      } catch {}
+    }
     if (!student) return res.status(404).json({ success: false, error: "Student not found" });
 
     const uname = String(username || "").trim();
