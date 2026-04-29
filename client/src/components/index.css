@@ -1,0 +1,327 @@
+:root{
+  --bg:#0f1220;
+  --panel:#151b2d;
+  --panel-2:#101528;
+  --ink:#e8ecf3;
+  --muted:#9aa3bd;
+  --accent:#4c8dff;
+  --accent-2:#22d3ee;
+  --red:#ff6565;
+  --green:#1db954;
+  --shadow:0 10px 28px rgba(0,0,0,.35);
+  --radius:14px;
+  --radius-sm:10px;
+  --right-panel: 340px;   /* width of floating Fill Status panel on desktop */
+  --right-gap: 24px;      /* gap between panel and viewer content */
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,Apple Color Emoji,Segoe UI Emoji;
+  background:linear-gradient(180deg,#0b0f1f 0%, #0f1220 60%);
+  color:var(--ink);
+}
+
+.topbar{
+  height:64px;
+  display:flex;
+  align-items:center;
+  padding:10px 16px;
+  gap:16px;
+  background:linear-gradient(0deg,#0d1225,#0f152b);
+  border-bottom:1px solid #1c2543;
+  position:sticky;top:0;z-index:50;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.logo{
+  width:28px;height:28px;border-radius:8px;background:#1b2442;display:grid;place-items:center;
+  box-shadow:var(--shadow)
+}
+.controls{display:flex;gap:10px;align-items:center;width:100%}
+.spacer{flex:1}
+.mode-switch{display:flex;border:1px solid #27315a;border-radius:12px;overflow:hidden}
+.mode-switch button{
+  background:#121933;color:#c5ceea;border:0;padding:10px 14px;cursor:pointer
+}
+.mode-switch button.active{background:#233061;color:#fff}
+
+button, .file-btn>span{
+  background:#1b2547;border:1px solid #2e3a6b;color:#d8e2ff;
+  padding:9px 14px;border-radius:12px;cursor:pointer;font-weight:600
+}
+button.primary{background:linear-gradient(180deg,#3f76ff,#315bff); border-color:#2b47c6}
+button.ghost{background:#111831;border-color:#26335d;color:#c9d5ff}
+button.danger{background:#2a151a;border-color:#7a2b36;color:#ffc9ce}
+button:disabled,.file-btn input:disabled + span{opacity:.45;cursor:not-allowed}
+.file-btn{position:relative;display:inline-block}
+.file-btn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.file-btn>span{display:inline-block}
+
+.layout{
+  display:grid;
+  grid-template-columns: 260px 1fr 290px;
+  gap:16px;
+  padding:16px;
+  min-height:calc(100vh - 64px);
+}
+
+.toolbox,.right{
+  background:linear-gradient(180deg,var(--panel),var(--panel-2));
+  border:1px solid #242e56;border-radius:16px;padding:14px;
+  box-shadow:var(--shadow);
+  height: fit-content;
+  position: sticky; top: 88px;
+}
+.toolbox h3, .right h3{margin:6px 0 10px 0}
+.tool{
+  width:100%;display:flex;gap:10px;align-items:center;justify-content:flex-start;margin-bottom:8px
+}
+.tool i{width:20px;text-align:center}
+.hint{
+  margin-top:10px;padding:10px;background:#0f1935;border:1px dashed #2f437d;border-radius:12px;color:#b7c1e6;font-size:.9rem
+}
+.mini{margin-top:14px;display:grid;gap:8px}
+.mini input[type="text"]{border:1px solid #313c68;border-radius:10px;background:#0e1326;color:#e7ecff;padding:9px 10px}
+.zoom-val{font-size:.85rem;color:#9fb0e8}
+
+.viewer{
+  background:linear-gradient(180deg,#0e1330,#0b1026);
+  border:1px solid #1e2851;border-radius:16px;box-shadow:var(--shadow);
+  overflow:auto; padding:18px; height: calc(100vh - 96px);
+}
+.pages{display:flex;flex-direction:column;gap:18px;align-items:center}
+.page-wrap{
+  position:relative;border-radius:12px;overflow:hidden;
+  box-shadow:0 6px 20px rgba(0,0,0,.45), inset 0 0 0 1px #2a3769;
+  background:#fff;
+}
+.page-canvas{display:block}
+
+.overlay{position:absolute;inset:0;pointer-events:none}
+.field{
+  position:absolute;border:2px dashed #3f76ff;background:rgba(76,118,255,.15);
+  color:#001b6d;border-radius:10px;min-width:80px;min-height:38px;
+  display:flex;align-items:center;justify-content:center;font-weight:700;
+  cursor:grab;pointer-events:auto; user-select:none;
+}
+.field[data-type="text"]{background:rgba(34,211,238,.12);border-color:#22d3ee;color:#005465}
+.field[data-type="date"]{background:rgba(34,197,94,.12);border-color:#22c55e;color:#0b4d22}
+.field .handle{
+  position:absolute;width:14px;height:14px;right:-7px;bottom:-7px;border-radius:4px;
+  background:#3f76ff;border:2px solid #1d2f72;cursor:nwse-resize;
+}
+.field .label{font-size:.9rem;opacity:.9}
+.field.preview{border-style:solid;background:rgba(0,0,0,.02)}
+.field[data-type="signature"],
+/* === DocuSign-like signature placeholder === */
+.field[data-type="signature"],
+.field.sign-placeholder{
+  background: #fde68a;            /* soft amber */
+  border: 3px solid #2563eb;      /* vivid blue */
+  border-radius: 10px;
+}
+
+.field.preview[data-type="signature"]{
+  cursor: pointer;
+}
+
+.sign-vis{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 8px;
+  text-align: center;
+  user-select: none;
+  pointer-events: none;            /* lets drag/resize work */
+}
+
+.sign-title{
+  font-weight: 800;
+  letter-spacing: .5px;
+  color: #1f2937;
+  line-height: 1;
+  font-size: clamp(12px, 1.2vw + 8px, 32px);
+}
+
+.sign-arrow .arrow-svg{
+  display: block;
+  width: 44%;
+  min-width: 26px;
+  height: auto;
+}
+
+/* Decorative corner dots (admin) */
+.corner-dot{
+  position: absolute;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: #eff6ff;
+  border: 2px solid #1e40af;
+  pointer-events: none;
+}
+.corner-dot.tl{ left: -8px; top: -8px; }
+.corner-dot.tr{ right: -8px; top: -8px; }
+.corner-dot.bl{ left: -8px; bottom: -8px; }
+.corner-dot.br{ right: -8px; bottom: -8px; }
+
+/* Make the resize handle circular to match the look */
+.field .handle{
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #eff6ff;
+  border: 2px solid #1e40af;
+  right: -9px; bottom: -9px;
+}
+
+/* Keep other labels readable at small sizes */
+.field .label{
+  font-size: clamp(10px, 1vw + 6px, 18px);
+  pointer-events: none;
+}
+
+.right h3{margin:6px 0 10px 0}
+.fill-list{display:grid;gap:10px}
+.fill-item{
+  background:#0f1837;
+  border:1px solid #2b3868;
+  border-left:4px solid #2b3868;
+  border-radius:12px;
+  padding:10px 12px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px
+}
+.fill-item .left{display:flex;align-items:center;gap:10px}
+.fill-item .left .idx{
+  width:28px;height:28px;border-radius:8px;display:grid;place-items:center;
+  background:#0e1330;border:1px solid #293872;color:#b9c7f8;font-weight:700;font-size:.9rem
+}
+.fill-item .label{font-weight:600}
+.fill-item .meta{font-size:.9rem;color:#9fb0e8}
+.fill-item .status{display:flex;align-items:center;gap:8px;color:#9fb0e8}
+.fill-item .status i{opacity:.9}
+.fill-item.filled{
+  border-color:#1f7138;border-left-color:#22c55e;background:linear-gradient(180deg,#0f1f1a,#0c1714)
+}
+.fill-item.filled .status{color:#22c55e}
+.fill-list.empty{color:#99a5d7}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:grid;place-items:center}
+.modal.hidden{display:none}
+.modal-card{
+  width:min(980px,95vw); background:#0f142a;border:1px solid #243064;border-radius:16px;box-shadow:var(--shadow)
+}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #233264}
+.modal-head h2{margin:0}
+.icon-btn{background:#121a36;border:1px solid #2a3668;border-radius:10px;padding:6px 10px}
+
+.modal-body{padding:14px}
+.columns{display:grid;grid-template-columns:1.2fr .9fr;gap:16px}
+.columns .left input{width:100%;padding:10px;border-radius:10px;border:1px solid #2b3767;background:#0c1228;color:#e8ecff}
+.tabs{display:flex;gap:8px;margin:12px 0}
+.tab{background:#111a36;border:1px solid #2a3668;color:#cbd6ff;padding:8px 12px;border-radius:10px;cursor:pointer}
+.tab.active{background:#2b3a74;color:#fff}
+.panel{display:none}
+.panel.active{display:block}
+.style-list{display:grid;gap:10px;max-height:360px;overflow:auto;padding-right:6px}
+.style-item{display:grid;grid-template-columns:1fr 72px;gap:10px;align-items:center;background:#0d1330;border:1px solid #2a366a;border-radius:12px;padding:10px}
+.style-item .left{display:flex;gap:10px;align-items:center}
+.style-item .signed{font-size:.85rem;color:#a8b7ef}
+.style-item .sig{font-size:32px;line-height:1;white-space:nowrap}
+.style-item .hash{font-size:.75rem;color:#8ea0e8}
+.ini-box{height:64px;border:2px solid #2d3c79;border-radius:10px;display:grid;place-items:center;background:#0a1130}
+.ini-box .val{font-size:26px;font-weight:800}
+
+.draw-wrap{position:relative;border-radius:12px;overflow:hidden;border:1px solid #2e3b6f;background:#0a0f20}
+.draw-wrap canvas{display:block;width:100%;height:auto;cursor:crosshair}
+.draw-wrap .checker{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(45deg, #0000 25%, #1b2140 25% 50%, #0000 50% 75%, #1b2140 75%) 0/24px 24px,
+    linear-gradient(45deg, #1b2140 25%, #0000 25% 50%, #1b2140 50% 75%, #0000 75%) 12px/24px 24px;
+  opacity:.25;pointer-events:none
+}
+
+.upload-preview{margin-top:10px;min-height:120px;border:1px dashed #2d3a6e;border-radius:12px;display:grid;place-items:center;color:#93a5e8}
+.upload-preview img{max-width:100%;max-height:220px;display:block}
+
+.preview-card{
+  background:#0f1835;border:1px solid #2b3868;border-radius:12px;padding:12px
+}
+.preview-card .row{display:flex;gap:10px}
+.preview-card .col{flex:1;background:#0b1126;border:1px solid #26315b;border-radius:12px;padding:10px}
+.cap{font-size:.85rem;color:#93a5e8;margin-bottom:8px}
+.sig-preview{font-family:"Great Vibes", cursive;font-size:48px;line-height:1;white-space:nowrap}
+.ini-preview{font-weight:800;font-size:34px;letter-spacing:1px}
+.fineprint{color:#9cb0f1;font-size:.85rem;margin-top:10px}
+
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+
+/* Utility visibility toggles for modes */
+.only-admin{display:initial}
+.only-user{display:none}
+body.user-mode .only-admin{display:none}
+body.user-mode .only-user{display:initial}
+
+/* Mobile */
+@media (max-width: 980px){
+  .layout{grid-template-columns:1fr;gap:12px}
+  .toolbox,.right{position:static}
+  .columns{grid-template-columns:1fr}
+  body.user-mode .right{
+    left: 12px;
+    right: 12px;
+    width: auto;
+    top: auto;
+    bottom: 12px;
+    max-height: 45vh;
+    z-index: 60;
+  }
+  body.user-mode .viewer{
+    padding-right: 18px;
+    padding-bottom: 52px;
+  }
+}
+
+/* =====================
+   User mode: full-width viewer, floating Fill panel
+   ===================== */
+body.user-mode .layout{
+  grid-template-columns: 1fr;
+}
+
+body.user-mode .right{
+  position: fixed;
+  right: var(--right-gap);
+  top: 88px;
+  width: var(--right-panel);
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+  display: initial; /* ensure it shows in user mode */
+  z-index: 60;
+  pointer-events: auto;
+}
+
+/* leave breathing room so the fixed Fill panel never overlaps content */
+body.user-mode .viewer{
+  padding-right: calc(var(--right-panel) + var(--right-gap) + 24px);
+}
+
+/* Medium screens: slightly narrower floating panel */
+@media (max-width: 1400px){
+  :root{ --right-panel: 320px; }
+}
+@media (max-width: 1200px){
+  :root{ --right-panel: 300px; }
+}
+
+/* When the adopt-sign modal is open, dim & disable the floating panel */
+.modal{ z-index: 1000; }
+.modal-open .right{
+  pointer-events: none;
+  opacity: .55;
+}

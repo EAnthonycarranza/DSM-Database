@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "dsm-database",
+  "private_key_id": "b879c7e1c4ee6f651d98c67ba710945697d77a5b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCrMjUu3frA/9YN\nIUkXD7UVVDumSpa5y/Me5LhAu+icSXfebOfE4VdU6oqhV+nJmsYr+wHQ7IAo3fWh\n3mXRhxJtq4+4/2UyMBrQH4hNipwxwr4QlR0gAiwsDbyVPj7JdrBFWXJvDKcC5XvU\nC2gPYRSMTe1+0tn2fEPE+x0TJGepQR5mdJNMywt0nxTjYrVAVkKndaSBhPE99Ra3\n10kJT3h5b5HsJzH3grxbHU5XY2OeQYUNh6K3Kyw4xNO6nmNEs/cRXd/7w/YtTPny\n3M1CHzlneEAfJl2YI2/k1DWQdJIbZGhJRhQ+uncwc0tHI08gtU5rXUmS2uwXJmGC\nZA2yDo3bAgMBAAECggEAM+qRc0mRCidrn+a4thwm07WMM1VKWUTu0S8Wa1cw5vhm\nuBa5wJx/sfpAmUZCWUetElhYCCY4hWwuWezKXtzB621MNBOLeklZUEVHvhArZvHC\nVuAJiZPvFlsCFhZezxTFxvoluGSTX079muPspkFQDG5zd/L0c4niuWFXw17Wat6b\ntrnDXzwmFp1jLSTiI8dRt5t32r8CsjqgFpT39W4mJCoujLXlsn33+1TUVv20u/2H\nGVF9xevsduvluESaYlEHQ7L9gAYYhNBIKB35nW1ox3lIBYsGQySxr0N02zPz5odw\nv3alR2ER3emgMoNfjWcGFLMBBsMtj22xOWx07f4zaQKBgQDjIHr+R1w6K5mYZRBo\nk0TIq7VVSTeSJdCEFE6B4b6M4a8RcvWxSPOiTuuBIbbErLtNnKK/5zVMDmZyym9z\nQF2qlR3GHuQr4oLTdNPqoJk5yKDlRSQcSlzDPzGimwn6ky/zBlRq319qmL3P8jM5\njj0IiPCavAhJms2I+Z5LUSNZAwKBgQDA9Yp4iQk45tMjSXBADqQcpLgx7RlpM+JP\nS5Be5FpAzUYp1p5irxDOOissFfEZULKE3p/rvWjWp657ktnleZrz2XWPcfs9G0gC\nYdmJ71EevFF3FrCWMv2vJyMXSawdiBJb4zPBpwu9H+Q83UsZbs7qhJSG4sYIeYko\n7AlIUGdkSQKBgHvlbfJjrvW0bvbouoixPSZSNHqvk/bPVe2WvjSvlih3u+5Cza/F\n4dE6R9GLOI4Uw5/UwBr63uH8QPqBX0Z5aB7zdOhsVX9y8nazFh65OJyCyvIGQ2qD\nThLb2BGhjVH5FID3hPk/nGcjpvdWYYcWBkkvmkBuLf8oyNHdiPIA8s1NAoGAb2TQ\n3ajuxAStWy+oN7K8FzUYiOoBw3QKcBCFdeKKH+LhYIHfycSbBRMbnUXFfAHULVSA\nKg2cml8PIZOzawB67c9aSMdabPp05bsrZK/dusqolQFqTCt/vD/xyB3l2N6XCqjt\nVhxjcHkav/BYzIPlvAlx3TTJclcHUbKB4VdZeNECgYBWxo4g2hG6m8LGs9wwptDU\niClbgZPXfmqVBkVyoGF6CeaNzP4oIgO4TLswG74jKmj0HyWvd5ULYTHMZIaBcGIB\neMdlk/yxqL9kEZU3ONWLFqQEjJCYx2uyH9ZSDUKrt0LoGk7z7XjvpOvkywvwnjtD\nbdt/bhnmRLFS+rU9+zIWDQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "dsm-database@dsm-database.iam.gserviceaccount.com",
+  "client_id": "117060683049936497419",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dsm-database%40dsm-database.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

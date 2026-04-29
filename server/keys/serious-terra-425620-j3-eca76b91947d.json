@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "serious-terra-425620-j3",
+  "private_key_id": "eca76b91947d4eeeefb2bbab349ecc8f1d20d99c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDCtNmw9iATvBSs\nZRhMpNC822V13Naop0594gnzykbSb4tgCBxO+gM+BVfK/RyU847ZGNo2vbzMSmrH\nirG5uxky6pzfdXckdtYuh5SwrC8df45VSPLvKSdwMNNfTD2O5wzwqLzHxIIb0t6F\nBpqMtxqrv83Nkt3cT8MOHxqqraH5j+gm3eAdlwYxvknjodlXWZWWJKnB1WakZpUJ\nPjgmwKH0WohMlUBaTu/RnLMCH056gcmH2o4/4ZXsal4buMoyuycTaKwVkAtemrrp\nK0AgfkH6XcGj/vqoe7pwHATB5kVMpfSqhHs4ht2FvnROSAkiEg0mYIYWb9m9DP3B\ngeCExWItAgMBAAECggEAAhHOcPOv+mW4ybuDwZsy3zI5zUHp3WSoQ4as8mfUNUjO\no3ISn8Hg81gDmEdbQwRy7UEDxZDIulpdvjDUNZQuiJY3BEA8YilwZ16bjv3779Ih\neJIyh6Y/vBDyZJ3r1y817QAhWY8JW80m/lgun/ZGSBl20SUrF7wyGsSFeD3DB5Y7\n2cSo/Lrkaz7GPEFQNqjWM+edI00Mg/Lbi/ZOTMaQ0dq/fm0PUR2FPnLD3v3ExujF\n4LAA/OAV2jMQ2ozYC+gkN8Shp5uRMGMOe1qzs3cZxEN1w0oOYUCwcXWAWF6SyKaP\nEF5QCthUFYoDcgkMfS8eHvsga17nkdSzvCbfPZAPgQKBgQDh54jl80Ar1huuiyge\n9DQ43vbG5G4oTC+VI92Q1ZgbyqCitmcKuEdn1ICamXpWRA6IqkwcGWRaeyHOUphs\ncyRzipHWpC/UhZsY9bIgUgFD3x2leXyV9gWmboqhPNzRjLWyYd7dqfHZapm2Q6o6\nyaB2oWxz/hMVcsevGCu4JyruTQKBgQDcpU8dFNkdC5inm/ebrKCZOjkwgxOrDUFB\nKBiZ1is+yYbVWkuOk67nxT8cZM7NewtBgTXspT/i6uHc4ZDlTNwc5J9VPqckkCS5\nil/R6KdRGdgZGQJnmNuepViSYvaBoeXtRWvqAynhGGNesbhw13LyIy5bHkUx+cMT\n/R+ydYbzYQKBgQDGvgUhkNz+8/IMoB6fBOdAtV/UYTlMuKIQCqqt9kxI/v5NyD1l\nH/SqMzklSitn454JvBETk39HXxbBxsaUesQx5lIhzPbLePOXhOi+KIc2Z/9UCkqC\nQBx+bLgH3FzE+o8LrbD9wLqmNXOf9223JJXIaIHalkfB0eY9c/1amRLa7QKBgAZj\n2ziyY99NeKxR/gfKJhSJ9SIMicNIbP1gFeZOp4339Cm1pb6JVGVt9vfxi3Oz/o11\nGoSx/Hmr58Kn3bRmV3GWxW6Ik/qhGg8tjLzdigr1PqbrbIBnkuSzUS9cIlt6vtfy\nTL/IO6xDMo2JhBfwhWmxzyPgaoyZ+SZZDFP0x2XBAoGBAIzopClYVE0DChEeQaZb\n1b1sn+ybjnP+zaL1UCmav+5oXSCDoQt2tzKPJMFxR14PwIoDnvCL/xf+0uWCDorP\nh1aFtrwbj4WwnEKQ4bi638KLLKkQfnmjIWsqWBZf/rjzAVaKBYz16Ont+1CIqI37\nZbxupL+7u26KI02z5jzUyF//\n-----END PRIVATE KEY-----\n",
+  "client_email": "dsm-139@serious-terra-425620-j3.iam.gserviceaccount.com",
+  "client_id": "113041998361695139123",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dsm-139%40serious-terra-425620-j3.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

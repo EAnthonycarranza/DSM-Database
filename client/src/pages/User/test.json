@@ -1,0 +1,1135 @@
+{
+  "title": "DSM Admission Packet",
+  "description": "Complete Admission Agreement, Liability Release & Waiver, Personal Information Survey, Code of Conduct, Home Rules, and Statement of Legal Status for the Discipleship School of Ministry",
+  "status": "active",
+  "settings": {
+    "requireAuth": false,
+    "multipleSubmissions": false,
+    "notifyEmail": "",
+    "successMessage": "Thank you for submitting your DSM application!",
+    "submitButtonText": "Submit Application",
+    "maxSubmissions": null,
+    "startDate": null,
+    "endDate": null,
+    "redirectUrl": "",
+    "isPublic": true
+  },
+  "fields": [
+    {
+      "type": "heading",
+      "name": "sec_main_title",
+      "label": "Discipleship School of Ministry",
+      "width": "full",
+      "level": 1
+    },
+    {
+      "type": "heading",
+      "name": "sec_admission_agreement",
+      "label": "ADMISSION AGREEMENT",
+      "width": "full",
+      "level": 2
+    },
+    {
+      "type": "inlineText",
+      "name": "admission_intro",
+      "label": "Admission Agreement",
+      "width": "full",
+      "parts": [
+        { "t": "text", "v": "I, " },
+        { "t": "input", "inputType": "text", "name": "student_name_admission", "required": true },
+        { "t": "text", "v": " understand that, as a condition of acceptance into the Discipleship School of Ministry (DSM), I must abide by all rules and regulations of the school. I understand that it is my responsibility to know and understand the rules and regulations, as they apply to me, and that if I violate any of these rules I may be terminated from this school and required to leave the DSM. I understand that any questions regarding rules and regulations can be directed to the school director. Furthermore, I acknowledge the DSM is not a licensed treatment facility." }
+      ]
+    },
+    {
+      "type": "adminText",
+      "name": "admission_terms",
+      "label": "Agreement Terms",
+      "width": "full",
+      "content": "Additionally, I agree that the DSM is not responsible for administering any medical treatment that I may need or am currently receiving. I agree that in the event medical treatment is required, I may have to pay for the medical treatment and provide documentation from the treating physician of the nature of the treatment and the dates and times of any appointments.\n\nThe DSM will provide my room and board to help me focus on the school curriculum. However, any personal items kept by me are done so at my own risk. I understand that if I leave or am dismissed from the DSM, any and all personal property left at the facility will be held for twenty-four (24) hours, after which they are expressly donated to the school to do with as they see fit.\n\nI understand that the DSM will not house sex offenders. Background checks will be given to all new members. If the background check is refused by an applicant, admission into the DSM will be denied. I hereby give my consent for the DSM to perform a background check of my criminal history in any and all jurisdictions. I acknowledge that if anything of that nature described above is found, my enrollment into the school will be denied or terminated as applicable.\n\nI come to the DISCIPLESHIP SCHOOL OF MINISTRY (DSM) voluntarily and of my own free will. I come asking for help with my spiritual growth in Christ. I understand that the DSM is a place of spiritual healing and restoration, and that the possession of any illegal contraband or illegal controlled substances is not permitted in this school.\n\nI understand that the DSM is not responsible for any personal injuries, sickness, accidents, acts of God, or other similar incidents during or after my being in the school or traveling in their vehicles. I also understand that the DSM is not responsible for theft, damage, or loss of any personal property in any way.\n\nI give the DSM permission to search my property upon arrival and at any time during my stay.\n\nI understand that the DSM is a full-time commitment and that I will not be allowed to seek outside employment without the full consent of the school's director during the Phase 1 part of the program.\n\nI understand that any fighting, stealing, or use of obscene language (as determined by the DSM leaders and staff) may be grounds for automatic dismissal from the program."
+    },
+    {
+      "type": "adminText",
+      "name": "admission_voluntary",
+      "label": "Voluntary Participation",
+      "width": "full",
+      "content": "I understand that participation in this program is voluntary and that either the DSM or I may terminate my stay in the school at any time without cause.\n\nI understand that if I choose to leave the school, I will have to wait a minimum of 30 days before I may apply for the program again. If I am expelled from the school, I will have to wait a minimum of 45 days before I can appeal the decision and apply for re-entry. This will be a case-by-case scenario.\n\nI have read and understand the above agreement and hereby agree to comply with the rules and regulations set forth by the DSM. I also understand that any violation of the rules and regulations may result in loss of privileges and/or expulsion from the DISCIPLESHIP SCHOOL OF MINISTRY."
+    },
+    {
+      "type": "date",
+      "name": "admission_date",
+      "label": "Date",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "type": "text",
+      "name": "admission_student_printed_name",
+      "label": "Student Printed Name",
+      "required": true,
+      "width": "full"
+    },
+    {
+      "type": "signature",
+      "name": "admission_student_signature",
+      "label": "Student Signature",
+      "required": true,
+      "width": "full"
+    },
+    
+    { "type": "divider", "name": "div_admission", "label": "", "width": "full" },
+    
+    {
+      "type": "heading",
+      "name": "sec_liability_release",
+      "label": "Liability Release and Waiver",
+      "width": "full",
+      "level": 2
+    },
+    {
+      "type": "adminText",
+      "name": "liability_terms",
+      "label": "Liability Release Terms",
+      "width": "full",
+      "content": "1. I, the undersigned, am at least 18 years of age and desire to participate in the Discipleship School of Ministry program housed at San Antonio Christian Church. This program has been explained to me and I fully understand and appreciate the dangers, risks and hazards that may arise from my participation in the activities of this program. These dangers, risks and hazards can result in injury and impairment to my body, general health, well-being, property damage and could include serious or even fatal injuries.\n\n2. Knowing the dangers, hazards, and risks of the program's activities and in consideration of being permitted to participate in the program, on behalf of myself, my family, my spouse, heirs, next of kin and personal representative(s) (the \"Releasors\"), I agree to assume all the risks and responsibilities surrounding my participation in the Discipleship School of Ministry's program. On behalf of myself and the Releasors, I hereby covenant not to sue the San Antonio Christian Church nor the Discipleship School of Ministry, or its trustees, officers, representatives and employees (\"Releasees\") and I hereby release, waive, forever discharge the Releasees from and against any and all liability for any harm, injury, damage, claims, demands, actions, causes of action, costs, and expenses of any nature that I may have or that may hereafter accrue to me or a Releasor, arising out of, or related to, or in relation to the DSM and/or associated with San Antonio Christian Church including but not limited to any volunteer activities, or community events or leagues, using the facility and its equipment practicing and or engaging in church functions, philanthropic activities, other nonprofit or for profit engagements or functions and fundraisers or other related activities on and off the premises, provided that this waiver of liability does not apply to any acts of gross negligence or intentional, willful or wanton misconduct of Releasees or otherwise. I further agree to indemnify and hold harmless and forever discharge the Releasees from any and all claims, demands, debts, contracts, expenses, causes of action, lawsuits, damages and liabilities, of every kind and nature, whether known or unknown in law or equity, that I ever had or may have, arising from or in any way related to my participation in any of the events or activities conducted by, on the premises of, or for the benefit of the Releasees. It is my expressed intent that this Liability Release and Waiver shall bind me, the members of my family and spouse, if I am alive, and my estate, family, heirs, administrators, personal representatives, or assigns, if I am deceased, and shall be deemed as a legally binding release, waiver, discharge, and covenant not to sue the Releasees.\n\n3. I agree to conduct myself in accordance with the rules of conduct and standards of behavior that are expected of me as a student of the DSM and to abide by the various instructions and guidance I am given by the DSM or by a Program Director designated by the DSM.\n\n4. The provision of this Liability Release and Waiver will continue in full force and effect even after the termination of the activities conducted by, on the premises of, or for the benefit of San Antonio Christian Church and the DSM, whether by agreement, by operation of law, or otherwise.\n\n5. I have read, understand, and fully agree to the terms of this Liability Release and Waiver. I understand and confirm that by signing this Liability Release and Waiver I have given up considerable future legal rights. I have signed this Agreement freely, voluntarily, under no duress or threat of duress, without inducement, promise or guarantee being communicated to me. My signature is proof of my intention to execute a complete and unconditional Liability Release and Waiver of all liability to the full extent of the law. I am 18 years of age or older and mentally competent to enter into this waiver."
+    },
+    {
+      "type": "adminText",
+      "name": "liability_legal_notice",
+      "label": "Legal Notice",
+      "width": "full",
+      "content": "THIS IS A LEGAL AGREEMENT AND INCLUDES A RELEASE OF LEGAL RIGHTS, READ AND BE CERTAIN YOU UNDERSTAND IT BEFORE SIGNING."
+    },
+    {
+      "type": "date",
+      "name": "liability_date",
+      "label": "Date",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "type": "text",
+      "name": "liability_student_printed_name",
+      "label": "Student Printed Name",
+      "required": true,
+      "width": "full"
+    },
+    {
+      "type": "signature",
+      "name": "liability_student_signature",
+      "label": "Student Signature",
+      "required": true,
+      "width": "full"
+    },
+    
+    { "type": "divider", "name": "div_liability", "label": "", "width": "full" },
+    
+    {
+      "type": "heading",
+      "name": "sec_personal_info",
+      "label": "PERSONAL INFORMATION SURVEY",
+      "width": "full",
+      "level": 2
+    },
+    {
+      "type": "adminText",
+      "name": "survey_instructions",
+      "label": "Instructions",
+      "width": "full",
+      "content": "This form is to be filled out completely by either checking appropriate boxes or filling in the space provided. The information gathered on this form will be used to help make an accurate assessment of your situation, determine your fit here at the DISCIPLESHIP SCHOOL OF MINISTRY, and to report demographic data to our funding sources. No identifying information from your records will be released to anyone without your express written consent. PLEASE PRINT LEGIBLY. PUT N/A WHERE APPLICABLE. NO BLANKS."
+    },
+    {
+      "type": "date",
+      "name": "survey_date",
+      "label": "Date",
+      "required": true,
+      "width": "quarter"
+    },
+    {
+      "type": "heading",
+      "name": "sec_personal_details",
+      "label": "Personal Information",
+      "width": "full",
+      "level": 3
+    },
+    {
+      "type": "text",
+      "name": "last_name",
+      "label": "Last Name",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "type": "text",
+      "name": "first_name",
+      "label": "First Name",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "type": "text",
+      "name": "middle_name",
+      "label": "Middle Name",
+      "required": false,
+      "width": "third"
+    },
+    {
+      "type": "date",
+      "name": "date_of_birth",
+      "label": "Date of Birth",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "type": "number",
+      "name": "age",
+      "label": "Age",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "type": "text",
+      "name": "ssn",
+      "label": "SSN",
+      "required": false,
+      "width": "third",
+      "mask": true
+    },
+    {
+      "type": "text",
+      "name": "dl_or_id",
+      "label": "DL or ID #",
+      "required": false,
+      "width": "third"
+    },
+    {
+      "type": "text",
+      "name": "state_issued",
+      "label": "State Issued",
+      "required": false,
+      "width": "third"
+    },
+    {
+      "type": "date",
+      "name": "revoked_suspended_date",
+      "label": "Revoked or Suspended Date",
+      "required": false,
+      "width": "third"
+    },
+    {
+      "type": "text",
+      "name": "address",
+      "label": "Address",
+      "required": true,
+      "width": "full"
+    },
+    {
+      "type": "text",
+      "name": "city_state_zip",
+      "label": "City, State, Zip",
+      "required": true,
+      "width": "full"
+    },
+    {
+      "type": "phone",
+      "name": "home_phone",
+      "label": "Home Phone",
+      "required": false,
+      "width": "half"
+    },
+    {
+      "type": "phone",
+      "name": "work_phone",
+      "label": "Work Phone",
+      "required": false,
+      "width": "half"
+    },
+    {
+      "type": "radio",
+      "name": "gender",
+      "label": "Gender",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "male", "label": "Male" },
+        { "value": "female", "label": "Female" }
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "race",
+      "label": "Race",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "white", "label": "White" },
+        { "value": "black", "label": "Black" },
+        { "value": "asian", "label": "Asian" },
+        { "value": "native_american", "label": "Native American" },
+        { "value": "other", "label": "Other" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "race_other_specify",
+      "label": "If Other, specify",
+      "required": false,
+      "width": "full",
+      "conditional": {
+        "enabled": true,
+        "fieldId": "race",
+        "operator": "equals",
+        "value": "other",
+        "thenRequired": "required"
+      }
+    },
+    {
+      "type": "radio",
+      "name": "nationality",
+      "label": "Nationality",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "hispanic", "label": "Hispanic" },
+        { "value": "non_hispanic", "label": "Non-Hispanic" }
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "marital_status",
+      "label": "Marital Status",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "single", "label": "Single" },
+        { "value": "married", "label": "Married" },
+        { "value": "divorced", "label": "Divorced" },
+        { "value": "separated", "label": "Separated" },
+        { "value": "widowed", "label": "Widowed" }
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "us_citizen",
+      "label": "US Citizen",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "residency_number",
+      "label": "Residency #",
+      "required": false,
+      "width": "half",
+      "conditional": {
+        "enabled": true,
+        "fieldId": "us_citizen",
+        "operator": "equals",
+        "value": "no",
+        "thenRequired": "required"
+      }
+    },
+    {
+      "type": "text",
+      "name": "primary_language",
+      "label": "Primary Language Spoken",
+      "required": false,
+      "width": "half"
+    },
+    {
+      "type": "text",
+      "name": "referred_by",
+      "label": "Referred By",
+      "required": false,
+      "width": "half"
+    },
+    
+    { "type": "divider", "name": "div_personal", "label": "", "width": "full" },
+    
+    {
+      "type": "heading",
+      "name": "sec_education",
+      "label": "Education",
+      "width": "full",
+      "level": 3
+    },
+    {
+      "type": "radio",
+      "name": "highest_grade_completed",
+      "label": "Highest Grade Completed",
+      "required": true,
+      "width": "full",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" },
+        { "value": "7", "label": "7" },
+        { "value": "8", "label": "8" },
+        { "value": "9", "label": "9" },
+        { "value": "10", "label": "10" },
+        { "value": "11", "label": "11" },
+        { "value": "12", "label": "12" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "year_graduated_ged",
+      "label": "Year Graduated/Completed GED",
+      "required": false,
+      "width": "half"
+    },
+    {
+      "type": "number",
+      "name": "college_hours_completed",
+      "label": "College Hrs Completed",
+      "required": false,
+      "width": "quarter"
+    },
+    {
+      "type": "text",
+      "name": "degree",
+      "label": "Degree",
+      "required": false,
+      "width": "quarter"
+    },
+    
+    { "type": "divider", "name": "div_education", "label": "", "width": "full" },
+    
+    {
+      "type": "heading",
+      "name": "sec_employment",
+      "label": "Employment",
+      "width": "full",
+      "level": 3
+    },
+    {
+      "type": "radio",
+      "name": "currently_employed",
+      "label": "Are you currently employed?",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "employment_type",
+      "label": "If yes, are you",
+      "required": false,
+      "width": "half",
+      "options": [
+        { "value": "full_time", "label": "Full Time" },
+        { "value": "part_time", "label": "Part Time" },
+        { "value": "temporary", "label": "Temporary" },
+        { "value": "seasonal", "label": "Seasonal" }
+      ],
+      "conditional": {
+        "enabled": true,
+        "fieldId": "currently_employed",
+        "operator": "equals",
+        "value": "yes",
+        "thenRequired": "required"
+      }
+    },
+    {
+      "type": "text",
+      "name": "employer",
+      "label": "Employer",
+      "required": false,
+      "width": "half",
+      "conditional": {
+        "enabled": true,
+        "fieldId": "currently_employed",
+        "operator": "equals",
+        "value": "yes",
+        "thenRequired": "required"
+      }
+    },
+    {
+      "type": "text",
+      "name": "occupation",
+      "label": "Occupation",
+      "required": false,
+      "width": "half",
+      "conditional": {
+        "enabled": true,
+        "fieldId": "currently_employed",
+        "operator": "equals",
+        "value": "yes",
+        "thenRequired": "required"
+      }
+    },
+    {
+      "type": "number",
+      "name": "hourly_income",
+      "label": "Hourly Income ($)",
+      "required": false,
+      "width": "third",
+      "conditional": {
+        "enabled": true,
+        "fieldId": "currently_employed",
+        "operator": "equals",
+        "value": "yes",
+        "thenRequired": "inherit"
+      }
+    },
+    {
+      "type": "radio",
+      "name": "pay_schedule",
+      "label": "Paid",
+      "required": false,
+      "width": "third",
+      "options": [
+        { "value": "weekly", "label": "Wkly" },
+        { "value": "bi_weekly", "label": "Bi-Wkly" },
+        { "value": "monthly", "label": "Monthly" }
+      ],
+      "conditional": {
+        "enabled": true,
+        "fieldId": "currently_employed",
+        "operator": "equals",
+        "value": "yes",
+        "thenRequired": "inherit"
+      }
+    },
+    {
+      "type": "textarea",
+      "name": "special_skills",
+      "label": "List any special skills, trades, or vocations",
+      "required": false,
+      "width": "full",
+      "rows": 3
+    },
+    
+    { "type": "divider", "name": "div_employment", "label": "", "width": "full" },
+    
+    {
+      "type": "heading",
+      "name": "sec_history",
+      "label": "History",
+      "width": "full",
+      "level": 3
+    },
+    {
+      "type": "radio",
+      "name": "treated_substance_abuse",
+      "label": "Have you ever been in treatment for substance abuse?",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "substance_treatment_where",
+      "label": "Where?",
+      "required": false,
+      "width": "quarter",
+      "conditional": {
+        "enabled": true,
+        "fieldId": "treated_substance_abuse",
+        "operator": "equals",
+        "value": "yes",
+        "thenRequired": "required"
+      }
+    },
+    {
+      "type": "text",
+      "name": "substance_treatment_when",
+      "label": "When?",
+      "required": false,
+      "width": "quarter",
+      "conditional": {
+        "enabled": true,
+        "fieldId": "treated_substance_abuse",
+        "operator": "equals",
+        "value": "yes",
+        "thenRequired": "required"
+      }
+    },
+    {
+      "type": "radio",
+      "name": "treated_mental_health",
+      "label": "Have you ever been in treatment for mental health?",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "mental_treatment_where",
+      "label": "Where?",
+      "required": false,
+      "width": "quarter",
+      "conditional": {
+        "enabled": true,
+        "fieldId": "treated_mental_health",
+        "operator": "equals",
+        "value": "yes",
+        "thenRequired": "required"
+      }
+    },
+    {
+      "type": "text",
+      "name": "mental_treatment_when",
+      "label": "When?",
+      "required": false,
+      "width": "quarter",
+      "conditional": {
+        "enabled": true,
+        "fieldId": "treated_mental_health",
+        "operator": "equals",
+        "value": "yes",
+        "thenRequired": "required"
+      }
+    },
+    {
+      "type": "radio",
+      "name": "received_dsm_help_before",
+      "label": "Have you ever received help from the DSM previously?",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "dsm_help_when",
+      "label": "When?",
+      "required": false,
+      "width": "half",
+      "conditional": {
+        "enabled": true,
+        "fieldId": "received_dsm_help_before",
+        "operator": "equals",
+        "value": "yes",
+        "thenRequired": "required"
+      }
+    },
+    {
+      "type": "radio",
+      "name": "thought_about_suicide",
+      "label": "Have you ever thought about committing suicide?",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "ever_arrested",
+      "label": "Have you ever been arrested?",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "in_criminal_justice",
+      "label": "Are you currently involved in the criminal justice system?",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ]
+    },
+    {
+      "type": "date",
+      "name": "incarceration_date",
+      "label": "Date of Incarceration",
+      "placeholder": "",
+      "helpText": "",
+      "defaultValue": "",
+      "required": false,
+      "width": "third",
+      "validation": {},
+      "conditional": {
+        "enabled": true,
+        "anyOf": [
+          {
+            "fieldId": "field_1757437545159_68_oyd0ybo",
+            "operator": "equals",
+            "value": "yes"
+          },
+          {
+            "fieldId": "field_1757437545159_68_oyd0ybo",
+            "operator": "equals",
+            "value": "yes"
+          }
+        ],
+        "thenRequired": "required",
+        "fieldId": "field_1757437545159_67_ho8zk3q",
+        "operator": "equals",
+        "value": "yes"
+      },
+      "autoToday": false
+    },
+    {
+      "type": "text",
+      "name": "charge",
+      "label": "Charge",
+      "placeholder": "",
+      "helpText": "",
+      "defaultValue": "",
+      "required": false,
+      "width": "third",
+      "validation": {},
+      "conditional": {
+        "enabled": true,
+        "anyOf": [
+          {
+            "fieldId": "field_1757437545159_68_oyd0ybo",
+            "operator": "equals",
+            "value": "yes"
+          },
+          {
+            "fieldId": "field_1757437545159_68_oyd0ybo",
+            "operator": "equals",
+            "value": "yes"
+          }
+        ],
+        "thenRequired": "required",
+        "fieldId": "field_1757437545159_67_ho8zk3q",
+        "operator": "equals",
+        "value": "yes"
+      },
+      "mask": false
+    },
+    {
+      "type": "text",
+      "name": "location",
+      "label": "Location",
+      "placeholder": "",
+      "helpText": "",
+      "defaultValue": "",
+      "required": false,
+      "width": "third",
+      "validation": {},
+      "conditional": {
+        "enabled": true,
+        "anyOf": [
+          {
+            "fieldId": "field_1757437545159_68_oyd0ybo",
+            "operator": "equals",
+            "value": "yes"
+          },
+          {
+            "fieldId": "field_1757437545159_68_oyd0ybo",
+            "operator": "equals",
+            "value": "yes"
+          }
+        ],
+        "thenRequired": "required",
+        "fieldId": "field_1757437545159_67_ho8zk3q",
+        "operator": "equals",
+        "value": "yes"
+      },
+      "mask": false
+    },
+    {
+      "type": "textarea",
+      "name": "upcoming_court_and_probation",
+      "label": "Upcoming Court Dates / Probation Officer Name & Number",
+      "placeholder": "",
+      "helpText": "",
+      "defaultValue": "",
+      "required": false,
+      "width": "full",
+      "validation": {},
+      "conditional": {
+        "enabled": true,
+        "anyOf": [
+          {
+            "fieldId": "field_1757437545159_68_oyd0ybo",
+            "operator": "equals",
+            "value": "yes"
+          },
+          {
+            "fieldId": "field_1757437545159_68_oyd0ybo",
+            "operator": "equals",
+            "value": "yes"
+          }
+        ],
+        "thenRequired": "inherit",
+        "fieldId": "field_1757437545159_67_ho8zk3q",
+        "operator": "equals",
+        "value": "yes"
+      }
+    },
+    
+    { "type": "divider", "name": "div_history", "label": "", "width": "full" },
+    
+    {
+      "type": "radio",
+      "name": "consumed_alcohol",
+      "label": "Have you consumed alcohol or beer, past or present?",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "used_drugs",
+      "label": "Have you used drugs, past or present?",
+      "required": true,
+      "width": "half",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ]
+    },
+    {
+      "type": "textarea",
+      "name": "preferred_substance_last_use",
+      "label": "If yes, which drug (including alcohol) is your preference and when was the last time you used?",
+      "required": false,
+      "width": "full",
+      "rows": 3,
+      "conditional": {
+        "enabled": true,
+        "anyOf": [
+          { "fieldId": "consumed_alcohol", "operator": "equals", "value": "yes" },
+          { "fieldId": "used_drugs", "operator": "equals", "value": "yes" }
+        ],
+        "thenRequired": "required"
+      }
+    },
+    
+    { "type": "divider", "name": "div_substance", "label": "", "width": "full" },
+    
+    {
+      "type": "heading",
+      "name": "sec_health",
+      "label": "Health Information",
+      "width": "full",
+      "level": 3
+    },
+    {
+      "type": "multiselect",
+      "name": "current_health_care",
+      "label": "Do you currently have health care? (Select all that apply)",
+      "required": true,
+      "width": "full",
+      "options": [
+        { "value": "medicaid", "label": "Medicaid" },
+        { "value": "medicare", "label": "Medicare" },
+        { "value": "private_insurance", "label": "Private Insurance" },
+        { "value": "veterans_benefits", "label": "Veterans Benefits" },
+        { "value": "none", "label": "None" }
+      ]
+    },
+    {
+      "type": "textarea",
+      "name": "terminal_illnesses",
+      "label": "Do you have any terminal illnesses, viruses, or any other medical conditions? If yes, please list.",
+      "required": false,
+      "width": "full",
+      "rows": 3
+    },
+    {
+      "type": "textarea",
+      "name": "current_medications",
+      "label": "Do you currently take any medications? If yes, please list.",
+      "required": false,
+      "width": "full",
+      "rows": 3
+    },
+    
+    { "type": "divider", "name": "div_health", "label": "", "width": "full" },
+    
+    {
+      "type": "heading",
+      "name": "sec_reason_admission",
+      "label": "Reason for Seeking Admission in the D.S.M.",
+      "width": "full",
+      "level": 3
+    },
+    {
+      "type": "multiselect",
+      "name": "reasons_for_admission",
+      "label": "Check all that apply",
+      "required": true,
+      "width": "full",
+      "options": [
+        { "value": "shelter", "label": "SHELTER" },
+        { "value": "spiritual_growth", "label": "SPIRITUAL GROWTH" },
+        { "value": "restoration", "label": "RESTORATION" },
+        { "value": "overcome_drug_alcohol", "label": "TO OVERCOME DRUG/ALCOHOL ABUSE" }
+      ]
+    },
+    {
+      "type": "textarea",
+      "name": "goals_description",
+      "label": "Brief description of what you hope to accomplish while you attend the DSM",
+      "required": false,
+      "width": "full",
+      "rows": 4
+    },
+    {
+      "type": "textarea",
+      "name": "talents_gifts",
+      "label": "List your talents & gifts",
+      "required": false,
+      "width": "full",
+      "rows": 3
+    },
+    
+    { "type": "divider", "name": "div_reason", "label": "", "width": "full" },
+    
+    {
+      "type": "heading",
+      "name": "sec_emergency_contacts",
+      "label": "Emergency Contact(s) Information",
+      "width": "full",
+      "level": 3
+    },
+    {
+      "type": "heading",
+      "name": "sec_ec1",
+      "label": "Emergency Contact #1",
+      "width": "full",
+      "level": 4
+    },
+    {
+      "type": "text",
+      "name": "ec1_name",
+      "label": "Name",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "type": "text",
+      "name": "ec1_full_address",
+      "label": "Full Address",
+      "required": true,
+      "width": "full"
+    },
+    {
+      "type": "phone",
+      "name": "ec1_phone",
+      "label": "Phone",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "type": "phone",
+      "name": "ec1_alt_phone",
+      "label": "Alternate Phone",
+      "required": false,
+      "width": "half"
+    },
+    {
+      "type": "text",
+      "name": "ec1_relationship",
+      "label": "Relationship",
+      "required": true,
+      "width": "half"
+    },
+    
+    {
+      "type": "heading",
+      "name": "sec_ec2",
+      "label": "Emergency Contact #2",
+      "width": "full",
+      "level": 4
+    },
+    {
+      "type": "text",
+      "name": "ec2_name",
+      "label": "Name",
+      "required": false,
+      "width": "half"
+    },
+    {
+      "type": "text",
+      "name": "ec2_full_address",
+      "label": "Full Address",
+      "required": false,
+      "width": "full"
+    },
+    {
+      "type": "phone",
+      "name": "ec2_phone",
+      "label": "Phone",
+      "required": false,
+      "width": "half"
+    },
+    {
+      "type": "phone",
+      "name": "ec2_alt_phone",
+      "label": "Alternate Phone",
+      "required": false,
+      "width": "half"
+    },
+    {
+      "type": "text",
+      "name": "ec2_relationship",
+      "label": "Relationship",
+      "required": false,
+      "width": "half"
+    },
+    
+    { "type": "divider", "name": "div_contacts", "label": "", "width": "full" },
+    
+    {
+      "type": "heading",
+      "name": "sec_code_conduct",
+      "label": "DSM Code of Conduct",
+      "width": "full",
+      "level": 2
+    },
+    {
+      "type": "adminText",
+      "name": "conduct_ethical_policies",
+      "label": "Ethical Conduct Policies",
+      "width": "full",
+      "content": "As part of its mission and its academic program, the Discipleship School of Ministry (DSM) is entitled to prescribe appropriate standards of conduct in addition to, and independent of, those prescribed by San Antonio Christian Church (SACC). Accordingly, students are expected to conduct themselves in an ethical and moral manner becoming of a Christian.\n\nThe DSM reserves the right to place a student on discipline and to suspend or expel a student from the DSM, if the conduct of the student prevents, or will prevent, acceptable representation of Christianity as outlined in the Bible.\n\nStudents accepted in the DSM will be made aware of the expected conduct, disciplinary action, and the consequences of continual failure to adhere to the DSM's ethical conduct policies. There will be a period of grace determined by the pastor (per individual case), after which, each student will be held accountable.\n\nStudents accepted in the DSM, are subject also to general SACC regulations."
+    },
+    {
+      "type": "adminText",
+      "name": "conduct_general_info",
+      "label": "General Information",
+      "width": "full",
+      "content": "1. The DSM is a Christian ministry whose primary purpose is to train men for successful Christian living.\n\n2. The DSM may take disciplinary action as it deems necessary should the standard of personal and ethical conduct be violated. Violation of this standard shall include, but is not limited to:\n• Public or private alcohol intoxication\n• Use of illegal drugs\n• Abuse of any drugs\n• Heterosexual misconduct or homosexual behavior\n• Sexual harassment\n• Fraternization\n• Involvement with pornography\n• Giving false statements to the DSM orally or in writing including, but not limited to, one's intake application form\n• Threats of violence\n• Fighting\n• Abusive or vulgar language\n• Theft of DSM, SACC or personal property\n• Violation of SACC regulations and policies\n• Disrespect toward the leadership of SACC pastoral staff and/or its family members\n• Refusal to participate in all scheduled activities of the DSM\n• Refusal to do assigned chores\n• Outright disobedience\n\n3. Students involved in a civil infraction are accountable to civil authorities but may also be subject to discipline by the DSM."
+    },
+    {
+      "type": "adminText",
+      "name": "conduct_organization",
+      "label": "Organization",
+      "width": "full",
+      "content": "1. Students who have violated the ethical conduct code listed above, or who have committed any act that is not congruent with their calling as a student will be subject to a write up.\n\n2. The DSM leadership, comprised of the SACC board, the Pastor, the Pastor's wife, and appointed Pastoral leadership, shall administer this DSM policy.\n\n3. The DSM leadership will exercise Christian concern in its dealings with students, and its actions will be intended to be occasions for learning, personal growth, and character development.\n• The welfare of the student, of the DSM community, and of the church and its members are its primary concerns. The DSM leadership, or any member thereof, shall provide written notice of the allegations, and of supporting information, to the student of a violation of the requirements of Ethical Conduct. The DSM leadership shall provide the student with an opportunity to be heard in person and in writing.\n\n4. The DSM leadership will decide if the student has demonstrated ethical misconduct that would indicate the student does not want to participate in the DSM daily operations. If the DSM leadership so finds, the DSM leadership shall also determine the appropriate discipline. The student will be notified in writing of the results.\n\n5. Definition of a write up: a written form indicating a minor or major violation and the consequences of that violation.\n\n6. If a student chooses to leave the school of their own accord, they will have to wait a minimum of 30 days before they can re-apply for the program again. If they are expelled from the school, they will have to wait a minimum of 45 days before they can appeal the decision and apply for re-entry. This will be a case-by-case scenario."
+    },
+    {
+      "type": "signature",
+      "name": "conduct_student_signature",
+      "label": "Student Signature",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "type": "date",
+      "name": "conduct_date",
+      "label": "Date",
+      "required": true,
+      "width": "half"
+    },
+    
+    { "type": "divider", "name": "div_conduct", "label": "", "width": "full" },
+    
+    {
+      "type": "heading",
+      "name": "sec_home_rules",
+      "label": "Discipleship School of Ministry Home Rules",
+      "width": "full",
+      "level": 2
+    },
+    {
+      "type": "adminText",
+      "name": "home_rules_list",
+      "label": "Home Rules",
+      "width": "full",
+      "content": "1) Student residents must have and maintain a desire to change.\n\n2) Student residents must have and maintain a willingness to surrender.\n\n3) Student residents that receive income must contribute a percentage of their income to the program. It is for this very reason that you receive your benefits.\n\n4) Student residents caught possessing or under the influence of any alcohol or drugs will be expelled from the program. This includes smelling like alcohol.\n\n5) Student residents must always maintain a neat appearance. Showers must be taken daily within 7 minutes for conservation purposes.\n\n6) Laundry is done once a week and turns must be taken in an orderly fashion.\n\n7) Everyone will always keep his area in the dorm clean and submit to all chores and other work assignments.\n\n8) Student residents will conduct themselves in a respectful manner. Arguing, fighting and or foul language will not be tolerated at any time.\n\n9) All student residents must follow the daily schedule. Student residents are required to attend all church services, prayer meetings and Bible studies that are held several times throughout the week. Student residents must remain in the church or classroom until the church service, prayer time or Bible study is over. Student residents must sit in the first three rows during church services and Bible studies.\n\n10) Student residents are not allowed in the kitchen after church services or Bible studies. They must not mingle with church members of the opposite sex. Student residents are required to sit together while eating at all times.\n\n11) Student residents are encouraged to fast half a day on Sundays and on Wednesdays.\n\n12) The program consists of three phases. Every individual's growth pattern will determine their transition to the next phase depending on the pastor's/council members consent.\n\n13) Student residents in the first 30 days may receive visits or receive/make a phone calls on assigned visitation and call dates.\n    A) Visits are after Bible studies or church services only.\n    B) Phone calls are made on off days.\n\n14) Student residents are not allowed in the administrative office without permission.\n\n15) Every resident is responsible for their own personal belongings. Upon departure, the student residents must take all of their belongings with them. Items left behind will be disposed of within 24 hours of their departure. No exception."
+    },
+    {
+      "type": "adminText",
+      "name": "home_rules_violations",
+      "label": "Rule Violations",
+      "width": "full",
+      "content": "** If a student resident breaks any of these rules, he/she will receive a written reprimand, be put on discipline, and be subject to immediate expulsion.\n\n** If a student chooses to leave the school, he will have to wait a minimum of 30 days before he may apply for the program again. If a student is expelled from the school, he will have to wait a minimum of 45 days before he can appeal the decision and apply for re-entry. This will be a case-by-case scenario.\n\nIT IS OUR HOPE THAT YOUR STAY WILL BE A GREAT SPIRITUAL EXPERIENCE FOR YOU AND THAT YOU FIND YOUR PLACE IN GOD'S PLAN FOR YOUR LIFE!!\n\nALWAYS REMEMBER THAT OUR GOD IS A GOD OF ORDER AND THAT ALL RULES ARE MADE TO KEEP THAT ORDER.\n\nALL RULES ARE SUBJECT TO CHANGE!\n\nI have read and understand these rules. I agree to follow them fully during my stay at the Discipleship School of Ministry."
+    },
+    {
+      "type": "text",
+      "name": "home_rules_student_printed_name",
+      "label": "Student Resident's Printed Name",
+      "required": true,
+      "width": "full"
+    },
+    {
+      "type": "signature",
+      "name": "home_rules_student_signature",
+      "label": "Student Resident's Signature",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "type": "date",
+      "name": "home_rules_date",
+      "label": "Date",
+      "required": true,
+      "width": "half"
+    },
+    
+    { "type": "divider", "name": "div_home_rules", "label": "", "width": "full" },
+    
+    {
+      "type": "heading",
+      "name": "sec_legal_status",
+      "label": "Statement of Legal Status",
+      "width": "full",
+      "level": 2
+    },
+    {
+      "type": "inlineText",
+      "name": "legal_status_statement",
+      "label": "Legal Status Statement",
+      "width": "full",
+      "parts": [
+        { "t": "text", "v": "I, " },
+        { "t": "input", "inputType": "text", "name": "legal_student_name", "required": true },
+        { "t": "text", "v": " understand that as a student of the DSM that I am not a lessee and have no rights of residential tenancy. I also have no property rights to the facilities or its contents." }
+      ]
+    },
+    {
+      "type": "adminText",
+      "name": "legal_status_terms",
+      "label": "Legal Terms",
+      "width": "full",
+      "content": "I agree and understand that I am a guest of the DSM and that violation of the rules will result in termination of the relationship between the DSM and myself. Upon request of the DSM staff, I will immediately leave the premises of the DSM and San Antonio Christian Church. My failure to do so will constitute criminal trespass and I may be subject to arrest.\n\nSince I have no legal rights of tenancy, I understand that I may not receive mail of any kind here at this address. If mail is received in my name, it will be marked 'return to sender' without notice.\n\nI have read and understand the above agreement and hereby agree to comply."
+    },
+    {
+      "type": "text",
+      "name": "legal_student_printed_name",
+      "label": "Student Resident's Printed Name",
+      "required": true,
+      "width": "full"
+    },
+    {
+      "type": "signature",
+      "name": "legal_student_signature",
+      "label": "Student Resident's Signature",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "type": "date",
+      "name": "legal_date",
+      "label": "Date",
+      "required": true,
+      "width": "half"
+    }
+  ]
+}
