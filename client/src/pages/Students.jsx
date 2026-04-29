@@ -299,7 +299,7 @@ export default function Students() {
     </section>
   );
 }
-
+const STD_CSS = `
   .std-page { 
     padding: 24px 32px; 
     max-width: 1600px; 
@@ -504,5 +504,4 @@ export default function Students() {
       box-shadow: 0 16px 32px rgba(var(--primary-rgb), 0.4);
     }
   }
-`;
 `;
