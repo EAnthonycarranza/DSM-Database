@@ -520,11 +520,35 @@ const STD_CSS = `
   }
 
   @media (max-width: 480px) {
+    .std-section-head { padding: 0 16px; margin-bottom: 16px; }
+    .head-left h3 { font-size: 20px; }
+    .std-add-btn { width: 48px; height: 48px; border-radius: 14px; }
+
+    .std-roster-scroll { padding: 8px 16px 20px; gap: 12px; }
+    .std-chip { flex: 0 0 200px; padding: 14px 16px; border-radius: 20px; }
+    .std-chip-av { width: 44px; height: 44px; border-radius: 14px; font-size: 14px; }
+    .std-chip-name { font-size: 14px; }
+
+    .std-toolbar { padding: 16px; gap: 12px; }
+    .std-search input { padding: 12px 16px 12px 44px; font-size: 14px; border-radius: 14px; }
+    .std-search svg { left: 16px; font-size: 16px; }
+    
+    .std-actions { gap: 8px; }
+    .std-btn { height: 44px; padding: 0 16px; font-size: 12px; border-radius: 14px; }
+
     .std-table-container { padding: 12px 16px; }
-    .std-table tbody { grid-template-columns: 1fr; }
-    .std-section-head { padding: 0 16px; }
-    .std-roster-scroll { padding: 8px 16px 20px; }
-    .std-table td.name-cell { margin-left: 44px; }
+    .std-table tbody tr { padding: 20px; border-radius: 22px; }
+    .std-table td.select-col { top: 20px; left: 20px; }
+    .std-table td.name-cell { margin-left: 44px; margin-bottom: 16px; }
     .std-table td.name-cell .main-text { font-size: 16px; }
+    .std-table td.name-cell .sub-text { font-size: 12px; }
+    
+    .std-table td:nth-of-type(4), .std-table td:nth-of-type(5), 
+    .std-table td:nth-of-type(7), .std-table td:nth-of-type(10) {
+      font-size: 12px; margin-bottom: 10px;
+    }
+    
+    .std-table td.action-col { top: 22px; right: 20px; }
+    .row-arrow { font-size: 18px; }
   }
 `;
