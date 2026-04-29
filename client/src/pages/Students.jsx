@@ -428,80 +428,106 @@ const STD_CSS = `
   /* ============================================================================
      iPad Optimization (Portrait & Landscape)
      ============================================================================ */
-  @media (min-width: 769px) and (max-width: 1280px) {
-    .std-page { padding: 20px; }
-    .std-toolbar { padding: 24px; gap: 20px; }
-    .std-search { min-width: 0; }
-    .std-chip { flex: 0 0 220px; padding: 14px 18px; }
+  @media (min-width: 1101px) and (max-width: 1366px) {
+    .std-page { padding: 20px 24px; }
+    .std-toolbar { padding: 24px; gap: 16px; }
+    .std-search { min-width: 250px; }
+    .std-chip { flex: 0 0 240px; padding: 16px; }
     
-    /* Table column management for tablet */
-    .std-table { min-width: 1100px; }
-    .std-table td, .std-table th { padding: 16px 20px; }
+    .std-table { min-width: 0; table-layout: fixed; }
+    .std-table td, .std-table th { padding: 14px 12px; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     
-    /* Hide non-critical columns on cramped tablet portrait */
-    @media (max-width: 1024px) {
-      .std-table th:nth-child(6), .std-table td:nth-child(6), /* Graduation */
-      .std-table th:nth-child(8), .std-table td:nth-child(8) { /* App/BG Check */
-        display: none;
-      }
+    /* Hide non-critical columns to force fit without scroll */
+    .std-table th:nth-child(6), .std-table td:nth-child(6), /* Graduation */
+    .std-table th:nth-child(8), .std-table td:nth-child(8), /* App/BG Check */
+    .std-table th:nth-child(9), .std-table td:nth-child(9) { /* Dorm/Squad */
+      display: none;
     }
   }
 
-  @media (max-width: 768px) {
+  /* Switch to premium card view for ALL iPad Portrait and most iPad Landscape (below 1100px) 
+     to ensure "Designed by the width" and ZERO horizontal scroll */
+  @media (max-width: 1100px) {
     .std-page { padding: 0; background: var(--bg); }
-    .std-roster-section { margin-bottom: 24px; padding-top: 12px; }
-    .std-section-head { padding: 0 20px; }
-    .std-roster-scroll { padding: 8px 20px 24px; gap: 14px; }
-    .std-chip { flex: 0 0 220px; }
+    .std-roster-section { margin-bottom: 20px; padding-top: 12px; }
+    .std-section-head { padding: 0 24px; }
+    .std-roster-scroll { padding: 8px 24px 20px; gap: 16px; }
+    .std-chip { flex: 0 0 240px; }
     
     .std-workspace-card { border-radius: 0; border: none; background: transparent; box-shadow: none; }
     .std-toolbar { 
-      background: var(--surface); border-bottom: 1px solid var(--border); 
-      position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.03); 
-      padding: 16px 20px;
+      background: var(--surface); border-bottom: 2px solid var(--border); 
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+      padding: 20px 24px; gap: 16px;
     }
     
-    .std-search { min-width: 0; margin-bottom: 0; }
-    
-    .std-actions { 
-      overflow-x: auto; padding-bottom: 4px; 
-      scrollbar-width: none; -webkit-overflow-scrolling: touch; 
-      display: flex; width: 100%; gap: 12px;
-    }
+    .std-search { min-width: 100%; order: 1; }
+    .std-actions { width: 100%; order: 2; overflow-x: auto; padding-bottom: 4px; gap: 12px; }
     .std-actions::-webkit-scrollbar { display: none; }
-    .std-btn { height: 46px; padding: 0 18px; font-size: 13px; flex-shrink: 0; }
+    .std-btn { height: 48px; padding: 0 20px; font-size: 13px; flex-shrink: 0; }
 
-    .std-table-container { padding: 12px 16px; }
+    .std-table-container { padding: 16px 24px; overflow: visible; }
     .std-table { display: block; min-width: 0; }
     .std-table thead { display: none; }
-    .std-table tbody { display: grid; gap: 16px; }
+    .std-table tbody { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+      gap: 20px; 
+    }
     
+    /* For iPad Portrait (narrower), force 1 column if needed, but 320px usually allows 2 columns on iPad */
+    @media (max-width: 700px) {
+      .std-table tbody { grid-template-columns: 1fr; }
+    }
+
     .std-table tbody tr {
-      display: block; background: var(--surface); border-radius: 24px; 
-      border: 2px solid var(--border); padding: 20px; 
-      position: relative; transition: all 0.3s ease;
+      display: block; background: var(--surface); border-radius: 28px; 
+      border: 2px solid var(--border); padding: 24px; 
+      position: relative; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: var(--shadow);
     }
+    .std-table tbody tr:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
     .std-table tbody tr.selected { border-color: var(--primary); background: var(--primary-soft); }
     
     .std-table td { display: block; padding: 0; border: none; }
-    .std-table td.select-col { position: absolute; top: 20px; left: 20px; z-index: 2; width: auto; }
-    .std-table td.name-cell { margin-left: 36px; margin-bottom: 16px; }
-    .std-table td.name-cell .main-text { font-size: 18px; letter-spacing: -0.5px; }
+    .std-table td.select-col { position: absolute; top: 24px; left: 24px; z-index: 2; width: auto; }
+    .std-table td.name-cell { margin-left: 44px; margin-bottom: 20px; }
+    .std-table td.name-cell .main-text { font-size: 19px; letter-spacing: -0.5px; }
     
-    .std-table td:nth-of-type(3) { margin-bottom: 16px; }
-    .std-table td:nth-of-type(4), .std-table td:nth-of-type(5), .std-table td:nth-of-type(6),
-    .std-table td:nth-of-type(7), .std-table td:nth-of-type(8), .std-table td:nth-of-type(9),
-    .std-table td:nth-of-type(10) { display: none; }
+    .std-table td:nth-of-type(3) { margin-bottom: 20px; }
     
-    .std-table td.action-col { position: absolute; top: 22px; right: 20px; }
-    .row-arrow { color: var(--primary); font-size: 18px; }
+    /* Show more data in card view for tablet than for small mobile */
+    .std-table td:nth-of-type(4), /* Phase */
+    .std-table td:nth-of-type(5), /* Intake */
+    .std-table td:nth-of-type(7), /* Duration */
+    .std-table td:nth-of-type(10) { /* Docs */
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px; font-size: 13px; font-weight: 600; color: var(--text-muted);
+    }
+    .std-table td:nth-of-type(4)::before { content: "Phase"; }
+    .std-table td:nth-of-type(5)::before { content: "Intake Date"; }
+    .std-table td:nth-of-type(7)::before { content: "Program Duration"; }
+    .std-table td:nth-of-type(10)::before { content: "Files & Photos"; }
+
+    /* Hide graduation/app check even in tablet card to keep it clean */
+    .std-table td:nth-of-type(6), .std-table td:nth-of-type(8), .std-table td:nth-of-type(9) { display: none; }
+    
+    .std-table td.action-col { position: absolute; top: 26px; right: 24px; }
+    .row-arrow { color: var(--primary); font-size: 20px; }
     
     .std-btn.primary { 
-      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
-      z-index: 1000; width: calc(100% - 48px); max-width: 350px;
-      height: 60px; border-radius: 30px; font-size: 16px; font-weight: 900;
+      position: fixed; bottom: 32px; right: 32px; left: auto; transform: none;
+      z-index: 1000; width: 64px; height: 64px; border-radius: 20px;
+      padding: 0; display: grid; place-items: center; font-size: 0;
       box-shadow: 0 16px 32px rgba(var(--primary-rgb), 0.4);
     }
+    .std-btn.primary::before { content: "+"; font-size: 28px; color: white; }
+    .std-btn.primary svg { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .std-table-container { padding: 12px 16px; }
+    .std-table tbody { grid-template-columns: 1fr; }
+    .std-btn.primary { bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 18px; }
   }
 `;
