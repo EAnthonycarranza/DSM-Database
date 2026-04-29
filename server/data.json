@@ -235,6 +235,8 @@
   },
   "audit": [],
   "events": [],
+  "budget": [],
+  "donations": [],
   "forms": [
     {
       "id": "dcdae597-0dff-44aa-8f6a-211d0fa1a5fb",
