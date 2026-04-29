@@ -167,6 +167,7 @@ export default function Insights() {
   const openDonationModal = (existing = null) => {
     setModal({
       open: true,
+      type: "node",
       title: existing ? "Edit Donation" : "Add New Donation",
       node: (
         <DonationForm 
@@ -187,6 +188,7 @@ export default function Insights() {
   const openBudgetModal = (existing = null) => {
     setModal({
       open: true,
+      type: "node",
       title: existing ? "Edit Expense" : "Add New Expense",
       node: (
         <BudgetForm 
