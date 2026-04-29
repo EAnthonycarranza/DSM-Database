@@ -972,6 +972,11 @@ const api = useMemo(() => {
       await refreshStore(store);
       return saved;
     },
+    async bulkUpdate(store, items) {
+      const res = await apiRequest(`/${store}/bulk`, { method: "POST", body: JSON.stringify(items) });
+      await refreshStore(store);
+      return res;
+    },
     async del(store, id) {
       await apiRequest(`/${store}/${id}`, { method: "DELETE" });
       await refreshStore(store);

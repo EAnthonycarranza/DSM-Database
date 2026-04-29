@@ -237,9 +237,7 @@ export default function Insights() {
           if (!Array.isArray(parsed)) throw new Error("Invalid format");
           
           setLoading(true);
-          for (const item of parsed) {
-            await api.add(type, { ...item, id: crypto.randomUUID() });
-          }
+          await api.bulkUpdate(type, parsed);
           setToast({ type: "success", text: `Successfully imported ${parsed.length} records` });
           refresh();
         } catch (err) {
@@ -450,9 +448,9 @@ export default function Insights() {
               onSave={async (d, e) => {
                 setLoading(true);
                 try {
-                  // This is a bulk save
-                  await api.put("donations_bulk", d);
-                  await api.put("budget_bulk", e);
+                  // Bulk update collections
+                  await api.bulkUpdate("donations", d);
+                  await api.bulkUpdate("budget", e);
                   setToast({ type: "success", text: "Bulk changes saved successfully" });
                   refresh();
                 } catch (err) {

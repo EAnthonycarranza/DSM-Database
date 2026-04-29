@@ -2681,6 +2681,37 @@ app.put(`${API_PREFIX}/:store/:id`, async (req, res) => {
   }
 });
 
+// Bulk Update / Replace
+app.post(`${API_PREFIX}/:store/bulk`, async (req, res) => {
+  try {
+    const { store } = req.params;
+    const items = req.body;
+    if (!isValidStore(store)) return res.status(404).json({ error: "Unknown store" });
+    if (!Array.isArray(items)) return res.status(400).json({ error: "Expected array of items" });
+
+    if (USE_MONGO) {
+      const col = mongoDb.collection(store);
+      // For Mongo, we'll do a simple delete-all and insert-many for replacement
+      // or a more complex bulkWrite. Replacement is cleaner for Spreadsheet mode.
+      await col.deleteMany({});
+      if (items.length > 0) {
+        const toInsert = items.map(it => {
+          const { _id, ...rest } = it;
+          return { ...rest, id: it.id || uid(), updatedAt: Date.now(), createdAt: it.createdAt || Date.now() };
+        });
+        await col.insertMany(toInsert);
+      }
+    } else {
+      const db = await ensureDb();
+      db[store] = items.map(it => ({ ...it, id: it.id || uid(), updatedAt: Date.now(), createdAt: it.createdAt || Date.now() }));
+      await writeDb(db);
+    }
+    res.json({ success: true, count: items.length });
+  } catch (error) {
+    handleError(res, error, "Bulk operation failed");
+  }
+});
+
 // Delete item
 app.delete(`${API_PREFIX}/:store/:id`, async (req, res, next) => {
   // Documents handled by explicit route
