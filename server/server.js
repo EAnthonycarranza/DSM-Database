@@ -172,6 +172,8 @@ const STORES = [
   "settings",
   "audit",
   "events",
+  "budget",
+  "donations",
 ];
 
 const uid = () => (crypto.randomUUID ? crypto.randomUUID() : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`);
