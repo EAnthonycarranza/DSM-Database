@@ -273,20 +273,22 @@ export default function Insights() {
         </div>
       </header>
 
-      <nav className="ins-tabs">
-        <button className={activeTab === "dashboard" ? "active" : ""} onClick={() => setActiveTab("dashboard")}>
-          <FaChartBar /> Dashboard
-        </button>
-        <button className={activeTab === "donations" ? "active" : ""} onClick={() => setActiveTab("donations")}>
-          <FaDonate /> Donations
-        </button>
-        <button className={activeTab === "budget" ? "active" : ""} onClick={() => setActiveTab("budget")}>
-          <FaWallet /> Budget
-        </button>
-        <button className={activeTab === "spreadsheet" ? "active" : ""} onClick={() => setActiveTab("spreadsheet")}>
-          <FaTable /> Bulk Editor
-        </button>
-      </nav>
+      <div className="ins-tabs-wrap">
+        <nav className="ins-tabs">
+          <button className={activeTab === "dashboard" ? "active" : ""} onClick={() => setActiveTab("dashboard")}>
+            <FaChartBar /> Dashboard
+          </button>
+          <button className={activeTab === "donations" ? "active" : ""} onClick={() => setActiveTab("donations")}>
+            <FaDonate /> Donations
+          </button>
+          <button className={activeTab === "budget" ? "active" : ""} onClick={() => setActiveTab("budget")}>
+            <FaWallet /> Budget
+          </button>
+          <button className={activeTab === "spreadsheet" ? "active" : ""} onClick={() => setActiveTab("spreadsheet")}>
+            <FaTable /> Bulk Editor
+          </button>
+        </nav>
+      </div>
 
       <div className="ins-tab-content">
         {activeTab === "dashboard" && (
@@ -669,7 +671,8 @@ const INS_CSS = `
   .ins-range-selector button { padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 800; color: var(--text-muted); transition: 0.25s; }
   .ins-range-selector button.active { background: var(--surface); color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 
-  .ins-tabs { display: flex; gap: 12px; margin-bottom: 24px; padding: 0 12px; border-bottom: 2px solid var(--bg); }
+  .ins-tabs-wrap { position: relative; margin-bottom: 24px; }
+  .ins-tabs { display: flex; gap: 12px; padding: 0 12px; border-bottom: 2px solid var(--bg); }
   .ins-tabs button { padding: 14px 28px; font-size: 14px; font-weight: 800; color: var(--text-muted); display: flex; align-items: center; gap: 10px; transition: 0.3s; border-bottom: 4px solid transparent; margin-bottom: -2px; }
   .ins-tabs button.active { color: var(--primary); border-bottom-color: var(--primary); background: rgba(99, 102, 241, 0.03); }
   .ins-tabs button:hover:not(.active) { color: var(--text); background: var(--bg); border-radius: 12px 12px 0 0; }
@@ -930,11 +933,18 @@ const INS_CSS = `
     .ins-range-selector button { padding: 10px 14px; font-size: 12px; flex-shrink: 0; min-height: 40px; }
     .ins-btn { height: 40px; padding: 0 14px; font-size: 12px; flex-shrink: 0; }
 
-    /* Tabs: scroll horizontally */
+    /* Tabs: scroll horizontally with right-edge fade indicator */
+    .ins-tabs-wrap { margin-bottom: 16px; padding: 0; }
+    .ins-tabs-wrap::after {
+      content: "";
+      position: absolute; top: 0; right: 0; bottom: 6px; width: 32px;
+      background: linear-gradient(to right, transparent, var(--bg) 90%);
+      pointer-events: none; z-index: 2;
+    }
     .ins-tabs {
       overflow-x: auto; overflow-y: hidden;
       -webkit-overflow-scrolling: touch; scrollbar-width: none;
-      padding: 0 14px 4px; gap: 4px; margin-bottom: 16px;
+      padding: 0 14px 4px; gap: 4px;
     }
     .ins-tabs::-webkit-scrollbar { display: none; }
     .ins-tabs button { padding: 12px 16px; font-size: 13px; flex-shrink: 0; white-space: nowrap; min-height: 44px; }
