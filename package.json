@@ -8,8 +8,8 @@
     "heroku-postbuild": "npm install --prefix client --production=false && npm run --prefix client build"
   },
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0"
+    "node": "20.x",
+    "npm": "10.x"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.17.0",
@@ -23,7 +23,6 @@
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
     "nodemailer": "^6.9.14",
-    "npm": "^11.5.2",
     "qrcode": "^1.5.4",
     "socket.io": "^4.8.1",
     "speakeasy": "^2.0.0"
