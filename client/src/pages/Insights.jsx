@@ -705,33 +705,207 @@ const INS_CSS = `
   .ins-badge { padding: 6px 12px; background: rgba(99, 102, 241, 0.1); color: #6366f1; border-radius: 10px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
   .ins-badge.alt { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
 
-  /* Spreadsheet Styling */
-  .spreadsheet-container { background: var(--surface); border-radius: 32px; border: 1px solid var(--border); padding: 24px; box-shadow: var(--shadow); margin: 0 12px; display: flex; flex-direction: column; min-height: 600px; }
-  .sheet-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-  .sheet-controls { display: flex; align-items: center; gap: 20px; }
-  .sheet-tabs { display: flex; background: var(--bg); padding: 4px; border-radius: 12px; }
-  .sheet-tabs button { padding: 8px 20px; border-radius: 10px; font-size: 14px; font-weight: 800; color: var(--text-muted); transition: 0.2s; }
-  .sheet-tabs button.active { background: var(--surface); color: var(--primary); box-shadow: var(--shadow); }
+  /* --- Premium Form & Input Styling --- */
+  .ins-form { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 12px; }
+  .ins-form .group { display: flex; flex-direction: column; gap: 10px; position: relative; }
+  .ins-form .group.full { grid-column: 1 / -1; }
   
-  .sheet-btn { height: 44px; padding: 0 20px; border-radius: 12px; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
-  .sheet-btn.add { color: var(--primary); border: 2px solid rgba(99, 102, 241, 0.2); }
-  .sheet-btn.add:hover { background: rgba(99, 102, 241, 0.05); }
-  .sheet-btn.save { background: var(--primary); color: white; border: none; box-shadow: 0 8px 16px rgba(99, 102, 241, 0.25); }
-  .sheet-btn.save:hover { transform: translateY(-2px); box-shadow: 0 12px 20px rgba(99, 102, 241, 0.35); }
+  .ins-form label { 
+    font-size: 12px; 
+    font-weight: 800; 
+    text-transform: uppercase; 
+    color: var(--primary); 
+    letter-spacing: 1.2px; 
+    margin-left: 2px;
+    opacity: 0.8;
+  }
+  
+  .ins-form input, .ins-form select, .ins-form textarea { 
+    padding: 14px 18px; 
+    border-radius: 16px; 
+    border: 2px solid var(--border); 
+    background: white; 
+    font-weight: 600; 
+    font-size: 15px; 
+    color: var(--text);
+    outline: none; 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
 
-  .sheet-viewport { flex: 1; overflow: auto; border: 1px solid var(--border); border-radius: 16px; background: var(--bg); }
+  .ins-form input:focus, .ins-form select:focus, .ins-form textarea:focus { 
+    border-color: var(--primary); 
+    background: white;
+    box-shadow: 0 0 0 4px rgba(123, 31, 44, 0.1), 0 8px 20px rgba(0,0,0,0.05);
+    transform: translateY(-1px);
+  }
+
+  .ins-form select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%237B1F2C' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; background-size: 18px; padding-right: 45px; }
+
+  .ins-form textarea { min-height: 120px; resize: vertical; line-height: 1.6; }
+
+  .ins-form-footer { 
+    grid-column: 1 / -1; 
+    display: flex; 
+    justify-content: flex-end; 
+    gap: 16px; 
+    padding-top: 24px; 
+    margin-top: 12px; 
+    border-top: 1px solid var(--border); 
+  }
+
+  /* --- Enhanced Spreadsheet Editor --- */
+  .spreadsheet-container { 
+    background: white; 
+    border-radius: 32px; 
+    border: 1px solid var(--border); 
+    padding: 28px; 
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08); 
+    margin: 0 12px; 
+    display: flex; 
+    flex-direction: column; 
+    min-height: 650px; 
+  }
+  
+  .sheet-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+  .sheet-controls { display: flex; align-items: center; gap: 24px; }
+  
+  .sheet-tabs { 
+    display: flex; 
+    background: #f1f5f9; 
+    padding: 5px; 
+    border-radius: 14px; 
+    border: 1px solid #e2e8f0;
+  }
+  
+  .sheet-tabs button { 
+    padding: 10px 24px; 
+    border-radius: 10px; 
+    font-size: 14px; 
+    font-weight: 800; 
+    color: #64748b; 
+    transition: all 0.2s ease; 
+  }
+  
+  .sheet-tabs button.active { 
+    background: white; 
+    color: var(--primary); 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+  }
+  
+  .sheet-btn { 
+    height: 48px; 
+    padding: 0 24px; 
+    border-radius: 14px; 
+    font-weight: 800; 
+    font-size: 14px; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    transition: all 0.3s ease; 
+  }
+  
+  .sheet-btn.add { 
+    color: var(--primary); 
+    background: rgba(123, 31, 44, 0.05);
+    border: 1px solid rgba(123, 31, 44, 0.2); 
+  }
+  .sheet-btn.add:hover { 
+    background: rgba(123, 31, 44, 0.1); 
+    transform: scale(1.02);
+  }
+  
+  .sheet-btn.save { 
+    background: var(--primary); 
+    color: white; 
+    border: none; 
+    box-shadow: 0 8px 20px rgba(123, 31, 44, 0.3); 
+  }
+  .sheet-btn.save:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 12px 28px rgba(123, 31, 44, 0.4); 
+    filter: brightness(1.1);
+  }
+
+  .sheet-viewport { 
+    flex: 1; 
+    overflow: auto; 
+    border: 1px solid #e2e8f0; 
+    border-radius: 20px; 
+    background: #f8fafc; 
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
+  }
+  
   .dsm-spreadsheet { width: 100%; border-collapse: separate; border-spacing: 0; }
-  .dsm-spreadsheet th { position: sticky; top: 0; z-index: 10; background: #f8fafc; padding: 12px 16px; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; text-align: left; font-size: 12px; font-weight: 800; color: #64748b; text-transform: uppercase; }
-  .dsm-spreadsheet td { padding: 0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; background: white; }
-  .dsm-spreadsheet tr:hover td { background: #f1f5f9; }
-  .dsm-spreadsheet input { width: 100%; height: 44px; border: none; padding: 0 16px; background: transparent; font-size: 15px; font-weight: 500; color: var(--text); outline: none; }
-  .dsm-spreadsheet input:focus { background: white; box-shadow: inset 0 0 0 2px var(--primary); z-index: 5; }
-  .dsm-spreadsheet .row-num { width: 40px; background: #f8fafc; text-align: center; font-size: 11px; font-weight: 800; color: #94a3b8; }
-  .dsm-spreadsheet .sheet-actions { width: 50px; text-align: center; }
-  .dsm-spreadsheet .sheet-actions button { color: #94a3b8; padding: 10px; transition: 0.2s; }
-  .dsm-spreadsheet .sheet-actions button:hover { color: #ef4444; background: #fee2e2; border-radius: 8px; }
+  .dsm-spreadsheet th { 
+    position: sticky; 
+    top: 0; 
+    z-index: 10; 
+    background: #f1f5f9; 
+    padding: 14px 20px; 
+    border-right: 1px solid #e2e8f0; 
+    border-bottom: 2px solid #e2e8f0; 
+    text-align: left; 
+    font-size: 11px; 
+    font-weight: 900; 
+    color: #475569; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;
+  }
+  
+  .dsm-spreadsheet td { 
+    padding: 0; 
+    border-right: 1px solid #e2e8f0; 
+    border-bottom: 1px solid #e2e8f0; 
+    background: white; 
+  }
+  
+  .dsm-spreadsheet tr:hover td { background: #fdfdfd; }
+  
+  .dsm-spreadsheet input { 
+    width: 100%; 
+    height: 52px; 
+    border: none; 
+    padding: 0 20px; 
+    background: transparent; 
+    font-size: 15px; 
+    font-weight: 600; 
+    color: #1e293b; 
+    outline: none; 
+    transition: background 0.2s;
+  }
+  
+  .dsm-spreadsheet input:focus { 
+    background: #fff; 
+    box-shadow: inset 0 0 0 2px var(--primary); 
+    z-index: 5; 
+    position: relative;
+  }
+  
+  .dsm-spreadsheet .row-num { 
+    width: 50px; 
+    background: #f1f5f9; 
+    text-align: center; 
+    font-size: 12px; 
+    font-weight: 900; 
+    color: #94a3b8; 
+    border-right: 2px solid #e2e8f0;
+  }
+  
+  .dsm-spreadsheet .sheet-actions { width: 60px; text-align: center; }
+  .dsm-spreadsheet .sheet-actions button { 
+    color: #cbd5e1; 
+    padding: 12px; 
+    transition: all 0.2s; 
+    border-radius: 12px;
+  }
+  .dsm-spreadsheet .sheet-actions button:hover { 
+    color: #ef4444; 
+    background: #fee2e2; 
+    transform: scale(1.1);
+  }
 
-  .sheet-footer { padding: 16px; font-size: 13px; color: var(--text-muted); font-weight: 600; text-align: center; }
+  .sheet-footer { padding: 20px; font-size: 13px; color: #64748b; font-weight: 700; text-align: center; letter-spacing: 0.3px; }
 
   @media (max-width: 768px) {
     .ins-page { padding: 0; }
