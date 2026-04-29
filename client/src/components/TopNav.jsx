@@ -342,7 +342,6 @@ export default function TopNav() {
             </NavLink>
           ))}
           
-          ))}
           
           <div className="dsm-dropdown-label" style={{ padding: '0 16px', marginTop: 24 }}>Preferences</div>
           <NavLink to="/admin/settings" className="dsm-mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
