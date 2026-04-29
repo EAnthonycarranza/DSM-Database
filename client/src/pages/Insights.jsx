@@ -557,6 +557,7 @@ function SpreadsheetEditor({ donations, expenses, onSave }) {
         <button className="sheet-btn save" onClick={handleSave}><FaSave /> Commit Changes</button>
       </div>
 
+      <div className="sheet-viewport-hint">← swipe to see all columns →</div>
       <div className="sheet-viewport">
         <table className="dsm-spreadsheet">
           <thead>
@@ -662,7 +663,8 @@ function BudgetForm({ existing, onSave, onClose }) {
 /* ---------------- Styles ---------------- */
 
 const INS_CSS = `
-  .ins-page { padding: 12px 0; max-width: 1400px; margin: 0 auto; min-height: 100vh; }
+  .ins-page { padding: 12px 0; max-width: 1400px; margin: 0 auto; min-height: 100vh; min-width: 0; overflow-x: hidden; }
+  .ins-tab-content, .ins-view { min-width: 0; max-width: 100%; }
   .ins-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding: 0 12px; }
   .ins-title { font-size: 34px; font-weight: 900; margin: 0; color: var(--text); letter-spacing: -1.2px; }
   .ins-subtitle { color: var(--text-muted); margin: 4px 0 0; font-size: 16px; font-weight: 500; }
@@ -758,16 +760,19 @@ const INS_CSS = `
   }
 
   /* --- Enhanced Spreadsheet Editor --- */
-  .spreadsheet-container { 
-    background: white; 
-    border-radius: 32px; 
-    border: 1px solid var(--border); 
-    padding: 28px; 
-    box-shadow: 0 20px 50px rgba(0,0,0,0.08); 
-    margin: 0 12px; 
-    display: flex; 
-    flex-direction: column; 
-    min-height: 650px; 
+  .spreadsheet-container {
+    background: white;
+    border-radius: 32px;
+    border: 1px solid var(--border);
+    padding: 28px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+    margin: 0 12px;
+    display: flex;
+    flex-direction: column;
+    min-height: 650px;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   
   .sheet-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
@@ -910,6 +915,9 @@ const INS_CSS = `
 
   .sheet-footer { padding: 20px; font-size: 13px; color: #64748b; font-weight: 700; text-align: center; letter-spacing: 0.3px; }
 
+  /* Mobile-only swipe hint above the spreadsheet viewport */
+  .sheet-viewport-hint { display: none; }
+
   @media (max-width: 1024px) {
     .ins-stat-row { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 0 8px; }
     .ins-grid { grid-template-columns: 1fr; padding: 0 8px; gap: 18px; }
@@ -919,43 +927,58 @@ const INS_CSS = `
   @media (max-width: 768px) {
     .ins-page { padding: 0; }
 
-    .ins-header { flex-direction: column; align-items: stretch; gap: 14px; padding: 0 14px; margin-bottom: 16px; }
+    .ins-header { flex-direction: column; align-items: stretch; gap: 12px; padding: 14px 14px 0; margin-bottom: 12px; text-align: left; }
     .ins-title { font-size: 22px; letter-spacing: -0.5px; }
     .ins-subtitle { font-size: 13px; }
 
-    /* Range pills + sync btn on one scroll row */
-    .ins-actions { display: flex; gap: 10px; }
-    .ins-range-selector {
-      flex: 1; min-width: 0; overflow-x: auto;
-      -webkit-overflow-scrolling: touch; scrollbar-width: none;
-    }
-    .ins-range-selector::-webkit-scrollbar { display: none; }
-    .ins-range-selector button { padding: 10px 14px; font-size: 12px; flex-shrink: 0; min-height: 40px; }
-    .ins-btn { height: 40px; padding: 0 14px; font-size: 12px; flex-shrink: 0; }
+    /* Range pills + sync btn on one row */
+    .ins-actions { display: flex; gap: 8px; align-items: center; }
+    .ins-range-selector { flex: 1; min-width: 0; padding: 3px; }
+    .ins-range-selector button { flex: 1; padding: 8px 4px; font-size: 12px; min-height: 38px; }
+    .ins-btn { height: 38px; padding: 0 12px; font-size: 12px; flex-shrink: 0; }
 
-    /* Tabs: scroll horizontally with right-edge fade indicator */
-    .ins-tabs-wrap { margin-bottom: 16px; padding: 0; }
-    .ins-tabs-wrap::after {
-      content: "";
-      position: absolute; top: 0; right: 0; bottom: 6px; width: 32px;
-      background: linear-gradient(to right, transparent, var(--bg) 90%);
-      pointer-events: none; z-index: 2;
-    }
+    /* Tabs: 2x2 grid so all 4 are visible at once on iPhone */
+    .ins-tabs-wrap { margin-bottom: 14px; padding: 0; border-bottom: 1px solid var(--border); }
+    .ins-tabs-wrap::after { display: none; }
     .ins-tabs {
-      overflow-x: auto; overflow-y: hidden;
-      -webkit-overflow-scrolling: touch; scrollbar-width: none;
-      padding: 0 14px 4px; gap: 4px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0; padding: 0 14px;
+      border-bottom: none;
+      overflow: visible;
     }
-    .ins-tabs::-webkit-scrollbar { display: none; }
-    .ins-tabs button { padding: 12px 16px; font-size: 13px; flex-shrink: 0; white-space: nowrap; min-height: 44px; }
+    .ins-tabs button {
+      padding: 12px 8px; font-size: 13px;
+      min-height: 46px; gap: 8px;
+      border-bottom: 3px solid transparent;
+      justify-content: center;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .ins-tabs button.active { background: var(--primary-soft); border-radius: 10px 10px 0 0; }
 
-    /* Stats: 2-up, compact */
-    .ins-stat-row { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 14px; margin-bottom: 18px; }
-    .ins-stat-card { padding: 14px 12px; gap: 12px; border-radius: 18px; }
+    /* Stats: 2-up grid even on iPhone, super compact */
+    .ins-stat-row {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px; padding: 0 14px; margin-bottom: 14px;
+    }
+    .ins-stat-card {
+      padding: 12px 12px; gap: 10px; border-radius: 14px;
+      flex-direction: row; align-items: center;
+      min-height: 60px;
+    }
     .ins-stat-card:hover { transform: none; }
-    .ins-stat-icon { width: 42px; height: 42px; font-size: 17px; border-radius: 12px; box-shadow: none; }
-    .ins-stat-label { font-size: 10px; letter-spacing: 0.4px; }
-    .ins-stat-value { font-size: 18px; margin-top: 2px; }
+    .ins-stat-icon {
+      width: 36px; height: 36px; font-size: 14px;
+      border-radius: 10px; box-shadow: none; flex-shrink: 0;
+    }
+    .ins-stat-label {
+      font-size: 9px; letter-spacing: 0.3px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .ins-stat-value {
+      font-size: 16px; margin-top: 2px; line-height: 1.1;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .ins-stat-card > div:last-child { min-width: 0; flex: 1; }
 
     /* Charts/cards single column */
     .ins-grid { grid-template-columns: 1fr; padding: 0 14px; gap: 14px; }
@@ -1005,30 +1028,120 @@ const INS_CSS = `
     }
     .ins-form-footer button { width: 100%; min-height: 48px; }
 
-    /* Spreadsheet: horizontal scroll, smaller cells */
-    .spreadsheet-container { padding: 12px; margin: 0 14px; border-radius: 18px; min-height: 0; box-shadow: var(--shadow); }
-    .sheet-header { flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 14px; }
-    .sheet-controls { flex-direction: column; gap: 10px; }
-    .sheet-tabs { width: 100%; padding: 4px; }
+    /* Spreadsheet on phones: horizontal scroll with proper column widths */
+    .spreadsheet-container { padding: 10px; margin: 0 14px; border-radius: 16px; min-height: 0; box-shadow: var(--shadow); }
+    .sheet-header { flex-direction: column; align-items: stretch; gap: 10px; margin-bottom: 12px; }
+    .sheet-controls { flex-direction: column; gap: 8px; }
+    .sheet-tabs { width: 100%; padding: 3px; }
     .sheet-tabs button { flex: 1; padding: 10px 12px; font-size: 13px; min-height: 40px; }
-    .sheet-btn { width: 100%; justify-content: center; min-height: 46px; }
-    .sheet-viewport { border-radius: 12px; }
+    .sheet-btn { width: 100%; justify-content: center; min-height: 46px; font-size: 13px; }
+
+    /* The viewport scrolls; force the table to its natural min-width so columns aren't crushed */
+    .sheet-viewport {
+      border-radius: 12px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .dsm-spreadsheet { min-width: 720px; table-layout: fixed; }
+
+    /* Sticky # column for orientation while scrolling */
+    .dsm-spreadsheet th.row-num,
+    .dsm-spreadsheet td.row-num {
+      position: sticky; left: 0; z-index: 6;
+      width: 40px; min-width: 40px;
+      background: #f1f5f9;
+      box-shadow: 1px 0 0 #e2e8f0;
+      font-size: 11px;
+    }
+
+    /* Sticky delete column on the right */
+    .dsm-spreadsheet th.sheet-actions,
+    .dsm-spreadsheet td.sheet-actions {
+      position: sticky; right: 0; z-index: 6;
+      width: 48px; min-width: 48px;
+      background: white;
+      box-shadow: -1px 0 0 #e2e8f0;
+    }
+    .dsm-spreadsheet th.sheet-actions { background: #f1f5f9; }
+
+    /* Per-column widths for the editable cells */
     .dsm-spreadsheet th { padding: 10px 12px; font-size: 10px; }
-    .dsm-spreadsheet input { height: 44px; padding: 0 12px; font-size: 13px; }
-    .dsm-spreadsheet .row-num { width: 36px; font-size: 11px; }
-    .dsm-spreadsheet .sheet-actions { width: 44px; }
+    .dsm-spreadsheet th:nth-child(2) { min-width: 160px; } /* Donor / Item */
+    .dsm-spreadsheet th:nth-child(3) { min-width: 100px; } /* Amount */
+    .dsm-spreadsheet th:nth-child(4) { min-width: 130px; } /* Date */
+    .dsm-spreadsheet th:nth-child(5) { min-width: 130px; } /* Category */
+    .dsm-spreadsheet th:nth-child(6) { min-width: 200px; } /* Notes */
+
+    .dsm-spreadsheet input {
+      height: 46px; padding: 0 12px;
+      font-size: 16px; /* prevent iOS zoom on focus */
+      font-weight: 600;
+    }
+    .dsm-spreadsheet .sheet-actions button {
+      width: 36px; height: 36px;
+      font-size: 14px;
+    }
+
+    .sheet-footer { padding: 14px 6px; font-size: 12px; }
+
+    /* Dark-mode adjustments for sticky columns */
+    :root[data-theme="dark"] .dsm-spreadsheet th.row-num,
+    :root[data-theme="dark"] .dsm-spreadsheet td.row-num { background: var(--surface-2); box-shadow: 1px 0 0 var(--border); }
+    :root[data-theme="dark"] .dsm-spreadsheet td.sheet-actions { background: var(--surface); box-shadow: -1px 0 0 var(--border); }
+    :root[data-theme="dark"] .dsm-spreadsheet th.sheet-actions { background: var(--surface-2); box-shadow: -1px 0 0 var(--border); }
+
+    /* Hint text above the viewport so users know to swipe */
+    .sheet-viewport-hint {
+      display: block;
+      font-size: 11px; font-weight: 700;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 6px 0 8px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
   }
 
   @media (max-width: 480px) {
-    .ins-header { padding: 0 10px; }
+    .ins-header { padding: 12px 12px 0; gap: 10px; margin-bottom: 10px; }
     .ins-title { font-size: 19px; }
-    .ins-stat-row { grid-template-columns: 1fr; padding: 0 10px; }
-    .ins-tabs { padding: 0 10px 4px; }
-    .ins-grid, .ins-action-header, .ins-table-container, .spreadsheet-container { padding-left: 10px; padding-right: 10px; margin-left: 0; margin-right: 0; }
-    .ins-card { padding: 16px 14px; border-radius: 16px; }
-    .ins-stat-card { padding: 12px 10px; }
-    .ins-stat-icon { width: 38px; height: 38px; font-size: 15px; }
-    .ins-stat-value { font-size: 16px; }
-    .ins-stat-label { font-size: 9px; }
+    .ins-subtitle { font-size: 12px; }
+
+    /* Keep stats 2-up on iPhone for density */
+    .ins-stat-row { grid-template-columns: repeat(2, 1fr); gap: 7px; padding: 0 12px; margin-bottom: 12px; }
+    .ins-stat-card { padding: 10px; gap: 8px; border-radius: 12px; min-height: 56px; }
+    .ins-stat-icon { width: 32px; height: 32px; font-size: 13px; border-radius: 9px; }
+    .ins-stat-value { font-size: 14px; }
+    .ins-stat-label { font-size: 9px; letter-spacing: 0.2px; }
+
+    /* Tabs: still 2x2 grid, tighter */
+    .ins-tabs { padding: 0 12px; }
+    .ins-tabs button { padding: 10px 6px; font-size: 12px; gap: 6px; min-height: 44px; }
+    .ins-tabs button svg { font-size: 13px; flex-shrink: 0; }
+
+    /* Action / range selector */
+    .ins-actions { gap: 6px; }
+    .ins-range-selector button { padding: 8px 2px; font-size: 11px; min-height: 36px; }
+    .ins-btn { height: 36px; padding: 0 10px; font-size: 11px; }
+    .ins-btn svg { font-size: 12px; }
+
+    /* Charts/cards full bleed */
+    .ins-grid, .ins-action-header { padding: 0 12px; gap: 12px; }
+    .ins-table-container, .spreadsheet-container { margin: 0 12px; }
+    .ins-card { padding: 14px 12px; border-radius: 14px; }
+    .ins-card-head { margin-bottom: 12px; }
+    .ins-card-head h3 { font-size: 14px; gap: 8px; }
+    .ins-card-head span { font-size: 9px; letter-spacing: 0.4px; }
+
+    /* Chart canvas height shorter on iPhone */
+    .chart-box-outer { height: 220px !important; }
+  }
+
+  @media (max-width: 380px) {
+    .ins-tabs button .ins-tab-text,
+    .ins-tabs button span:not(.ins-badge) {
+      font-size: 11px;
+    }
+    .chart-box-outer { height: 200px !important; }
   }
 `;
