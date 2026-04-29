@@ -334,15 +334,36 @@ export default function TopNav() {
           <button className="dsm-close-btn" onClick={() => setMobileMenuOpen(false)}><FaTimes /></button>
         </div>
         <nav className="dsm-mobile-nav">
-          <div className="dsm-dropdown-label" style={{ padding: '0 16px', marginTop: 12 }}>Main Navigation</div>
+          <div className="dsm-dropdown-label" style={{ padding: '0 16px', marginTop: 12 }}>Workspace</div>
           {NAV_ITEMS.map(it => (
             <NavLink key={it.to} to={it.to} className="dsm-mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
               <it.icon /> <span>{it.label}</span>
               <FaChevronRight className="arrow" />
             </NavLink>
           ))}
-          
-          
+
+          <div className="dsm-dropdown-label" style={{ padding: '0 16px', marginTop: 24 }}>Forms &amp; Teams</div>
+          <NavLink to="/admin/forms" className="dsm-mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
+            <FaClipboardList /> <span>Forms</span>
+            <FaChevronRight className="arrow" />
+          </NavLink>
+          <NavLink to="/admin/form-builder" className="dsm-mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
+            <FaPenNib /> <span>Form Builder</span>
+            <FaChevronRight className="arrow" />
+          </NavLink>
+          <NavLink to="/admin/teams" className="dsm-mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
+            <FaUserFriends /> <span>Teams</span>
+            <FaChevronRight className="arrow" />
+          </NavLink>
+
+          <div className="dsm-dropdown-label" style={{ padding: '0 16px', marginTop: 24 }}>More Tools</div>
+          {MGMT_ITEMS.filter(it => !["/admin/forms", "/admin/form-builder", "/admin/teams"].includes(it.to)).map(it => (
+            <NavLink key={it.to} to={it.to} className="dsm-mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
+              <it.icon /> <span>{it.label}</span>
+              <FaChevronRight className="arrow" />
+            </NavLink>
+          ))}
+
           <div className="dsm-dropdown-label" style={{ padding: '0 16px', marginTop: 24 }}>Preferences</div>
           <NavLink to="/admin/settings" className="dsm-mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
             <FaCog /> <span>Settings</span>

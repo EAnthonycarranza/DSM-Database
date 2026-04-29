@@ -452,103 +452,183 @@ const STD_CSS = `
 
   @media (max-width: 1100px) {
     .std-page { padding: 0; background: var(--bg); }
-    .std-roster-section { margin-bottom: 20px; padding-top: 12px; }
-    .std-section-head { padding: 0 24px; }
-    .std-roster-scroll { padding: 8px 24px 20px; gap: 16px; }
-    .std-chip { flex: 0 0 240px; }
-    
+    .std-roster-section { margin-bottom: 16px; padding-top: 12px; }
+    .std-section-head { padding: 0 16px; margin-bottom: 14px; }
+    .head-left h3 { font-size: 18px; }
+    .head-left span { font-size: 12px; padding: 3px 10px; }
+    .std-roster-scroll { padding: 6px 16px 14px; gap: 12px; }
+    .std-chip { flex: 0 0 200px; padding: 12px 14px; border-radius: 16px; box-shadow: var(--shadow); }
+    .std-chip:hover { transform: none; }
+    .std-chip-av { width: 42px; height: 42px; border-radius: 12px; font-size: 14px; }
+    .std-chip-name { font-size: 14px; max-width: 130px; overflow: hidden; text-overflow: ellipsis; }
+    .std-chip-status { font-size: 11px; }
+
     .std-add-btn span { display: none; }
-    .std-add-btn { width: 52px; height: 52px; padding: 0; display: grid; place-items: center; border-radius: 16px; }
+    .std-add-btn { width: 44px; height: 44px; padding: 0; display: grid; place-items: center; border-radius: 14px; flex-shrink: 0; }
 
     .std-workspace-card { border-radius: 0; border: none; background: transparent; box-shadow: none; }
-    .std-toolbar { 
-      background: var(--surface); border-bottom: 2px solid var(--border); 
-      position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-      padding: 20px 24px; gap: 16px;
+    .std-toolbar {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      padding: 14px 16px; gap: 10px;
     }
-    
-    .std-search { min-width: 100%; order: 1; }
-    .std-actions { width: 100%; order: 2; overflow-x: auto; padding-bottom: 4px; gap: 12px; }
-    .std-actions::-webkit-scrollbar { display: none; }
-    .std-btn { height: 48px; padding: 0 20px; font-size: 13px; flex-shrink: 0; }
 
-    .std-table-container { padding: 16px 24px; overflow: visible; }
+    .std-search { min-width: 0; width: 100%; order: 1; }
+    .std-search input { padding: 12px 14px 12px 44px; font-size: 16px; border-radius: 14px; min-height: 46px; }
+    .std-search svg { left: 16px; font-size: 16px; }
+
+    .std-actions { width: 100%; order: 2; gap: 8px; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+    .std-actions::-webkit-scrollbar { display: none; }
+    .std-btn { height: 42px; padding: 0 14px; font-size: 12px; flex-shrink: 0; border-radius: 12px; gap: 6px; }
+    .std-btn-group { border-radius: 12px; border-width: 1px; }
+    .std-btn-group .std-btn { border-right-width: 1px; }
+
+    /* Convert table to a card list */
+    .std-table-container { padding: 12px 16px; overflow: visible; }
     .std-table { display: block; min-width: 0; }
     .std-table thead { display: none; }
-    .std-table tbody { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-      gap: 16px; 
+    .std-table tbody {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
     }
-    
+
     @media (max-width: 700px) {
       .std-table tbody { grid-template-columns: 1fr; }
     }
 
     .std-table tbody tr {
-      display: block; background: var(--surface); border-radius: 24px; 
-      border: 2px solid var(--border); padding: 24px; 
-      position: relative; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: block; background: var(--surface); border-radius: 18px;
+      border: 1px solid var(--border); padding: 16px 18px;
+      position: relative; transition: border-color 0.2s;
       box-shadow: var(--shadow);
     }
-    .std-table tbody tr:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+    .std-table tbody tr:hover { transform: none; box-shadow: var(--shadow); border-color: var(--primary); }
     .std-table tbody tr.selected { border-color: var(--primary); background: var(--primary-soft); }
-    
-    .std-table td { display: block; padding: 0; border: none; }
-    .std-table td.select-col { position: absolute; top: 24px; left: 24px; z-index: 2; width: auto; }
-    .std-table td.name-cell { margin-left: 48px; margin-bottom: 20px; }
-    .std-table td.name-cell .main-text { font-size: 18px; letter-spacing: -0.5px; }
-    
-    .std-table td:nth-of-type(3) { margin-bottom: 20px; }
-    
+
+    .std-table td { display: block; padding: 0; border: none; font-size: 13px; }
+
+    /* Checkbox absolute top-left */
+    .std-table td.select-col {
+      position: absolute; top: 16px; left: 16px; z-index: 2; width: auto;
+    }
+    .std-table td.select-col input { width: 18px; height: 18px; }
+
+    /* Name + email get top spot */
+    .std-table td.name-cell { margin-left: 32px; margin-right: 36px; margin-bottom: 12px; }
+    .std-table td.name-cell .main-text { font-size: 16px; font-weight: 800; line-height: 1.2; }
+    .std-table td.name-cell .sub-text { font-size: 12px; margin-top: 2px; }
+
+    /* Status badge sits inline below name */
+    .std-table td:nth-of-type(3) {
+      margin-left: 32px; margin-bottom: 14px;
+      padding-bottom: 14px; border-bottom: 1px solid var(--border) !important;
+    }
+
+    /* Data rows: label : value */
     .std-table td:nth-of-type(4),
     .std-table td:nth-of-type(5),
+    .std-table td:nth-of-type(6),
     .std-table td:nth-of-type(7),
-    .std-table td:nth-of-type(10) { 
+    .std-table td:nth-of-type(8),
+    .std-table td:nth-of-type(9),
+    .std-table td:nth-of-type(10) {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 12px; font-size: 13px; font-weight: 600; color: var(--text-muted);
+      gap: 12px; padding: 6px 0;
+      font-size: 13px; font-weight: 600; color: var(--text);
+    }
+    .std-table td:nth-of-type(4)::before,
+    .std-table td:nth-of-type(5)::before,
+    .std-table td:nth-of-type(6)::before,
+    .std-table td:nth-of-type(7)::before,
+    .std-table td:nth-of-type(8)::before,
+    .std-table td:nth-of-type(9)::before,
+    .std-table td:nth-of-type(10)::before {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      flex-shrink: 0;
     }
     .std-table td:nth-of-type(4)::before { content: "Phase"; }
-    .std-table td:nth-of-type(5)::before { content: "Intake Date"; }
-    .std-table td:nth-child(7)::before { content: "Program Duration"; }
-    .std-table td:nth-child(10)::before { content: "Files & Photos"; }
+    .std-table td:nth-of-type(5)::before { content: "Intake"; }
+    .std-table td:nth-of-type(6)::before { content: "Graduated"; }
+    .std-table td:nth-of-type(7)::before { content: "Time in Program"; }
+    .std-table td:nth-of-type(8)::before { content: "App / Bg"; }
+    .std-table td:nth-of-type(9)::before { content: "Dorm"; }
+    .std-table td:nth-of-type(10)::before { content: "Files"; }
 
-    .std-table td:nth-child(6), .std-table td:nth-child(8), .std-table td:nth-child(9) { display: none; }
-    
-    .std-table td.action-col { position: absolute; top: 26px; right: 24px; }
-    .row-arrow { color: var(--primary); font-size: 20px; }
+    /* Right-align values */
+    .std-table td:nth-of-type(4) > *,
+    .std-table td:nth-of-type(8) > *,
+    .std-table td:nth-of-type(9) > * {
+      text-align: right;
+    }
+
+    /* App / Bg cell: stack the two lines on the right */
+    .std-table td:nth-of-type(8) .main-text,
+    .std-table td:nth-of-type(8) .sub-text { line-height: 1.3; }
+    .std-table td:nth-of-type(8) .sub-text { font-size: 11px; margin-top: 0; }
+
+    /* Dorm cell: single-line text */
+    .std-table td:nth-of-type(9) .main-text { font-size: 13px; font-weight: 700; }
+    .std-table td:nth-of-type(9) .sub-text { display: none; } /* hide squad subline */
+
+    /* Files: small badges right-aligned */
+    .std-table td:nth-of-type(10) .doc-count { gap: 6px; }
+    .std-table td:nth-of-type(10) .doc-count span { padding: 2px 6px; font-size: 11px; }
+
+    /* Hide arrow on mobile cards (whole card is tappable) */
+    .std-table td.action-col { display: none; }
+
+    /* Empty graduation/etc — hide that row entirely */
+    .std-table td:nth-of-type(6):empty,
+    .std-table td:nth-of-type(8):empty { display: none; }
   }
 
   @media (max-width: 480px) {
-    .std-section-head { padding: 0 16px; margin-bottom: 16px; }
-    .head-left h3 { font-size: 20px; }
-    .std-add-btn { width: 48px; height: 48px; border-radius: 14px; }
+    .std-section-head { padding: 0 12px; margin-bottom: 12px; }
+    .head-left h3 { font-size: 17px; }
 
-    .std-roster-scroll { padding: 8px 16px 20px; gap: 12px; }
-    .std-chip { flex: 0 0 200px; padding: 14px 16px; border-radius: 20px; }
-    .std-chip-av { width: 44px; height: 44px; border-radius: 14px; font-size: 14px; }
-    .std-chip-name { font-size: 14px; }
+    .std-roster-scroll { padding: 6px 12px 12px; gap: 10px; }
+    .std-chip { flex: 0 0 180px; padding: 10px 12px; border-radius: 14px; }
+    .std-chip-av { width: 38px; height: 38px; border-radius: 10px; font-size: 13px; }
+    .std-chip-name { font-size: 13px; max-width: 110px; }
+    .std-chip-status { font-size: 10px; }
 
-    .std-toolbar { padding: 16px; gap: 12px; }
-    .std-search input { padding: 12px 16px 12px 44px; font-size: 14px; border-radius: 14px; }
-    .std-search svg { left: 16px; font-size: 16px; }
-    
-    .std-actions { gap: 8px; }
-    .std-btn { height: 44px; padding: 0 16px; font-size: 12px; border-radius: 14px; }
+    .std-toolbar { padding: 12px 14px; gap: 8px; }
+    .std-search input { padding: 11px 14px 11px 42px; min-height: 44px; }
+    .std-btn { height: 40px; padding: 0 12px; font-size: 12px; }
 
-    .std-table-container { padding: 12px 16px; }
-    .std-table tbody tr { padding: 20px; border-radius: 22px; }
-    .std-table td.select-col { top: 20px; left: 20px; }
-    .std-table td.name-cell { margin-left: 44px; margin-bottom: 16px; }
-    .std-table td.name-cell .main-text { font-size: 16px; }
-    .std-table td.name-cell .sub-text { font-size: 12px; }
-    
-    .std-table td:nth-of-type(4), .std-table td:nth-of-type(5), 
-    .std-table td:nth-of-type(7), .std-table td:nth-of-type(10) {
-      font-size: 12px; margin-bottom: 10px;
+    .std-table-container { padding: 10px 12px; }
+    .std-table tbody { gap: 10px; }
+    .std-table tbody tr { padding: 14px 16px; border-radius: 16px; }
+    .std-table td.select-col { top: 14px; left: 14px; }
+    .std-table td.name-cell { margin-left: 28px; margin-right: 8px; margin-bottom: 10px; }
+    .std-table td.name-cell .main-text { font-size: 15px; }
+    .std-table td:nth-of-type(3) {
+      margin-left: 28px; margin-bottom: 12px; padding-bottom: 12px;
     }
-    
-    .std-table td.action-col { top: 22px; right: 20px; }
-    .row-arrow { font-size: 18px; }
+
+    .std-table td:nth-of-type(4),
+    .std-table td:nth-of-type(5),
+    .std-table td:nth-of-type(6),
+    .std-table td:nth-of-type(7),
+    .std-table td:nth-of-type(8),
+    .std-table td:nth-of-type(9),
+    .std-table td:nth-of-type(10) {
+      padding: 5px 0; font-size: 12px;
+    }
+    .std-table td:nth-of-type(4)::before,
+    .std-table td:nth-of-type(5)::before,
+    .std-table td:nth-of-type(6)::before,
+    .std-table td:nth-of-type(7)::before,
+    .std-table td:nth-of-type(8)::before,
+    .std-table td:nth-of-type(9)::before,
+    .std-table td:nth-of-type(10)::before {
+      font-size: 10px;
+    }
   }
 `;

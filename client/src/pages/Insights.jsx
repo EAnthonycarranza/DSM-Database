@@ -907,23 +907,118 @@ const INS_CSS = `
 
   .sheet-footer { padding: 20px; font-size: 13px; color: #64748b; font-weight: 700; text-align: center; letter-spacing: 0.3px; }
 
+  @media (max-width: 1024px) {
+    .ins-stat-row { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 0 8px; }
+    .ins-grid { grid-template-columns: 1fr; padding: 0 8px; gap: 18px; }
+    .ins-card { padding: 24px; }
+  }
+
   @media (max-width: 768px) {
     .ins-page { padding: 0; }
-    .ins-header { flex-direction: column; align-items: stretch; gap: 16px; text-align: center; }
-    .ins-tabs { overflow-x: auto; padding-bottom: 4px; }
-    .ins-tabs button { padding: 12px 18px; font-size: 13px; }
-    .ins-stat-row { grid-template-columns: 1fr 1fr; gap: 12px; }
-    .ins-stat-card { padding: 20px 16px; gap: 12px; }
-    .ins-stat-icon { width: 48px; height: 48px; font-size: 20px; border-radius: 14px; }
-    .ins-stat-value { font-size: 22px; }
-    .ins-grid { grid-template-columns: 1fr; }
-    .ins-modern-table th:nth-child(3), .ins-modern-table td:nth-child(3),
-    .ins-modern-table th:nth-child(5), .ins-modern-table td:nth-child(5) { display: none; }
-    .spreadsheet-container { padding: 12px; margin: 0; border-radius: 0; }
-    .sheet-header { flex-direction: column; gap: 16px; }
-    .sheet-controls { width: 100%; flex-direction: column; }
-    .sheet-tabs { width: 100%; }
-    .sheet-tabs button { flex: 1; }
-    .sheet-btn { width: 100%; justify-content: center; }
+
+    .ins-header { flex-direction: column; align-items: stretch; gap: 14px; padding: 0 14px; margin-bottom: 16px; }
+    .ins-title { font-size: 22px; letter-spacing: -0.5px; }
+    .ins-subtitle { font-size: 13px; }
+
+    /* Range pills + sync btn on one scroll row */
+    .ins-actions { display: flex; gap: 10px; }
+    .ins-range-selector {
+      flex: 1; min-width: 0; overflow-x: auto;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    }
+    .ins-range-selector::-webkit-scrollbar { display: none; }
+    .ins-range-selector button { padding: 10px 14px; font-size: 12px; flex-shrink: 0; min-height: 40px; }
+    .ins-btn { height: 40px; padding: 0 14px; font-size: 12px; flex-shrink: 0; }
+
+    /* Tabs: scroll horizontally */
+    .ins-tabs {
+      overflow-x: auto; overflow-y: hidden;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      padding: 0 14px 4px; gap: 4px; margin-bottom: 16px;
+    }
+    .ins-tabs::-webkit-scrollbar { display: none; }
+    .ins-tabs button { padding: 12px 16px; font-size: 13px; flex-shrink: 0; white-space: nowrap; min-height: 44px; }
+
+    /* Stats: 2-up, compact */
+    .ins-stat-row { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 14px; margin-bottom: 18px; }
+    .ins-stat-card { padding: 14px 12px; gap: 12px; border-radius: 18px; }
+    .ins-stat-card:hover { transform: none; }
+    .ins-stat-icon { width: 42px; height: 42px; font-size: 17px; border-radius: 12px; box-shadow: none; }
+    .ins-stat-label { font-size: 10px; letter-spacing: 0.4px; }
+    .ins-stat-value { font-size: 18px; margin-top: 2px; }
+
+    /* Charts/cards single column */
+    .ins-grid { grid-template-columns: 1fr; padding: 0 14px; gap: 14px; }
+    .ins-card { padding: 18px 16px; border-radius: 20px; }
+    .ins-card-head { margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+    .ins-card-head h3 { font-size: 15px; gap: 10px; }
+
+    /* Action header (donations/budget) */
+    .ins-action-header { flex-direction: column; align-items: stretch; gap: 12px; padding: 0 14px; }
+    .ins-action-header h3 { font-size: 20px; }
+    .ins-action-header p { font-size: 13px; }
+    .ins-button-group { gap: 8px; flex-wrap: wrap; }
+    .ins-button-group .ins-btn { flex: 1; min-width: 110px; justify-content: center; min-height: 42px; }
+
+    /* Modern table → readable cards */
+    .ins-table-container { margin: 0 14px; border-radius: 18px; }
+    .ins-modern-table { display: block; }
+    .ins-modern-table thead { display: none; }
+    .ins-modern-table tbody, .ins-modern-table tbody tr { display: block; }
+    .ins-modern-table tbody tr {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ins-modern-table td {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 4px 0; font-size: 14px;
+      border: none;
+    }
+    .ins-modern-table td::before {
+      content: attr(data-label);
+      font-size: 10px; font-weight: 800; text-transform: uppercase;
+      color: var(--text-muted); letter-spacing: 0.5px;
+    }
+    .ins-modern-table td.bold { order: -1; padding-bottom: 6px; }
+    .ins-modern-table td.bold::before { display: none; }
+    .ins-modern-table td.bold { font-size: 15px; font-weight: 800; }
+
+    /* Form modal */
+    .ins-form { grid-template-columns: 1fr; gap: 14px; padding: 8px; }
+    .ins-form input, .ins-form select, .ins-form textarea {
+      padding: 14px; font-size: 16px; border-radius: 12px; min-height: 48px;
+    }
+    .ins-form textarea { min-height: 100px; }
+    .ins-form-footer {
+      flex-direction: column-reverse; gap: 8px;
+      padding-top: 16px;
+    }
+    .ins-form-footer button { width: 100%; min-height: 48px; }
+
+    /* Spreadsheet: horizontal scroll, smaller cells */
+    .spreadsheet-container { padding: 12px; margin: 0 14px; border-radius: 18px; min-height: 0; box-shadow: var(--shadow); }
+    .sheet-header { flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 14px; }
+    .sheet-controls { flex-direction: column; gap: 10px; }
+    .sheet-tabs { width: 100%; padding: 4px; }
+    .sheet-tabs button { flex: 1; padding: 10px 12px; font-size: 13px; min-height: 40px; }
+    .sheet-btn { width: 100%; justify-content: center; min-height: 46px; }
+    .sheet-viewport { border-radius: 12px; }
+    .dsm-spreadsheet th { padding: 10px 12px; font-size: 10px; }
+    .dsm-spreadsheet input { height: 44px; padding: 0 12px; font-size: 13px; }
+    .dsm-spreadsheet .row-num { width: 36px; font-size: 11px; }
+    .dsm-spreadsheet .sheet-actions { width: 44px; }
+  }
+
+  @media (max-width: 480px) {
+    .ins-header { padding: 0 10px; }
+    .ins-title { font-size: 19px; }
+    .ins-stat-row { grid-template-columns: 1fr; padding: 0 10px; }
+    .ins-tabs { padding: 0 10px 4px; }
+    .ins-grid, .ins-action-header, .ins-table-container, .spreadsheet-container { padding-left: 10px; padding-right: 10px; margin-left: 0; margin-right: 0; }
+    .ins-card { padding: 16px 14px; border-radius: 16px; }
+    .ins-stat-card { padding: 12px 10px; }
+    .ins-stat-icon { width: 38px; height: 38px; font-size: 15px; }
+    .ins-stat-value { font-size: 16px; }
+    .ins-stat-label { font-size: 9px; }
   }
 `;
