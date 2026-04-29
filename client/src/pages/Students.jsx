@@ -163,8 +163,13 @@ export default function Students() {
 
       <div className="std-roster-section">
         <div className="std-section-head">
-          <h3>Quick Roster</h3>
-          <span>{rows.length} Total Students</span>
+          <div className="head-left">
+            <h3>Quick Roster</h3>
+            <span>{rows.length} Total Students</span>
+          </div>
+          <button className="std-add-btn" onClick={() => openStudentModal(null)} title="New Student">
+            <FaPlus /> <span>Add Student</span>
+          </button>
         </div>
         <div className="std-roster-scroll">
           {rows.map((s) => (
@@ -206,9 +211,6 @@ export default function Students() {
                 <FaFileExport /> Export
               </button>
             </div>
-            <button className="std-btn primary" onClick={() => openStudentModal(null)}>
-              <FaPlus /> New Student
-            </button>
           </div>
         </div>
 
@@ -307,14 +309,23 @@ const STD_CSS = `
     background: var(--bg);
     min-height: 100%;
   }
-  
   .std-roster-section { margin-bottom: 40px; }
   .std-section-head { 
     display: flex; align-items: center; justify-content: space-between; 
-    margin-bottom: 20px; padding: 0 8px; 
+    margin-bottom: 24px; padding: 0 8px; 
   }
-  .std-section-head h3 { font-size: 22px; font-weight: 900; margin: 0; color: var(--text); letter-spacing: -0.5px; }
-  .std-section-head span { font-size: 14px; font-weight: 700; color: var(--primary); background: var(--primary-soft); padding: 4px 12px; border-radius: 20px; }
+  .head-left h3 { font-size: 24px; font-weight: 900; margin: 0; color: var(--text); letter-spacing: -0.8px; }
+  .head-left span { font-size: 14px; font-weight: 700; color: var(--primary); background: var(--primary-soft); padding: 4px 14px; border-radius: 20px; margin-top: 4px; display: inline-block; }
+
+  .std-add-btn {
+    height: 52px; padding: 0 24px; border-radius: 18px; 
+    background: var(--primary); color: white; border: none;
+    font-weight: 800; font-size: 15px; display: flex; align-items: center; gap: 10px;
+    cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-brand);
+  }
+  .std-add-btn:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -6px rgba(var(--primary-rgb), 0.4); filter: brightness(1.1); }
+  .std-add-btn:active { transform: translateY(-1px); }
 
   .std-roster-scroll { 
     display: flex; gap: 20px; overflow-x: auto; 
@@ -373,8 +384,6 @@ const STD_CSS = `
     cursor: pointer; background: var(--surface); border: 2px solid var(--border); color: var(--text); 
   }
   .std-btn:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow); }
-  .std-btn.primary { background: var(--primary); border: none; color: white; box-shadow: var(--shadow-brand); }
-  .std-btn.primary:hover { filter: brightness(1.1); box-shadow: 0 12px 24px -8px rgba(var(--primary-rgb), 0.4); }
   .std-btn.secondary { color: var(--primary); border-color: var(--primary); background: transparent; }
   .std-btn.secondary:hover { background: var(--primary-soft); }
   .std-btn.danger { background: #ef4444; color: white; border: none; }
@@ -425,9 +434,6 @@ const STD_CSS = `
 
   .std-empty-state { padding: 80px 32px; text-align: center; color: var(--text-muted); font-weight: 800; font-size: 17px; background: var(--surface); }
 
-  /* ============================================================================
-     iPad Optimization (Portrait & Landscape)
-     ============================================================================ */
   @media (min-width: 1101px) and (max-width: 1366px) {
     .std-page { padding: 20px 24px; }
     .std-toolbar { padding: 24px; gap: 16px; }
@@ -437,16 +443,13 @@ const STD_CSS = `
     .std-table { min-width: 0; table-layout: fixed; }
     .std-table td, .std-table th { padding: 14px 12px; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     
-    /* Hide non-critical columns to force fit without scroll */
-    .std-table th:nth-child(6), .std-table td:nth-child(6), /* Graduation */
-    .std-table th:nth-child(8), .std-table td:nth-child(8), /* App/BG Check */
-    .std-table th:nth-child(9), .std-table td:nth-child(9) { /* Dorm/Squad */
+    .std-table th:nth-child(6), .std-table td:nth-child(6),
+    .std-table th:nth-child(8), .std-table td:nth-child(8),
+    .std-table th:nth-child(9), .std-table td:nth-child(9) {
       display: none;
     }
   }
 
-  /* Switch to premium card view for ALL iPad Portrait and most iPad Landscape (below 1100px) 
-     to ensure "Designed by the width" and ZERO horizontal scroll */
   @media (max-width: 1100px) {
     .std-page { padding: 0; background: var(--bg); }
     .std-roster-section { margin-bottom: 20px; padding-top: 12px; }
@@ -454,6 +457,9 @@ const STD_CSS = `
     .std-roster-scroll { padding: 8px 24px 20px; gap: 16px; }
     .std-chip { flex: 0 0 240px; }
     
+    .std-add-btn span { display: none; }
+    .std-add-btn { width: 52px; height: 52px; padding: 0; display: grid; place-items: center; border-radius: 16px; }
+
     .std-workspace-card { border-radius: 0; border: none; background: transparent; box-shadow: none; }
     .std-toolbar { 
       background: var(--surface); border-bottom: 2px solid var(--border); 
@@ -471,17 +477,16 @@ const STD_CSS = `
     .std-table thead { display: none; }
     .std-table tbody { 
       display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-      gap: 20px; 
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+      gap: 16px; 
     }
     
-    /* For iPad Portrait (narrower), force 1 column if needed, but 320px usually allows 2 columns on iPad */
     @media (max-width: 700px) {
       .std-table tbody { grid-template-columns: 1fr; }
     }
 
     .std-table tbody tr {
-      display: block; background: var(--surface); border-radius: 28px; 
+      display: block; background: var(--surface); border-radius: 24px; 
       border: 2px solid var(--border); padding: 24px; 
       position: relative; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: var(--shadow);
@@ -491,43 +496,35 @@ const STD_CSS = `
     
     .std-table td { display: block; padding: 0; border: none; }
     .std-table td.select-col { position: absolute; top: 24px; left: 24px; z-index: 2; width: auto; }
-    .std-table td.name-cell { margin-left: 44px; margin-bottom: 20px; }
-    .std-table td.name-cell .main-text { font-size: 19px; letter-spacing: -0.5px; }
+    .std-table td.name-cell { margin-left: 48px; margin-bottom: 20px; }
+    .std-table td.name-cell .main-text { font-size: 18px; letter-spacing: -0.5px; }
     
     .std-table td:nth-of-type(3) { margin-bottom: 20px; }
     
-    /* Show more data in card view for tablet than for small mobile */
-    .std-table td:nth-of-type(4), /* Phase */
-    .std-table td:nth-of-type(5), /* Intake */
-    .std-table td:nth-of-type(7), /* Duration */
-    .std-table td:nth-of-type(10) { /* Docs */
+    .std-table td:nth-of-type(4),
+    .std-table td:nth-of-type(5),
+    .std-table td:nth-of-type(7),
+    .std-table td:nth-of-type(10) { 
       display: flex; align-items: center; justify-content: space-between;
       margin-bottom: 12px; font-size: 13px; font-weight: 600; color: var(--text-muted);
     }
     .std-table td:nth-of-type(4)::before { content: "Phase"; }
     .std-table td:nth-of-type(5)::before { content: "Intake Date"; }
-    .std-table td:nth-of-type(7)::before { content: "Program Duration"; }
-    .std-table td:nth-of-type(10)::before { content: "Files & Photos"; }
+    .std-table td:nth-child(7)::before { content: "Program Duration"; }
+    .std-table td:nth-child(10)::before { content: "Files & Photos"; }
 
-    /* Hide graduation/app check even in tablet card to keep it clean */
-    .std-table td:nth-of-type(6), .std-table td:nth-of-type(8), .std-table td:nth-of-type(9) { display: none; }
+    .std-table td:nth-child(6), .std-table td:nth-child(8), .std-table td:nth-child(9) { display: none; }
     
     .std-table td.action-col { position: absolute; top: 26px; right: 24px; }
     .row-arrow { color: var(--primary); font-size: 20px; }
-    
-    .std-btn.primary { 
-      position: fixed; bottom: 32px; right: 32px; left: auto; transform: none;
-      z-index: 1000; width: 64px; height: 64px; border-radius: 20px;
-      padding: 0; display: grid; place-items: center; font-size: 0;
-      box-shadow: 0 16px 32px rgba(var(--primary-rgb), 0.4);
-    }
-    .std-btn.primary::before { content: "+"; font-size: 28px; color: white; }
-    .std-btn.primary svg { display: none; }
   }
 
   @media (max-width: 480px) {
     .std-table-container { padding: 12px 16px; }
     .std-table tbody { grid-template-columns: 1fr; }
-    .std-btn.primary { bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 18px; }
+    .std-section-head { padding: 0 16px; }
+    .std-roster-scroll { padding: 8px 16px 20px; }
+    .std-table td.name-cell { margin-left: 44px; }
+    .std-table td.name-cell .main-text { font-size: 16px; }
   }
 `;
