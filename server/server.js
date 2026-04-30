@@ -191,21 +191,40 @@ function initGCS() {
     const opts = {};
     if (GCS_PROJECT_ID) opts.projectId = GCS_PROJECT_ID;
     
-    // Use environment variables for credentials in production
-    if (process.env.GOOGLE_CLOUD_PRIVATE_KEY && process.env.GOOGLE_CLOUD_CLIENT_EMAIL) {
+    // 1. Try Keyfile first as it is the most stable method
+    let resolvedKeyPath = null;
+    if (GCS_KEYFILE) {
+      const pathsToTry = [
+        GCS_KEYFILE,
+        path.resolve(GCS_KEYFILE),
+        path.join(__dirname, GCS_KEYFILE),
+        path.join(__dirname, 'keys', path.basename(GCS_KEYFILE))
+      ];
+      for (const p of pathsToTry) {
+        if (require('fs').existsSync(p)) {
+          resolvedKeyPath = p;
+          break;
+        }
+      }
+    }
+
+    if (resolvedKeyPath) {
+      console.log(`GCS: Initializing with keyfile: ${resolvedKeyPath}`);
+      opts.keyFilename = resolvedKeyPath;
+    } 
+    // 2. Fallback to environment variables
+    else if (process.env.GOOGLE_CLOUD_PRIVATE_KEY && process.env.GOOGLE_CLOUD_CLIENT_EMAIL) {
       console.log("GCS: Initializing with environment variables...");
       let pk = process.env.GOOGLE_CLOUD_PRIVATE_KEY.trim();
       
-      // Remove wrapping quotes if present
-      if (pk.startsWith('"') && pk.endsWith('"')) pk = pk.slice(1, -1);
-      if (pk.startsWith("'") && pk.endsWith("'")) pk = pk.slice(1, -1);
-      
-      // Handle literal newlines vs escaped \n
+      // Remove wrapping quotes and handle escaped newlines aggressively
+      pk = pk.replace(/^["']|["']$/g, '');
       pk = pk.replace(/\\n/g, '\n');
+      pk = pk.replace(/\r/g, ''); // Remove carriage returns
 
-      // Ensure it has the proper PEM header/footer if missing (unlikely but safe)
+      // If it still doesn't have the header, it's definitely wrong
       if (!pk.includes("-----BEGIN PRIVATE KEY-----")) {
-        console.warn("GCS: Private key missing PEM header. Attempting to fix...");
+        console.error("GCS Error: Private key environment variable is malformed (missing PEM header)");
       }
 
       opts.credentials = {
@@ -214,20 +233,9 @@ function initGCS() {
         private_key: pk,
         client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
       };
-    } else if (GCS_KEYFILE) {
-      console.log("GCS: Initializing with keyfile...");
-      // Robust path resolution: try as-is, then relative to server directory
-      let keyPath = GCS_KEYFILE;
-      if (!path.isAbsolute(keyPath)) {
-        const localPath = path.join(__dirname, keyPath);
-        // If it starts with ./keys but is actually in server/keys, help it out
-        if (!require('fs').existsSync(localPath) && keyPath.startsWith('./keys')) {
-          keyPath = path.join(__dirname, 'keys', path.basename(keyPath));
-        } else {
-          keyPath = localPath;
-        }
-      }
-      opts.keyFilename = keyPath;
+    } else {
+      console.warn("GCS: No valid credentials found (Keyfile or Env Vars). Uploads will fail.");
+      return;
     }
     
     gcs = new Storage(opts);
