@@ -191,22 +191,31 @@ function initGCS() {
     const opts = {};
     if (GCS_PROJECT_ID) opts.projectId = GCS_PROJECT_ID;
     
-    // Use environment variables for credentials in production, fallback to keyfile for development
+    // Use environment variables for credentials in production
     if (process.env.GOOGLE_CLOUD_PRIVATE_KEY && process.env.GOOGLE_CLOUD_CLIENT_EMAIL) {
+      console.log("GCS: Initializing with environment variables...");
+      let pk = process.env.GOOGLE_CLOUD_PRIVATE_KEY.trim();
+      
+      // Remove wrapping quotes if present
+      if (pk.startsWith('"') && pk.endsWith('"')) pk = pk.slice(1, -1);
+      if (pk.startsWith("'") && pk.endsWith("'")) pk = pk.slice(1, -1);
+      
+      // Handle literal newlines vs escaped \n
+      pk = pk.replace(/\\n/g, '\n');
+
+      // Ensure it has the proper PEM header/footer if missing (unlikely but safe)
+      if (!pk.includes("-----BEGIN PRIVATE KEY-----")) {
+        console.warn("GCS: Private key missing PEM header. Attempting to fix...");
+      }
+
       opts.credentials = {
         type: 'service_account',
-        project_id: process.env.GOOGLE_CLOUD_PROJECT_ID,
-        private_key_id: process.env.GOOGLE_CLOUD_PRIVATE_KEY_ID,
-        private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        project_id: process.env.GOOGLE_CLOUD_PROJECT_ID || GCS_PROJECT_ID,
+        private_key: pk,
         client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
-        client_id: process.env.GOOGLE_CLOUD_CLIENT_ID,
-        auth_uri: 'https://accounts.google.com/o/oauth2/auth',
-        token_uri: 'https://oauth2.googleapis.com/token',
-        auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
-        client_x509_cert_url: `https://www.googleapis.com/robot/v1/metadata/x509/${process.env.GOOGLE_CLOUD_CLIENT_EMAIL}`,
-        universe_domain: 'googleapis.com'
       };
     } else if (GCS_KEYFILE) {
+      console.log("GCS: Initializing with keyfile...");
       // Robust path resolution: try as-is, then relative to server directory
       let keyPath = GCS_KEYFILE;
       if (!path.isAbsolute(keyPath)) {
