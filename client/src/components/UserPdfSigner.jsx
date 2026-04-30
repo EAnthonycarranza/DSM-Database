@@ -1,5 +1,6 @@
 // src/components/UserPdfSigner.jsx
 import React, { useEffect, useRef, useState } from "react";
+import SignatureAdopter from "./SignatureAdopter";
 import * as pdfjsLib from "pdfjs-dist";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { useApp } from "../context/AppContext";
@@ -16,46 +17,13 @@ const PDFJS_MAJOR = parseInt(PDFJS_VERSION.split(".")[0], 10) || 5;
 const WORKER_EXT = PDFJS_MAJOR >= 4 ? "mjs" : "js";
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${PDFJS_VERSION}/build/pdf.worker.min.${WORKER_EXT}`;
 
-const FONT_CHOICES = [
-  "Dancing Script","Great Vibes","Pacifico","Satisfy","Caveat","Allura",
-  "Sacramento","Kaushan Script","Amatic SC","Permanent Marker","Rock Salt",
-  "Homemade Apple","Parisienne","Yellowtail","Marck Script","Alex Brush"
-];
 
 /* ------------------------------------------
    DSM Verification Suite Design System
 ------------------------------------------- */
 const styles = `
-:root {
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --surface: #ffffff;
-  --bg: #f8fafc;
-  --panel: #ffffff;
-  --border: #e2e8f0;
-  --text: #0f172a;
-  --text-muted: #64748b;
-  --success: #10b981;
-  --warn: #f59e0b;
-  --danger: #ef4444;
-  --shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
-  --radius: 16px;
-}
-
-[data-theme='dark'] {
-  --primary: #6366f1;
-  --primary-hover: #818cf8;
-  --surface: #0f172a;
-  --bg: #020617;
-  --panel: #1e293b;
-  --border: #334155;
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
-  --shadow: 0 20px 50px rgba(0,0,0,0.3);
-}
-
 .verification-suite {
-  min-height: calc(100vh - 64px);
+  height: calc(100vh - 64px);
   background: var(--bg);
   color: var(--text);
   display: flex;
@@ -73,12 +41,13 @@ const styles = `
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(12px);
 }
 
 .header-left { display: flex; align-items: center; gap: 20px; }
-.header-title h1 { font-size: 18px; font-weight: 800; margin: 0; letter-spacing: -0.5px; }
-.header-title p { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin: 2px 0 0; }
+.back-btn { width: 40px; height: 40px; border-radius: 10px; background: var(--bg); color: var(--text-muted); display: grid; place-items: center; cursor: pointer; border: none; }
+.back-btn:hover { background: var(--border); color: var(--text); }
+.header-title h1 { font-size: 18px; font-weight: 800; margin: 0; color: var(--text); }
+.header-title p { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 0; }
 
 .header-actions { display: flex; gap: 12px; }
 .suite-btn {
@@ -91,13 +60,13 @@ const styles = `
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s;
   border: 1px solid var(--border);
   background: var(--surface);
-  color: var(--text);
+  color: var(--text-muted);
 }
 
-.suite-btn:hover { background: var(--bg); border-color: var(--text-muted); }
+.suite-btn:hover { background: var(--bg); color: var(--text); border-color: var(--text-muted); }
 .suite-btn.primary { background: var(--primary); color: white; border: none; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); }
 .suite-btn.primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
 
@@ -128,8 +97,8 @@ const styles = `
 .field-overlay { position: absolute; inset: 0; z-index: 5; }
 .signer-field {
   position: absolute;
-  background: rgba(79, 70, 229, 0.1);
-  border: 1.5px dashed var(--primary);
+  background: rgba(99, 102, 241, 0.1);
+  border: 1.5px solid var(--primary);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -140,10 +109,11 @@ const styles = `
   color: var(--primary);
   font-weight: 700;
   font-size: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.signer-field:hover { background: rgba(79, 70, 229, 0.2); border-style: solid; }
-.signer-field.filled { background: white; border: 1.5px solid var(--success); color: var(--success); }
+.signer-field:hover { background: rgba(99, 102, 241, 0.2); }
+.signer-field.filled { background: white; border-color: var(--success); color: var(--success); }
 .field-icon-badge { width: 24px; height: 24px; background: var(--warn); border-radius: 4px; display: grid; place-items: center; color: #000; font-size: 12px; }
 
 .suite-sidebar {
@@ -196,19 +166,6 @@ const styles = `
 
 .modal-head { padding: 24px 32px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
 .modal-body { padding: 32px; }
-.modal-foot { padding: 20px 32px; background: var(--bg); border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 12px; }
-
-.sig-tabs { display: flex; background: var(--bg); padding: 4px; border-radius: 12px; gap: 4px; margin-bottom: 24px; }
-.sig-tabs button { flex: 1; height: 40px; border-radius: 9px; border: none; font-weight: 700; font-size: 13px; color: var(--text-muted); background: transparent; transition: 0.2s; cursor: pointer; }
-.sig-tabs button.active { background: var(--surface); color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-
-.type-area { display: flex; flex-direction: column; gap: 20px; }
-.type-input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 16px; outline: none; }
-.sig-live-preview { height: 120px; background: white; border: 1px solid var(--border); border-radius: 12px; display: grid; place-items: center; font-size: 40px; color: #0f172a; }
-
-.draw-area { display: flex; flex-direction: column; gap: 16px; }
-.draw-canvas-wrap { border: 2px dashed var(--border); border-radius: 16px; background: white; overflow: hidden; }
-.draw-actions { display: flex; gap: 12px; }
 
 .toast-msg { position: fixed; bottom: 32px; right: 32px; padding: 12px 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); z-index: 2000; font-weight: 700; animation: slideUp 0.3s ease; }
 
@@ -220,14 +177,15 @@ const styles = `
 }
 
 @media (max-width: 768px) {
-  .suite-header { padding: 0 16px; height: auto; padding-top: 12px; padding-bottom: 12px; flex-direction: column; align-items: stretch; gap: 12px; position: relative; }
-  .header-left { width: 100%; justify-content: flex-start; }
+  .suite-header { padding: 8px 16px; flex-direction: column; gap: 12px; height: auto; }
+  .header-left { width: 100%; justify-content: space-between; }
   .header-actions { 
-    position: fixed; bottom: 24px; right: 20px; z-index: 1000; 
-    flex-direction: column-reverse; gap: 12px; align-items: flex-end;
+    position: fixed; bottom: 20px; right: 20px; z-index: 1000; 
+    flex-direction: column-reverse; gap: 10px; align-items: flex-end;
   }
-  .suite-btn { height: 50px; width: auto; min-width: 50px; padding: 0 20px; border-radius: 25px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
-  .suite-btn span { font-size: 14px; }
+  .suite-btn { height: 50px; width: 50px; border-radius: 50%; padding: 0; display: grid; place-items: center; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+  .suite-btn span { display: none; }
+  .suite-btn svg { font-size: 18px; }
   .suite-btn.primary { background: var(--primary); }
   
   .suite-viewer { padding: 20px 10px; }
@@ -235,10 +193,6 @@ const styles = `
   
   .suite-modal { width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; }
   .modal-body { flex: 1; overflow-y: auto; padding: 20px; }
-  .modal-foot { padding: 16px 20px; }
-  
-  .sig-live-preview { height: 100px; font-size: 30px; }
-  .font-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }
 `;
 
@@ -251,13 +205,9 @@ export default function UserPdfSigner() {
   const [loading, setLoading] = useState(false);
   const [signature, setSignature] = useState(null);
   const [showSigModal, setShowSigModal] = useState(false);
-  const [sigTab, setSigTab] = useState("type");
-  const [fullName, setFullName] = useState("");
-  const [selectedFont, setSelectedFont] = useState(FONT_CHOICES[0]);
 
   const canvasRefs = useRef({});
   const pdfDocRef = useRef(null);
-  const drawCanvasRef = useRef(null);
 
   const onFileChange = async (e) => {
     const file = e.target.files?.[0];
@@ -316,8 +266,8 @@ export default function UserPdfSigner() {
     }
   };
 
-  const handleAdopt = () => {
-    setSignature({ name: fullName, font: selectedFont });
+  const handleAdopt = (dataUrl) => {
+    setSignature(dataUrl);
     setShowSigModal(false);
     setToast("Signature verification active");
   };
@@ -431,53 +381,11 @@ export default function UserPdfSigner() {
               <button className="close-btn" onClick={() => setShowSigModal(false)}><FaTimes /></button>
             </div>
             <div className="modal-body">
-              <div className="sig-tabs">
-                <button className={sigTab === 'type' ? 'active' : ''} onClick={() => setSigTab('type')}>Type</button>
-                <button className={sigTab === 'draw' ? 'active' : ''} onClick={() => setSigTab('draw')}>Draw</button>
-                <button className={sigTab === 'upload' ? 'active' : ''} onClick={() => setSigTab('upload')}>Upload</button>
-              </div>
-
-              {sigTab === 'type' && (
-                <div className="type-area">
-                  <input 
-                    className="type-input" 
-                    value={fullName} 
-                    onChange={e => setFullName(e.target.value)} 
-                    placeholder="Enter your full name..."
-                  />
-                  <div className="sig-live-preview" style={{ fontFamily: selectedFont }}>
-                    {fullName || "Your Signature"}
-                  </div>
-                  <div className="font-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
-                    {FONT_CHOICES.slice(0, 6).map(f => (
-                      <button 
-                        key={f} 
-                        className={`suite-btn ${selectedFont === f ? 'primary' : ''}`}
-                        onClick={() => setSelectedFont(f)}
-                        style={{ fontFamily: f, fontSize: 16 }}
-                      >
-                        Aa
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {sigTab === 'draw' && (
-                <div className="draw-area">
-                  <div className="draw-canvas-wrap">
-                    <canvas ref={drawCanvasRef} width={580} height={200} />
-                  </div>
-                  <div className="draw-actions">
-                    <button className="suite-btn"><FaEraser /> Clear</button>
-                    <button className="suite-btn"><FaUndo /> Undo</button>
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="modal-foot">
-              <button className="suite-btn" onClick={() => setShowSigModal(false)}>Cancel</button>
-              <button className="suite-btn primary" onClick={handleAdopt}>Adopt & Sign</button>
+              <SignatureAdopter 
+                onAdopt={handleAdopt} 
+                onClose={() => setShowSigModal(false)} 
+                defaultName={user?.name || ""}
+              />
             </div>
           </div>
         </div>

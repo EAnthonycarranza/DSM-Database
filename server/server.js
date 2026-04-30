@@ -1642,6 +1642,29 @@ app.post(`${API_PREFIX}/upload`, upload.any(), async (req, res) => {
   }
 });
 
+// Proxy download for ZIP generation (bypasses CORS)
+app.get(`${API_PREFIX}/proxy-download`, async (req, res) => {
+  const fileUrl = req.query.url;
+  if (!fileUrl) return res.status(400).send("URL required");
+  
+  try {
+    const response = await fetch(fileUrl);
+    if (!response.ok) throw new Error(`External fetch failed: ${response.statusText}`);
+    
+    const contentType = response.headers.get("content-type");
+    if (contentType) res.setHeader("Content-Type", contentType);
+    
+    const fileName = fileUrl.split('/').pop() || 'file';
+    res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+
+    const arrayBuffer = await response.arrayBuffer();
+    res.send(Buffer.from(arrayBuffer));
+  } catch (error) {
+    console.error("Proxy download error:", error);
+    res.status(500).send("Proxy failed");
+  }
+});
+
 // ---------- Envelopes (sending, inbox, submission) ----------
 // Helper: match a recipient to a userId by studentId or email
 async function resolveRecipientUserId(recipient) {

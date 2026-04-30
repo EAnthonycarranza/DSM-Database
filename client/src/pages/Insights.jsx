@@ -409,10 +409,32 @@ export default function Insights() {
                 <button className="ins-btn primary" onClick={() => openDonationModal()}><FaPlus /> Add New</button>
               </div>
             </div>
-            <DataTable 
-              data={donations} 
-              type="donations" 
-              onEdit={openDonationModal} 
+
+            <div className="ins-summary-row">
+              <div className="ins-summary-card">
+                <div className="ins-summary-label">Total Raised ({filterRange})</div>
+                <div className="ins-summary-value pos">{fmtCurrency(fin.totalDonations)}</div>
+              </div>
+              <div className="ins-summary-card">
+                <div className="ins-summary-label">Donations</div>
+                <div className="ins-summary-value">{fin.donationCount}</div>
+              </div>
+              <div className="ins-summary-card">
+                <div className="ins-summary-label">Average Gift</div>
+                <div className="ins-summary-value">{fmtCurrency(fin.avgDonation)}</div>
+              </div>
+              <div className="ins-summary-card">
+                <div className="ins-summary-label">Top Category</div>
+                <div className="ins-summary-value sm">
+                  {Array.from(fin.donByCat.entries()).sort((a, b) => b[1] - a[1])[0]?.[0] || '—'}
+                </div>
+              </div>
+            </div>
+
+            <DataTable
+              data={donations}
+              type="donations"
+              onEdit={openDonationModal}
               onDelete={async (id) => {
                 if (window.confirm("Delete donation?")) { await api.del("donations", id); refresh(); }
               }}
@@ -433,10 +455,32 @@ export default function Insights() {
                 <button className="ins-btn primary" onClick={() => openBudgetModal()}><FaPlus /> Log Item</button>
               </div>
             </div>
-            <DataTable 
-              data={expenses} 
-              type="budget" 
-              onEdit={openBudgetModal} 
+
+            <div className="ins-summary-row">
+              <div className="ins-summary-card">
+                <div className="ins-summary-label">Total Spent ({filterRange})</div>
+                <div className="ins-summary-value neg">{fmtCurrency(fin.totalExpenses)}</div>
+              </div>
+              <div className="ins-summary-card">
+                <div className="ins-summary-label">Line Items</div>
+                <div className="ins-summary-value">{expenses.filter(e => new Date(e.date) >= new Date(new Date().setFullYear(new Date().getFullYear() - (filterRange === 'year' ? 1 : 0)))).length || expenses.length}</div>
+              </div>
+              <div className="ins-summary-card">
+                <div className="ins-summary-label">Avg Expense</div>
+                <div className="ins-summary-value">{fmtCurrency(expenses.length ? fin.totalExpenses / Math.max(1, expenses.length) : 0)}</div>
+              </div>
+              <div className="ins-summary-card">
+                <div className="ins-summary-label">Top Category</div>
+                <div className="ins-summary-value sm">
+                  {Array.from(fin.expByCat.entries()).sort((a, b) => b[1] - a[1])[0]?.[0] || '—'}
+                </div>
+              </div>
+            </div>
+
+            <DataTable
+              data={expenses}
+              type="budget"
+              onEdit={openBudgetModal}
               onDelete={async (id) => {
                 if (window.confirm("Delete expense?")) { await api.del("budget", id); refresh(); }
               }}
@@ -502,7 +546,18 @@ function DataTable({ data, type, onEdit, onDelete }) {
               </td>
             </tr>
           ))}
-          {!data.length && <tr><td colSpan="6" className="empty-state">No records found. Use the buttons above to add data.</td></tr>}
+          {!data.length && (
+            <tr><td colSpan="6" className="empty-state">
+              <div className="ins-empty-illustration">
+                {type === 'donations' ? <FaDonate /> : <FaWallet />}
+              </div>
+              <h4>{type === 'donations' ? 'No donations recorded yet' : 'No expenses logged yet'}</h4>
+              <p>{type === 'donations'
+                ? 'Track your first contribution by clicking the Add New button above, or import a CSV.'
+                : 'Log your first operational cost by clicking the Log Item button above, or import a CSV.'}
+              </p>
+            </td></tr>
+          )}
         </tbody>
       </table>
     </div>
@@ -544,17 +599,47 @@ function SpreadsheetEditor({ donations, expenses, onSave }) {
     ? [{f: "donor", l: "Donor"}, {f: "amount", l: "Amount"}, {f: "date", l: "Date"}, {f: "category", l: "Category"}, {f: "notes", l: "Notes"}]
     : [{f: "item", l: "Item"}, {f: "amount", l: "Amount"}, {f: "date", l: "Date"}, {f: "category", l: "Category"}];
 
+  // Compute live total of the visible grid for the header pill
+  const liveTotal = grid.reduce((sum, r) => sum + (Number(r.amount) || 0), 0);
+  const validRows = grid.filter(r => (r.donor || r.item) && r.amount).length;
+
   return (
     <div className="spreadsheet-container">
       <div className="sheet-header">
-        <div className="sheet-controls">
+        <div className="sheet-headline">
+          <h3 className="sheet-title">
+            <FaTable /> Bulk Editor
+            <span className="sheet-mode-tag">{mode === "donations" ? "Donations" : "Expenses"}</span>
+          </h3>
+          <p className="sheet-helper">Spreadsheet-style data entry. Changes only persist after you commit.</p>
+        </div>
+        <div className="sheet-actions-bar">
           <div className="sheet-tabs">
             <button className={mode === "donations" ? "active" : ""} onClick={() => setMode("donations")}>Donations</button>
             <button className={mode === "budget" ? "active" : ""} onClick={() => setMode("budget")}>Expenses</button>
           </div>
           <button className="sheet-btn add" onClick={addRow}><FaPlus /> New Row</button>
+          <button className="sheet-btn save" onClick={handleSave}><FaSave /> Commit Changes</button>
         </div>
-        <button className="sheet-btn save" onClick={handleSave}><FaSave /> Commit Changes</button>
+      </div>
+
+      <div className="sheet-stats-bar">
+        <div className="sheet-stat">
+          <span className="lab">Total Rows</span>
+          <span className="val">{grid.length}</span>
+        </div>
+        <div className="sheet-stat">
+          <span className="lab">Ready to Commit</span>
+          <span className="val pos">{validRows}</span>
+        </div>
+        <div className="sheet-stat">
+          <span className="lab">Incomplete</span>
+          <span className={`val ${grid.length - validRows > 0 ? 'warn' : ''}`}>{grid.length - validRows}</span>
+        </div>
+        <div className="sheet-stat">
+          <span className="lab">Total Amount</span>
+          <span className="val">{fmtCurrency(liveTotal)}</span>
+        </div>
       </div>
 
       <div className="sheet-viewport-hint">← swipe to see all columns →</div>
@@ -568,21 +653,33 @@ function SpreadsheetEditor({ donations, expenses, onSave }) {
             </tr>
           </thead>
           <tbody>
+            {grid.length === 0 && (
+              <tr className="sheet-empty-row">
+                <td colSpan={headers.length + 2}>
+                  <div className="sheet-empty">
+                    <FaTable />
+                    <h4>No rows yet</h4>
+                    <p>Click <strong>+ New Row</strong> to start entering {mode === "donations" ? "donation" : "expense"} data, then hit <strong>Commit Changes</strong> when you're done.</p>
+                    <button className="sheet-btn add" onClick={addRow}><FaPlus /> Add Your First Row</button>
+                  </div>
+                </td>
+              </tr>
+            )}
             {grid.map((row, idx) => (
               <tr key={row._tempId}>
                 <td className="row-num">{grid.length - idx}</td>
                 {headers.map(h => (
                   <td key={h.f}>
-                    <input 
+                    <input
                       type={h.f === 'amount' ? 'number' : h.f === 'date' ? 'date' : 'text'}
-                      value={row[h.f] || ''} 
+                      value={row[h.f] || ''}
                       onChange={(e) => updateCell(row._tempId, h.f, e.target.value)}
                       placeholder="..."
                     />
                   </td>
                 ))}
                 <td className="sheet-actions">
-                  <button onClick={() => deleteRow(row._tempId)}><FaTimes /></button>
+                  <button onClick={() => deleteRow(row._tempId)} title="Delete row"><FaTimes /></button>
                 </td>
               </tr>
             ))}
@@ -590,7 +687,7 @@ function SpreadsheetEditor({ donations, expenses, onSave }) {
         </table>
       </div>
       <div className="sheet-footer">
-        Showing {grid.length} rows in Spreadsheet Mode. Changes are only saved when you click "Commit".
+        <span className="sheet-footer-hint"><FaSave /> Use <strong>Commit Changes</strong> to save — unsaved edits will be lost on tab change.</span>
       </div>
     </div>
   );
@@ -663,52 +760,225 @@ function BudgetForm({ existing, onSave, onClose }) {
 /* ---------------- Styles ---------------- */
 
 const INS_CSS = `
-  .ins-page { padding: 12px 0; max-width: 1400px; margin: 0 auto; min-height: 100vh; min-width: 0; overflow-x: hidden; }
-  .ins-tab-content, .ins-view { min-width: 0; max-width: 100%; }
-  .ins-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding: 0 12px; }
-  .ins-title { font-size: 34px; font-weight: 900; margin: 0; color: var(--text); letter-spacing: -1.2px; }
-  .ins-subtitle { color: var(--text-muted); margin: 4px 0 0; font-size: 16px; font-weight: 500; }
-  
-  .ins-range-selector { display: flex; background: var(--bg); padding: 4px; border-radius: 14px; border: 1px solid var(--border); box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
-  .ins-range-selector button { padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 800; color: var(--text-muted); transition: 0.25s; }
-  .ins-range-selector button.active { background: var(--surface); color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .ins-page {
+    padding: 24px 28px;
+    width: 100%;
+    max-width: 1680px;
+    margin: 0 auto;
+    align-self: center; /* needed because parent .content is display:flex column */
+    min-height: 100vh;
+    min-width: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+  .ins-tab-content, .ins-view { width: 100%; min-width: 0; max-width: 100%; }
 
-  .ins-tabs-wrap { position: relative; margin-bottom: 24px; }
-  .ins-tabs { display: flex; gap: 12px; padding: 0 12px; border-bottom: 2px solid var(--bg); }
-  .ins-tabs button { padding: 14px 28px; font-size: 14px; font-weight: 800; color: var(--text-muted); display: flex; align-items: center; gap: 10px; transition: 0.3s; border-bottom: 4px solid transparent; margin-bottom: -2px; }
-  .ins-tabs button.active { color: var(--primary); border-bottom-color: var(--primary); background: rgba(99, 102, 241, 0.03); }
-  .ins-tabs button:hover:not(.active) { color: var(--text); background: var(--bg); border-radius: 12px 12px 0 0; }
+  /* Hero header — feels like a real dashboard top-bar */
+  .ins-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px; padding: 24px 32px; gap: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .ins-header::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary));
+  }
+  .ins-title { font-size: 30px; font-weight: 900; margin: 0; color: var(--text); letter-spacing: -1px; line-height: 1.1; }
+  .ins-subtitle { color: var(--text-muted); margin: 6px 0 0; font-size: 14px; font-weight: 500; }
 
-  .ins-stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 32px; padding: 0 12px; }
-  .ins-stat-card { display: flex; align-items: center; gap: 24px; padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: 28px; box-shadow: var(--shadow); transition: transform 0.2s; }
-  .ins-stat-card:hover { transform: translateY(-3px); }
-  .ins-stat-icon { width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center; background: rgba(99, 102, 241, 0.1); color: #6366f1; font-size: 28px; box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15); }
-  .ins-stat-icon.donation { background: rgba(16, 185, 129, 0.1); color: #10b981; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.15); }
-  .ins-stat-icon.expense { background: rgba(239, 68, 68, 0.1); color: #ef4444; box-shadow: 0 8px 20px rgba(239, 68, 68, 0.15); }
-  .ins-stat-icon.balance { background: rgba(59, 130, 246, 0.1); color: #3b82f6; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15); }
-  .ins-stat-label { font-size: 13px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; }
-  .ins-stat-value { font-size: 32px; font-weight: 900; color: var(--text); margin-top: 4px; }
+  .ins-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .ins-range-selector { display: flex; background: var(--bg); padding: 4px; border-radius: 14px; border: 1px solid var(--border); box-shadow: inset 0 2px 4px rgba(0,0,0,0.04); }
+  .ins-range-selector button { padding: 9px 18px; border-radius: 10px; font-size: 13px; font-weight: 800; color: var(--text-muted); transition: 0.2s; }
+  .ins-range-selector button:hover:not(.active) { color: var(--text); }
+  .ins-range-selector button.active { background: var(--surface); color: var(--primary); box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.18); }
 
-  .ins-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 28px; padding: 0 12px; }
-  .ins-card { background: var(--surface); border-radius: 32px; border: 1px solid var(--border); padding: 36px; box-shadow: var(--shadow); }
+  /* Tab bar styled as a clean filter strip */
+  .ins-tabs-wrap {
+    position: relative; margin-bottom: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 6px;
+    box-shadow: var(--shadow);
+  }
+  .ins-tabs { display: flex; gap: 4px; padding: 0; border-bottom: none; }
+  .ins-tabs button {
+    flex: 1;
+    padding: 12px 18px; font-size: 14px; font-weight: 800;
+    color: var(--text-muted);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: 0.2s;
+    border-bottom: none;
+    border-radius: 12px;
+    margin-bottom: 0;
+  }
+  .ins-tabs button.active {
+    color: var(--primary);
+    background: var(--primary-soft);
+    box-shadow: inset 0 0 0 1px rgba(var(--primary-rgb), 0.2);
+  }
+  .ins-tabs button:hover:not(.active) { color: var(--text); background: var(--bg); border-radius: 12px; }
+
+  /* Stat cards: 4-up on desktop, with a subtle accent stripe and tighter padding */
+  .ins-stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; padding: 0; }
+  .ins-stat-card {
+    display: flex; align-items: center; gap: 18px;
+    padding: 22px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .ins-stat-card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--primary); opacity: 0.6;
+  }
+  .ins-stat-card:nth-child(2)::before { background: #10b981; }
+  .ins-stat-card:nth-child(3)::before { background: #ef4444; }
+  .ins-stat-card:nth-child(4)::before { background: #3b82f6; }
+  .ins-stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: rgba(var(--primary-rgb), 0.3); }
+  .ins-stat-icon { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: rgba(var(--primary-rgb), 0.1); color: var(--primary); font-size: 22px; flex-shrink: 0; }
+  .ins-stat-icon.donation { background: rgba(16, 185, 129, 0.12); color: #10b981; }
+  .ins-stat-icon.expense { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+  .ins-stat-icon.balance { background: rgba(59, 130, 246, 0.12); color: #3b82f6; }
+  .ins-stat-card > div:last-child { min-width: 0; flex: 1; }
+  .ins-stat-label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ins-stat-value { font-size: 26px; font-weight: 900; color: var(--text); margin-top: 4px; line-height: 1.1; letter-spacing: -0.5px; }
+
+  /* Chart grid: 12-col asymmetric layout for a real dashboard feel */
+  .ins-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 22px;
+    padding: 0;
+  }
+  .ins-card {
+    background: var(--surface);
+    border-radius: 22px;
+    border: 1px solid var(--border);
+    padding: 26px 28px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s, border-color 0.2s;
+    min-width: 0;
+  }
+  .ins-card:hover { border-color: rgba(var(--primary-rgb), 0.25); box-shadow: var(--shadow-lg); }
   .ins-card.wide { grid-column: 1 / -1; }
-  .ins-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
-  .ins-card-head h3 { font-size: 20px; font-weight: 900; margin: 0; color: var(--text); display: flex; align-items: center; gap: 14px; }
+  .ins-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .ins-card-head h3 { font-size: 16px; font-weight: 900; margin: 0; color: var(--text); display: flex; align-items: center; gap: 10px; }
+  .ins-card-head h3 svg { color: var(--primary); }
+  .ins-card-head span { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1.2px; padding: 4px 10px; background: var(--bg); border-radius: 8px; border: 1px solid var(--border); }
 
-  .ins-action-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding: 0 12px; }
-  .ins-action-header h3 { font-size: 26px; font-weight: 900; margin: 0; letter-spacing: -0.5px; }
-  .ins-action-header p { color: var(--text-muted); margin: 4px 0 0; font-size: 15px; font-weight: 500; }
-  .ins-button-group { display: flex; gap: 12px; }
+  /* Wider screens: more padding, larger numbers */
+  @media (min-width: 1440px) {
+    .ins-page { padding: 28px 40px; }
+    .ins-stat-row { gap: 22px; }
+    .ins-stat-card { padding: 24px 26px; }
+    .ins-stat-value { font-size: 28px; }
+    .ins-grid { gap: 24px; }
+    .ins-card { padding: 28px 32px; }
+  }
 
-  .ins-table-container { background: var(--surface); border-radius: 28px; border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow); margin: 0 12px; }
+  @media (max-width: 1100px) {
+    .ins-stat-row { grid-template-columns: repeat(2, 1fr); }
+    .ins-grid { grid-template-columns: 1fr; }
+  }
+
+  .ins-action-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; padding: 22px 28px; gap: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+  }
+  .ins-action-header h3 { font-size: 22px; font-weight: 900; margin: 0; letter-spacing: -0.5px; }
+  .ins-action-header p { color: var(--text-muted); margin: 4px 0 0; font-size: 14px; font-weight: 500; }
+  .ins-button-group { display: flex; gap: 10px; flex-shrink: 0; }
+  .ins-btn { height: 44px; padding: 0 18px; border-radius: 12px; font-weight: 800; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.2s; background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+  .ins-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .ins-btn.primary { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 14px rgba(var(--primary-rgb), 0.25); }
+  .ins-btn.primary:hover { transform: translateY(-1px); filter: brightness(1.05); color: white; }
+  .ins-btn.secondary { color: var(--text); }
+
+  /* Summary row above tables (Donations / Budget) */
+  .ins-summary-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .ins-summary-card {
+    padding: 18px 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .ins-summary-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+  .ins-summary-label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.8px; }
+  .ins-summary-value { font-size: 22px; font-weight: 900; color: var(--text); margin-top: 6px; letter-spacing: -0.4px; line-height: 1.1; }
+  .ins-summary-value.pos { color: #10b981; }
+  .ins-summary-value.neg { color: #ef4444; }
+  .ins-summary-value.sm { font-size: 16px; word-break: break-word; }
+
+  @media (max-width: 1100px) {
+    .ins-summary-row { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .ins-table-container { background: var(--surface); border-radius: 22px; border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow); margin: 0; }
   .ins-modern-table { width: 100%; border-collapse: collapse; }
-  .ins-modern-table th { background: var(--bg); padding: 18px 28px; text-align: left; font-size: 13px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--border); }
-  .ins-modern-table td { padding: 20px 28px; font-size: 16px; border-bottom: 1px solid var(--border); color: var(--text); }
-  .ins-modern-table td.bold { font-weight: 700; color: var(--text); }
-  .ins-modern-table td.amount { font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #10b981; }
+  .ins-modern-table th { background: var(--bg); padding: 16px 24px; text-align: left; font-size: 11px; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+  .ins-modern-table td { padding: 18px 24px; font-size: 14px; border-bottom: 1px solid var(--border); color: var(--text); }
+  .ins-modern-table tr { transition: background 0.15s; }
+  .ins-modern-table tbody tr:hover { background: var(--bg); }
+  .ins-modern-table td.bold { font-weight: 800; color: var(--text); }
+  .ins-modern-table td.amount { font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #10b981; font-size: 14px; }
   .ins-modern-table td.amount.neg { color: #ef4444; }
-  .ins-badge { padding: 6px 12px; background: rgba(99, 102, 241, 0.1); color: #6366f1; border-radius: 10px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+  .ins-badge { padding: 4px 10px; background: rgba(var(--primary-rgb), 0.1); color: var(--primary); border-radius: 8px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
   .ins-badge.alt { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+
+  /* Action buttons in modern table */
+  .ins-modern-table td.actions { white-space: nowrap; text-align: right; }
+  .ins-modern-table td.actions button {
+    width: 34px; height: 34px; border-radius: 9px;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text-muted); margin-left: 6px;
+    display: inline-grid; place-items: center;
+    transition: 0.15s;
+  }
+  .ins-modern-table td.actions button:hover { color: var(--primary); border-color: var(--primary); background: var(--primary-soft); }
+  .ins-modern-table td.actions button.del:hover { color: #ef4444; border-color: #ef4444; background: rgba(239, 68, 68, 0.08); }
+  .ins-modern-table th.actions { text-align: right; }
+
+  /* Empty state inside modern table */
+  .ins-modern-table td.empty-state {
+    padding: 64px 24px !important;
+    text-align: center;
+  }
+  .ins-empty-illustration {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: var(--primary-soft);
+    color: var(--primary);
+    display: grid; place-items: center;
+    margin: 0 auto 16px;
+    font-size: 30px;
+  }
+  .ins-modern-table td.empty-state h4 {
+    margin: 0 0 6px; font-size: 18px; font-weight: 800; color: var(--text); letter-spacing: -0.3px;
+  }
+  .ins-modern-table td.empty-state p {
+    margin: 0; font-size: 14px; color: var(--text-muted); max-width: 460px; margin: 0 auto; line-height: 1.5;
+  }
 
   /* --- Premium Form & Input Styling --- */
   .ins-form { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 12px; }
@@ -761,22 +1031,69 @@ const INS_CSS = `
 
   /* --- Enhanced Spreadsheet Editor --- */
   .spreadsheet-container {
-    background: white;
-    border-radius: 32px;
+    background: var(--surface);
+    border-radius: 22px;
     border: 1px solid var(--border);
-    padding: 28px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
-    margin: 0 12px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    margin: 0;
     display: flex;
     flex-direction: column;
-    min-height: 650px;
+    min-height: 600px;
     min-width: 0;
     max-width: 100%;
     box-sizing: border-box;
   }
   
-  .sheet-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
-  .sheet-controls { display: flex; align-items: center; gap: 24px; }
+  .sheet-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 24px; margin-bottom: 16px;
+  }
+  .sheet-headline { flex: 1; min-width: 0; }
+  .sheet-title { font-size: 18px; font-weight: 900; margin: 0; display: flex; align-items: center; gap: 12px; color: var(--text); letter-spacing: -0.3px; }
+  .sheet-title svg { color: var(--primary); }
+  .sheet-mode-tag {
+    font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+    padding: 4px 10px; background: var(--primary-soft); color: var(--primary);
+    border-radius: 6px; border: 1px solid rgba(var(--primary-rgb), 0.18);
+  }
+  .sheet-helper { font-size: 13px; color: var(--text-muted); margin: 6px 0 0; }
+
+  .sheet-actions-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex-shrink: 0; }
+  .sheet-controls { display: flex; align-items: center; gap: 12px; }
+
+  /* Stats bar between header and grid */
+  .sheet-stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 14px 18px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+  .sheet-stat { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .sheet-stat .lab { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.6px; }
+  .sheet-stat .val { font-size: 18px; font-weight: 900; color: var(--text); letter-spacing: -0.3px; }
+  .sheet-stat .val.pos { color: #10b981; }
+  .sheet-stat .val.warn { color: #f59e0b; }
+
+  /* Empty state inside the grid */
+  .sheet-empty-row td { background: transparent !important; padding: 0 !important; border: none !important; }
+  .sheet-empty {
+    padding: 56px 24px;
+    text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px;
+    color: var(--text-muted);
+  }
+  .sheet-empty svg { font-size: 40px; color: var(--border); margin-bottom: 4px; }
+  .sheet-empty h4 { margin: 0; font-size: 18px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; }
+  .sheet-empty p { margin: 0 0 10px; font-size: 14px; max-width: 460px; line-height: 1.5; }
+  .sheet-empty .sheet-btn { margin-top: 4px; }
+
+  /* Footer hint */
+  .sheet-footer-hint { display: inline-flex; align-items: center; gap: 8px; }
+  .sheet-footer-hint svg { color: var(--primary); }
   
   .sheet-tabs { 
     display: flex; 
@@ -835,13 +1152,15 @@ const INS_CSS = `
     filter: brightness(1.1);
   }
 
-  .sheet-viewport { 
-    flex: 1; 
-    overflow: auto; 
-    border: 1px solid #e2e8f0; 
-    border-radius: 20px; 
-    background: #f8fafc; 
+  .sheet-viewport {
+    flex: 1;
+    overflow: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    background: #f8fafc;
     box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
+    min-width: 0;
+    max-width: 100%;
   }
   
   .dsm-spreadsheet { width: 100%; border-collapse: separate; border-spacing: 0; }
@@ -925,9 +1244,25 @@ const INS_CSS = `
   }
 
   @media (max-width: 768px) {
-    .ins-page { padding: 0; }
+    .ins-page {
+      padding: 0;
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+    .ins-tab-content, .ins-view, .ins-view.spreadsheet-tab {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      overflow-x: hidden;
+    }
 
-    .ins-header { flex-direction: column; align-items: stretch; gap: 12px; padding: 14px 14px 0; margin-bottom: 12px; text-align: left; }
+    .ins-header {
+      flex-direction: column; align-items: stretch; gap: 12px;
+      padding: 14px; margin: 12px 14px 14px;
+      text-align: left;
+      border-radius: 16px;
+    }
     .ins-title { font-size: 22px; letter-spacing: -0.5px; }
     .ins-subtitle { font-size: 13px; }
 
@@ -938,7 +1273,11 @@ const INS_CSS = `
     .ins-btn { height: 38px; padding: 0 12px; font-size: 12px; flex-shrink: 0; }
 
     /* Tabs: 2x2 grid so all 4 are visible at once on iPhone */
-    .ins-tabs-wrap { margin-bottom: 14px; padding: 0; border-bottom: 1px solid var(--border); }
+    .ins-tabs-wrap {
+      margin: 0 14px 14px;
+      padding: 4px;
+      border-radius: 14px;
+    }
     .ins-tabs-wrap::after { display: none; }
     .ins-tabs {
       display: grid; grid-template-columns: 1fr 1fr;
@@ -986,10 +1325,26 @@ const INS_CSS = `
     .ins-card-head { margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
     .ins-card-head h3 { font-size: 15px; gap: 10px; }
 
-    /* Action header (donations/budget) */
-    .ins-action-header { flex-direction: column; align-items: stretch; gap: 12px; padding: 0 14px; }
+    /* Action header (donations/budget) — flat on mobile */
+    .ins-action-header {
+      flex-direction: column; align-items: stretch; gap: 12px;
+      padding: 14px 14px 0;
+      background: transparent; border: none; box-shadow: none;
+      margin-bottom: 12px;
+    }
     .ins-action-header h3 { font-size: 20px; }
     .ins-action-header p { font-size: 13px; }
+
+    /* Summary row stacks 2-up on phones */
+    .ins-summary-row {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px; padding: 0 14px;
+      margin-bottom: 14px;
+    }
+    .ins-summary-card { padding: 12px 14px; border-radius: 12px; }
+    .ins-summary-label { font-size: 9px; letter-spacing: 0.4px; }
+    .ins-summary-value { font-size: 17px; }
+    .ins-summary-value.sm { font-size: 13px; }
     .ins-button-group { gap: 8px; flex-wrap: wrap; }
     .ins-button-group .ins-btn { flex: 1; min-width: 110px; justify-content: center; min-height: 42px; }
 
@@ -1029,20 +1384,40 @@ const INS_CSS = `
     .ins-form-footer button { width: 100%; min-height: 48px; }
 
     /* Spreadsheet on phones: horizontal scroll with proper column widths */
-    .spreadsheet-container { padding: 10px; margin: 0 14px; border-radius: 16px; min-height: 0; box-shadow: var(--shadow); }
+    .spreadsheet-container { padding: 14px; margin: 0 14px; border-radius: 16px; min-height: 0; box-shadow: var(--shadow); }
     .sheet-header { flex-direction: column; align-items: stretch; gap: 10px; margin-bottom: 12px; }
+    .sheet-headline { padding: 0 2px; }
+    .sheet-title { font-size: 16px; }
+    .sheet-mode-tag { font-size: 9px; padding: 3px 8px; }
+    .sheet-helper { font-size: 12px; }
+    .sheet-actions-bar { flex-direction: column; gap: 8px; align-items: stretch; }
     .sheet-controls { flex-direction: column; gap: 8px; }
     .sheet-tabs { width: 100%; padding: 3px; }
     .sheet-tabs button { flex: 1; padding: 10px 12px; font-size: 13px; min-height: 40px; }
     .sheet-btn { width: 100%; justify-content: center; min-height: 46px; font-size: 13px; }
 
+    /* Stats bar: 2x2 on phone */
+    .sheet-stats-bar { grid-template-columns: repeat(2, 1fr); padding: 10px 12px; gap: 10px; }
+    .sheet-stat .lab { font-size: 9px; }
+    .sheet-stat .val { font-size: 15px; }
+
+    .sheet-empty { padding: 40px 16px; }
+    .sheet-empty svg { font-size: 32px; }
+    .sheet-empty h4 { font-size: 16px; }
+    .sheet-empty p { font-size: 13px; }
+    .sheet-empty .sheet-btn { width: auto; min-width: 200px; }
+
     /* The viewport scrolls; force the table to its natural min-width so columns aren't crushed */
     .sheet-viewport {
       border-radius: 12px;
       overflow-x: auto;
+      overflow-y: visible;
       -webkit-overflow-scrolling: touch;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
     }
-    .dsm-spreadsheet { min-width: 720px; table-layout: fixed; }
+    .dsm-spreadsheet { min-width: 620px; table-layout: fixed; }
 
     /* Sticky # column for orientation while scrolling */
     .dsm-spreadsheet th.row-num,
@@ -1064,13 +1439,13 @@ const INS_CSS = `
     }
     .dsm-spreadsheet th.sheet-actions { background: #f1f5f9; }
 
-    /* Per-column widths for the editable cells */
-    .dsm-spreadsheet th { padding: 10px 12px; font-size: 10px; }
-    .dsm-spreadsheet th:nth-child(2) { min-width: 160px; } /* Donor / Item */
-    .dsm-spreadsheet th:nth-child(3) { min-width: 100px; } /* Amount */
-    .dsm-spreadsheet th:nth-child(4) { min-width: 130px; } /* Date */
-    .dsm-spreadsheet th:nth-child(5) { min-width: 130px; } /* Category */
-    .dsm-spreadsheet th:nth-child(6) { min-width: 200px; } /* Notes */
+    /* Per-column widths for the editable cells (sized to total ~620px) */
+    .dsm-spreadsheet th { padding: 10px 10px; font-size: 10px; }
+    .dsm-spreadsheet th:nth-child(2) { min-width: 140px; } /* Donor / Item */
+    .dsm-spreadsheet th:nth-child(3) { min-width: 90px; }  /* Amount */
+    .dsm-spreadsheet th:nth-child(4) { min-width: 120px; } /* Date */
+    .dsm-spreadsheet th:nth-child(5) { min-width: 120px; } /* Category */
+    .dsm-spreadsheet th:nth-child(6) { min-width: 160px; } /* Notes */
 
     .dsm-spreadsheet input {
       height: 46px; padding: 0 12px;
