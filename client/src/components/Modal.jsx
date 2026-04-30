@@ -2,7 +2,85 @@ import React from "react";
 import { useApp } from "../context/AppContext";
 import StudentForm from "../pages/StudentForm";
 
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaUserPlus, FaUnlockAlt, FaShieldAlt, FaKey } from "react-icons/fa";
+
+function AdminCreateModal({ onClose, onSuccess }) {
+  const { api } = useApp();
+  const [form, setForm] = React.useState({ name: "", email: "", username: "", password: "", role: "Admin" });
+  const [loading, setLoading] = React.useState(false);
+
+  const save = async () => {
+    if (!form.name || !form.email || !form.username || !form.password) return alert("Please fill all fields");
+    setLoading(true);
+    try {
+      await api.post("users", form);
+      onSuccess?.();
+      onClose();
+    } catch (err) {
+      alert("Failed to create admin");
+    } finally { setLoading(false); }
+  };
+
+  return (
+    <div className="admin-modal-form">
+      <div className="form-group">
+        <label>Full Name</label>
+        <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="e.g. Alice Johnson" />
+      </div>
+      <div className="form-group">
+        <label>Email Address</label>
+        <input value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="alice@dsm.com" />
+      </div>
+      <div className="form-group">
+        <label>Username</label>
+        <input value={form.username} onChange={e => setForm({ ...form, username: e.target.value })} placeholder="alice_admin" />
+      </div>
+      <div className="form-group">
+        <label>Initial Password</label>
+        <input type="password" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} placeholder="••••••••" />
+      </div>
+      <div className="modal-actions">
+        <button className="pro-btn" onClick={onClose}>Cancel</button>
+        <button className="pro-btn primary" onClick={save} disabled={loading}>{loading ? "Provisioning..." : "Create Administrator"}</button>
+      </div>
+    </div>
+  );
+}
+
+function AdminRecoverModal({ user, onClose }) {
+  const { api, setToast } = useApp();
+  const [pass, setPass] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+
+  const recover = async () => {
+    if (!pass) return alert("Please enter a new password");
+    setLoading(true);
+    try {
+      await api.put("users", { ...user, password: pass });
+      setToast({ type: "success", text: `Credentials reset for ${user.name}` });
+      onClose();
+    } catch (err) {
+      alert("Recovery failed");
+    } finally { setLoading(false); }
+  };
+
+  return (
+    <div className="admin-modal-form">
+      <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>
+        You are resetting the credentials for <strong>{user?.name}</strong> ({user?.username}). 
+        They will be required to use this password on their next login.
+      </p>
+      <div className="form-group">
+        <label>New Master Password</label>
+        <input type="password" value={pass} onChange={e => setPass(e.target.value)} placeholder="Enter new password" />
+      </div>
+      <div className="modal-actions">
+        <button className="pro-btn" onClick={onClose}>Cancel</button>
+        <button className="pro-btn primary" onClick={recover} disabled={loading}>{loading ? "Resetting..." : "Confirm Recovery"}</button>
+      </div>
+    </div>
+  );
+}
 
 function TaskPlaceholder({ onClose }) {
   return (
@@ -100,6 +178,16 @@ export default function Modal() {
           </div>
         </div>
       );
+      break;
+
+    case "admin_create":
+      title = modal.title || "Create Admin Account";
+      body = <AdminCreateModal onClose={close} onSuccess={modal.props?.onSuccess} />;
+      break;
+
+    case "admin_recover":
+      title = modal.title || "Recover Admin Account";
+      body = <AdminRecoverModal user={modal.props?.user} onClose={close} />;
       break;
 
     default: {

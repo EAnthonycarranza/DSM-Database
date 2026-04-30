@@ -161,6 +161,35 @@ export function AppProvider({ children }) {
     node: null,
   });
 
+  // History state (localStorage based for persistence)
+  const [history, setHistory] = useState(() => LS.read("dsm:history:v1", []));
+
+  const recordActivity = useCallback((type, payload) => {
+    setHistory(prev => {
+      const item = {
+        id: Math.random().toString(36).slice(2, 9),
+        type, // 'student_view', 'note_added', 'file_upload', 'message_sent'
+        timestamp: Date.now(),
+        ...payload
+      };
+
+      // De-duplicate if same type and same target (e.g. viewing same student twice)
+      let next = prev.filter(x => !(x.type === type && x.targetId === payload.targetId));
+      next = [item, ...next].slice(0, 50); // Keep 50 most recent
+      
+      LS.write("dsm:history:v1", next);
+      return next;
+    });
+  }, []);
+
+  const removeHistoryItem = useCallback((id) => {
+    setHistory(prev => {
+      const next = prev.filter(x => x.id !== id);
+      LS.write("dsm:history:v1", next);
+      return next;
+    });
+  }, []);
+
   // NEW: backend detection state
   const [apiBase] = useState(() => {
     const base = (DEFAULT_API_BASE || "/api").replace(/\/+$/, "");
@@ -929,20 +958,8 @@ const verifyMfa = useCallback(async ({ code, backupCode, method } = {}) => {
     return "offline";                            // > 30m
   }, [auth?.user?.id, auth?.authenticated]);
 
-  // Helpers to sanitize store shapes
-  const ensureArray = (v) => (Array.isArray(v) ? v : []);
-  const coerceStores = (obj) => {
-    const out = {};
-    for (const s of STORES) {
-      out[s] = s === "settings"
-        ? (obj?.[s] && typeof obj[s] === "object" ? obj[s] : defaultSettings)
-        : ensureArray(obj?.[s]);
-    }
-    return out;
-  };
-
-// Key changes to AppContext.js
-// Replace the api object in your AppContext.js with this updated version:
+  // Key changes to AppContext.js
+  // Replace the api object in your AppContext.js with this updated version:
 
 const api = useMemo(() => {
   return {
@@ -1256,31 +1273,18 @@ const engage = useMemo(() => {
     },
   };
 }, [apiRequest, auth?.user?.id, refreshStore]);
-  // Auto-poll messages ONLY when the Messages panel is open
-  useEffect(() => {
-    if (!serverOnline || !auth?.user?.id || !panels?.messages) return;
-
-    let stopped = false;
-    let timer = null;
-
-    const tick = async () => {
-      if (stopped) return;
-      try {
-        await refreshStore("messages");
-      } finally {
-        if (!stopped) {
-          timer = setTimeout(tick, POLL.messagesCooldownMs || 5000);
-        }
-      }
-    };
-
-    // kick off quickly, then back off to cooldown
-    timer = setTimeout(tick, 200);
-    return () => {
-      stopped = true;
-      if (timer) clearTimeout(timer);
-    };
-  }, [serverOnline, auth?.user?.id, panels?.messages, refreshStore]);
+  // Global Refresh Utility
+  const refreshAll = useCallback(async () => {
+    setReady(false);
+    try {
+      await Promise.all(STORES.map(s => refreshStore(s)));
+      setToast({ title: "System Refreshed", message: "All records are up to date.", type: "success" });
+    } catch {
+      setToast({ title: "Refresh Failed", message: "Check your connection.", type: "error" });
+    } finally {
+      setReady(true);
+    }
+  }, [refreshStore]);
   // --- profile helper: fetch a fresh copy of the signed-in user ---
   const fetchMyProfile = useCallback(async () => {
     const id = auth?.user?.id;
@@ -1359,6 +1363,12 @@ const engage = useMemo(() => {
       setPanels,
       modal,
       setModal,
+
+      // history
+      history,
+      recordActivity,
+      removeHistoryItem,
+      refreshAll,
     }),
     [
       ready,
@@ -1380,6 +1390,10 @@ const engage = useMemo(() => {
       login,
       logout,
       verifyMfa,
+      history,
+      recordActivity,
+      removeHistoryItem,
+      refreshAll,
     ]
   );
 

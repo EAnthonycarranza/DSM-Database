@@ -101,7 +101,7 @@ export default function LoginPage() {
             <div className="auth-group">
               <div className="label-row">
                 <label><FaLock /> Access Key</label>
-                <a href="/admin/password-reset">Forgot?</a>
+                <div />
               </div>
               <div className="input-wrap">
                 <input type="password" value={password} onChange={e => setPassword(e.target.value)} required placeholder="••••••••" />

@@ -359,7 +359,6 @@ export default function QuickMessagePanel() {
           <div className="qmp-head-actions">
             {view === "list" && (
               <>
-                <button className="qmp-icon-btn" onClick={loadData} title="Refresh"><FaSync /></button>
                 <button className="qmp-icon-btn" onClick={() => setView("new")} title="New message"><FaPlus /></button>
               </>
             )}

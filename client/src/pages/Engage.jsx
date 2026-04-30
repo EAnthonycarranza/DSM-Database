@@ -6,6 +6,7 @@ import {
   FaHashtag, FaEllipsisH, FaPen, FaCircle, FaUserShield, FaChevronLeft,
   FaCheck, FaCheckDouble
 } from "react-icons/fa";
+import { useSearchParams } from "react-router-dom";
 
 // ─── Helpers ───────────────────────────────────────────────
 function escHtml(s) {
@@ -67,7 +68,8 @@ function fmtDay(ts) {
 
 // ─── Main Component ────────────────────────────────────────
 export default function Engage() {
-  const { api, user, engage, presenceFor } = useApp();
+  const { api, user, engage, presenceFor, recordActivity } = useApp();
+  const [searchParams] = useSearchParams();
 
   const me = user?.id || null;
 
@@ -131,53 +133,16 @@ export default function Engage() {
     return () => { mountedRef.current = false; };
   }, [me]);
 
-  // ─── Background polling (silent, no flicker) ───
+  // Handle deep-link to thread via URL
   React.useEffect(() => {
-    if (!me) return;
-    let stopped = false;
-    const poll = async () => {
-      if (stopped) return;
-      try {
-        const [freshThreads, freshUsers] = await Promise.all([
-          engage.listMine().catch(() => null),
-          api.getAll("users", {}).catch(() => null)
-        ]);
-        if (stopped || !mountedRef.current) return;
-        if (freshThreads) {
-          setThreads(prev => {
-            const normalized = freshThreads.map(t => ({
-              ...t,
-              members: t.members || t.participants || [],
-              participants: t.participants || t.members || [],
-              messages: Array.isArray(t.messages) ? t.messages : [],
-              readBy: t.readBy || {}
-            })).filter(t => {
-              const others = (t.members || []).filter(id => id !== me);
-              return others.every(id => {
-                const u = (freshUsers || users).find(x => x.id === id);
-                return !u || String(u.role || "").toLowerCase() === "admin";
-              });
-            });
-            // Only update if message counts or content actually changed
-            if (JSON.stringify(prev.map(t => t.messages?.length)) === JSON.stringify(normalized.map(t => t.messages?.length))
-                && prev.length === normalized.length) {
-              return prev;
-            }
-            return normalized;
-          });
-        }
-        if (freshUsers) {
-          setUsers(prev => {
-            if (prev.length === freshUsers.length && prev.every((u, i) => u.id === freshUsers[i]?.id && u.presence === freshUsers[i]?.presence)) return prev;
-            return freshUsers;
-          });
-        }
-      } catch {}
-      if (!stopped) pollRef.current = setTimeout(poll, 8000);
-    };
-    pollRef.current = setTimeout(poll, 8000);
-    return () => { stopped = true; if (pollRef.current) clearTimeout(pollRef.current); };
-  }, [me]);
+    const tid = searchParams.get("threadId");
+    if (tid && tid !== activeId) {
+      setActiveId(tid);
+      setMobileView("chat");
+    }
+  }, [searchParams, activeId]);
+
+
 
   // Auto-select first thread on desktop
   React.useEffect(() => {
@@ -288,8 +253,24 @@ export default function Engage() {
               read: false,
               createdAt: Date.now()
             });
+            const st = users.find(u => u.id === targetUser.id);
+            recordActivity('message_sent', {
+              targetId: targetUser.id,
+              targetName: st?.name || 'User',
+              text: previewText,
+              meta: `Sent direct message with @mention`
+            });
           }
         }
+      } else {
+        const other = getOtherUser(active);
+        recordActivity('message_sent', {
+          targetId: other?.id,
+          targetName: other?.name || 'Direct Message',
+          text: text.substring(0, 50) + (text.length > 50 ? '...' : ''),
+          threadId: active.id,
+          meta: `Sent message in thread`
+        });
       }
     } catch {
       // Revert optimistic update on failure

@@ -51,7 +51,7 @@ function StudentChip({ student, onClick }) {
 }
 
 export default function Students() {
-  const { api, data, setModal, setToast } = useApp();
+  const { api, data, setModal, setToast, search: globalSearch } = useApp();
   const navigate = useNavigate();
   const [rows, setRows] = useState([]);
   const [q, setQ] = useState("");
@@ -122,12 +122,12 @@ export default function Students() {
   }, [setModal, api, onlyStudents, navigate]);
 
   const filtered = useMemo(() => {
-    const txt = q.trim().toLowerCase();
+    const txt = (q || globalSearch || "").trim().toLowerCase();
     if (!txt) return rows;
     return rows.filter((r) => 
       `${r.firstName} ${r.lastName} ${r.email} ${r.status}`.toLowerCase().includes(txt)
     );
-  }, [rows, q]);
+  }, [rows, q, globalSearch]);
 
   async function handleImportChange(e) {
     const file = e.target.files && e.target.files[0];

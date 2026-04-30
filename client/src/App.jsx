@@ -12,7 +12,6 @@ import UserDashboard from "./pages/User/Dashboard";
 import UserLogin from "./pages/User/UserLogin";
 import UserCreation from "./pages/User/UserCreation";
 import LoginPage from "./pages/LoginPage";
-import Password from "./pages/PasswordReset";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/CRMProfile";
 import UserDocument from "./pages/User/UserPdfTool";
@@ -22,6 +21,7 @@ import FormManager from "./pages/Admin/FormManager";
 import FormViewer from "./pages/User/FormViewer";
 import AdminPdfEditor from "./components/AdminPdfEditor";
 import UnifiedPdfEditor from "./components/PdfEditor";
+import History from "./pages/History";
 
 import { useApp } from "./context/AppContext";
 
@@ -217,12 +217,12 @@ function AppLayout({ panels, setPanels, notifs }) {
           <Route path="/admin/teams" element={<AdminOnly><Teams /></AdminOnly>} />
           <Route path="/admin/forms" element={<AdminOnly><FormManager /></AdminOnly>} />
           <Route path="/admin/form-builder" element={<AdminOnly><AdminFormBuilder /></AdminOnly>} />
-          <Route path="/admin/password-reset" element={<AdminOnly><Password /></AdminOnly>} />
           <Route path="/admin/reset-password" element={<AdminOnly><ResetPassword /></AdminOnly>} />
           <Route path="/admin/document" element={<AdminOnly><UserDocument /></AdminOnly>} />
           <Route path="/admin/form/:formId" element={<AdminOnly><FormViewer /></AdminOnly>} />
           <Route path="/admin/login" element={<LoginPage />} />
           <Route path="/admin/profile" element={<AdminOnly><Profile /></AdminOnly>} />
+          <Route path="/admin/history" element={<AdminOnly><History /></AdminOnly>} />
 
           {/* Student Routes */}
           <Route path="/dashboard" element={<UserDashboard />} />

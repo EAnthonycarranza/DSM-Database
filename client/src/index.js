@@ -16,6 +16,21 @@ if (typeof globalScope.system === "undefined") {
   globalScope.system = {};
 }
 
+// Suppress ResizeObserver loop errors (harmless layout timing warnings)
+const resizeObserverErrorHandler = (e) => {
+  const msg = e.message || (e.reason && e.reason.message) || "";
+  if (
+    msg.includes("ResizeObserver loop completed with undelivered notifications.") || 
+    msg.includes("ResizeObserver loop limit exceeded")
+  ) {
+    e.stopImmediatePropagation();
+    e.preventDefault();
+  }
+};
+
+window.addEventListener("error", resizeObserverErrorHandler);
+window.addEventListener("unhandledrejection", resizeObserverErrorHandler);
+
 const container = document.getElementById("root");
 const root = createRoot(container);
 

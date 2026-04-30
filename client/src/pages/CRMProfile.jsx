@@ -3,7 +3,8 @@ import { useApp } from "../context/AppContext";
 import { 
   FaUser, FaEnvelope, FaPhone, FaBuilding, FaIdBadge, 
   FaCalendarAlt, FaQuoteLeft, FaSave, FaSync, FaCamera, 
-  FaTrash, FaKey, FaChevronRight, FaShieldAlt
+  FaTrash, FaKey, FaChevronRight, FaShieldAlt, FaUserShield,
+  FaUnlockAlt, FaUserPlus, FaLock, FaEye, FaEyeSlash
 } from "react-icons/fa";
 
 export default function AdminProfilePage({
@@ -12,7 +13,7 @@ export default function AdminProfilePage({
   enableLocalPersistence = true,
   storageKey = "admin_profile_page.v1",
 }) {
-  const { user: me, api, refreshProfile, setToast } = useApp();
+  const { user: me, api, refreshProfile, setToast, data, setModal } = useApp();
 
   const defaults = useMemo(() => ({
     fullName: "", username: "", email: "", role: "Administrator",
@@ -40,6 +41,7 @@ export default function AdminProfilePage({
     };
   }, [me, defaults.preferences]);
 
+  const [view, setView] = useState("details"); // details, security, password
   const [profile, setProfile] = useState(() => {
     if (enableLocalPersistence) {
       try {
@@ -49,11 +51,33 @@ export default function AdminProfilePage({
     }
     return { ...defaults, ...fromUser };
   });
-
   const [dirty, setDirty] = useState(false);
   const [saving, setSaving] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const fileRef = useRef(null);
+
+  // Password state
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPw, setShowPw] = useState({});
+
+  const passwordStrength = useMemo(() => {
+    if (!newPassword) return { score: 0, text: 'Empty', color: '#94a3b8' };
+    let s = 0;
+    if (newPassword.length >= 8) s += 25;
+    if (/[A-Z]/.test(newPassword)) s += 25;
+    if (/[0-9]/.test(newPassword)) s += 25;
+    if (/[^A-Za-z0-9]/.test(newPassword)) s += 25;
+    if (s <= 25) return { score: s, text: 'Weak', color: '#ef4444' };
+    if (s <= 50) return { score: s, text: 'Fair', color: '#f59e0b' };
+    if (s <= 75) return { score: s, text: 'Good', color: '#10b981' };
+    return { score: s, text: 'Strong', color: '#6366f1' };
+  }, [newPassword]);
+
+  // For Admin Management (Security View)
+  const allAdmins = useMemo(() => {
+    return (data?.users || []).filter(u => String(u?.role || "").toLowerCase() === "admin" && u.id !== me?.id);
+  }, [data?.users, me?.id]);
 
   useEffect(() => {
     if (fromUser && !dirty) setProfile(p => ({ ...p, ...fromUser }));
@@ -109,20 +133,74 @@ export default function AdminProfilePage({
     } finally { setSaving(false); }
   };
 
+  const handleCreateAdmin = () => {
+    setModal({
+      open: true,
+      type: "admin_create",
+      title: "Provision Admin Account",
+      props: { 
+        onSuccess: () => setToast({ type: "success", text: "Admin account created" })
+      }
+    });
+  };
+
+  const handleRecoverAdmin = (u) => {
+    setModal({
+      open: true,
+      type: "admin_recover",
+      title: "Security Recovery: " + u.name,
+      props: { user: u }
+    });
+  };
+
+  const handleUpdatePassword = async () => {
+    if (!newPassword) return;
+    if (newPassword !== confirmPassword) {
+      return setToast({ type: 'warn', text: "Passwords do not match" });
+    }
+    setSaving(true);
+    try {
+      await api.put("users", { ...me, password: newPassword });
+      setToast({ type: 'success', text: "Password updated successfully" });
+      setNewPassword('');
+      setConfirmPassword('');
+      setView("details");
+    } catch (e) {
+      setToast({ type: 'error', text: "Failed to update password" });
+    } finally { setSaving(false); }
+  };
+
   return (
     <section className="pro-page fade-in">
       <style>{PRO_CSS}</style>
 
       <header className="pro-header">
         <div>
-          <h1 className="pro-title">Account Settings</h1>
-          <p className="pro-subtitle">Manage your personal information and preferences.</p>
+          <h1 className="pro-title">
+            {view === "details" && "Account Settings"}
+            {view === "security" && "Security & Governance"}
+            {view === "password" && "Credential Management"}
+          </h1>
+          <p className="pro-subtitle">
+            {view === "details" && "Manage your personal information and profile appearance."}
+            {view === "security" && "Advanced administrative security, 2FA, and user provisioning."}
+            {view === "password" && "Secure your account with a high-entropy master password."}
+          </p>
         </div>
         <div className="pro-actions">
-          <button className="pro-btn" onClick={() => setProfile(fromUser)} disabled={!dirty}><FaSync /> Reset</button>
-          <button className="pro-btn primary" onClick={doSave} disabled={!dirty || saving}>
-            <FaSave /> {saving ? "Saving..." : "Save Changes"}
-          </button>
+          {view === "details" && (
+            <>
+              <button className="pro-btn" onClick={() => setProfile(fromUser)} disabled={!dirty}><FaSync /> Reset</button>
+              <button className="pro-btn primary" onClick={doSave} disabled={!dirty || saving}>
+                <FaSave /> {saving ? "Saving..." : "Save Changes"}
+              </button>
+            </>
+          )}
+          {view === "security" && (
+            <button className="pro-btn primary" onClick={handleCreateAdmin}>
+              <FaIdBadge /> Create Admin
+            </button>
+          )}
         </div>
       </header>
 
@@ -158,59 +236,170 @@ export default function AdminProfilePage({
           </div>
 
           <div className="pro-nav-card">
-            <div className="nav-item active"><FaUser /> Personal Details <FaChevronRight /></div>
-            <div className="nav-item"><FaShieldAlt /> Security <FaChevronRight /></div>
-            <div className="nav-item" onClick={() => window.location.href='/admin/password-reset'}><FaKey /> Password <FaChevronRight /></div>
+            <div className={`nav-item ${view === "details" ? "active" : ""}`} onClick={() => setView("details")}>
+              <FaUser /> Personal Details <FaChevronRight />
+            </div>
+            <div className={`nav-item ${view === "security" ? "active" : ""}`} onClick={() => setView("security")}>
+              <FaShieldAlt /> Security Hub <FaChevronRight />
+            </div>
+            <div className={`nav-item ${view === "password" ? "active" : ""}`} onClick={() => setView("password")}>
+              <FaKey /> Account Access <FaChevronRight />
+            </div>
           </div>
         </aside>
 
         <main className="pro-main">
-          <div className="pro-card">
-            <div className="card-head"><h3><FaUser /> Public Profile</h3></div>
-            <div className="card-body">
-              <div className="form-grid">
-                <div className="form-group">
-                  <label><FaIdBadge /> Full Name</label>
-                  <input value={profile.fullName} onChange={e => setField("fullName", e.target.value)} placeholder="e.g. John Smith" />
-                </div>
-                <div className="form-group">
-                  <label><FaIdBadge /> Username</label>
-                  <input value={profile.username} onChange={e => setField("username", e.target.value)} placeholder="johnsmith" />
-                </div>
-                <div className="form-group">
-                  <label><FaEnvelope /> Email Address</label>
-                  <input value={profile.email} onChange={e => setField("email", e.target.value)} placeholder="john@example.com" />
-                </div>
-                <div className="form-group">
-                  <label><FaPhone /> Phone Number</label>
-                  <input value={profile.phone} onChange={e => setField("phone", e.target.value)} placeholder="+1 (555) 000-0000" />
-                </div>
-                <div className="form-group">
-                  <label><FaBuilding /> Department</label>
-                  <input value={profile.department} onChange={e => setField("department", e.target.value)} placeholder="Administration" />
-                </div>
-                <div className="form-group">
-                  <label><FaCalendarAlt /> Date of Birth</label>
-                  <input type="date" value={profile.dob} onChange={e => setField("dob", e.target.value)} />
+          {view === "details" && (
+            <>
+              <div className="pro-card">
+                <div className="card-head"><h3><FaUser /> Public Profile</h3></div>
+                <div className="card-body">
+                  <div className="form-grid">
+                    <div className="form-group">
+                      <label><FaIdBadge /> Full Name</label>
+                      <input value={profile.fullName} onChange={e => setField("fullName", e.target.value)} placeholder="e.g. John Smith" />
+                    </div>
+                    <div className="form-group">
+                      <label><FaIdBadge /> Username</label>
+                      <input value={profile.username} onChange={e => setField("username", e.target.value)} placeholder="johnsmith" />
+                    </div>
+                    <div className="form-group">
+                      <label><FaEnvelope /> Email Address</label>
+                      <input value={profile.email} onChange={e => setField("email", e.target.value)} placeholder="john@example.com" />
+                    </div>
+                    <div className="form-group">
+                      <label><FaPhone /> Phone Number</label>
+                      <input value={profile.phone} onChange={e => setField("phone", e.target.value)} placeholder="+1 (555) 000-0000" />
+                    </div>
+                    <div className="form-group">
+                      <label><FaBuilding /> Department</label>
+                      <input value={profile.department} onChange={e => setField("department", e.target.value)} placeholder="Administration" />
+                    </div>
+                    <div className="form-group">
+                      <label><FaCalendarAlt /> Date of Birth</label>
+                      <input type="date" value={profile.dob} onChange={e => setField("dob", e.target.value)} />
+                    </div>
+                  </div>
+                  <div className="form-group wide">
+                    <label><FaQuoteLeft /> Biography</label>
+                    <textarea rows={4} value={profile.bio} onChange={e => setField("bio", e.target.value)} placeholder="Tell us about yourself..." />
+                  </div>
                 </div>
               </div>
-              <div className="form-group wide">
-                <label><FaQuoteLeft /> Biography</label>
-                <textarea rows={4} value={profile.bio} onChange={e => setField("bio", e.target.value)} placeholder="Tell us about yourself..." />
-              </div>
-            </div>
-          </div>
 
-          <div className="pro-card danger">
-            <div className="card-head"><h3><FaShieldAlt /> Critical Access</h3></div>
-            <div className="card-body">
-              <p>For your security, roles and permissions can only be updated by a system supervisor.</p>
-              <div className="role-display">
-                <div className="label">Current Assigned Role</div>
-                <div className="val">{profile.role}</div>
+              <div className="pro-card danger">
+                <div className="card-head"><h3><FaShieldAlt /> Critical Access</h3></div>
+                <div className="card-body">
+                  <p>For your security, roles and permissions can only be updated by a system supervisor.</p>
+                  <div className="role-display">
+                    <div className="label">Current Assigned Role</div>
+                    <div className="val">{profile.role}</div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {view === "security" && (
+            <div className="security-view">
+              <div className="pro-card">
+                <div className="card-head"><h3><FaLock /> Multi-Factor Authentication</h3></div>
+                <div className="card-body">
+                  <div className="mfa-row">
+                    <div className="mfa-info">
+                      <div className="mfa-title">Authenticator App (2FA)</div>
+                      <div className="mfa-desc">Secure your account using a time-based one-time password (TOTP).</div>
+                    </div>
+                    <button className="pro-btn">Configure</button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pro-card">
+                <div className="card-head"><h3><FaUnlockAlt /> Governance: Admin Recovery</h3></div>
+                <div className="card-body">
+                  <p className="governance-intro">As a system administrator, you have the authority to recover credentials for other administrative accounts in the case of a lockout.</p>
+                  
+                  <div className="admin-list">
+                    {allAdmins.length === 0 ? (
+                      <div className="empty-admins">No other administrators found.</div>
+                    ) : (
+                      allAdmins.map(u => (
+                        <div key={u.id} className="admin-row">
+                          <div className="admin-info">
+                            <div className="admin-name">{u.name || u.fullName}</div>
+                            <div className="admin-sub">{u.email} • {u.username}</div>
+                          </div>
+                          <button className="pro-btn" onClick={() => handleRecoverAdmin(u)}>Recover Access</button>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="pro-card danger">
+                <div className="card-head"><h3><FaUserPlus /> System Provisioning</h3></div>
+                <div className="card-body">
+                  <p>Adding new administrators grants significant system-wide permissions. Ensure the user has undergone proper security clearance.</p>
+                  <button className="pro-btn primary" style={{ marginTop: '12px' }} onClick={handleCreateAdmin}>
+                    Provision New Administrator
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          )}
+
+          {view === "password" && (
+            <div className="password-view">
+              <div className="pro-card">
+                <div className="card-head"><h3><FaLock /> Update Access Key</h3></div>
+                <div className="card-body">
+                  <div className="password-form-stack">
+                    <div className="form-group">
+                      <label>New Master Password</label>
+                      <div className="password-input-wrap">
+                        <input 
+                          type={showPw.new ? "text" : "password"} 
+                          value={newPassword} 
+                          onChange={e => setNewPassword(e.target.value)} 
+                          placeholder="••••••••" 
+                        />
+                        <button className="pw-toggle" onClick={() => setShowPw(p => ({...p, new: !p.new}))}>
+                          {showPw.new ? <FaEyeSlash /> : <FaEye />}
+                        </button>
+                      </div>
+                      {newPassword && (
+                        <div className="strength-container">
+                          <div className="strength-label">Security Score: <strong>{passwordStrength.text}</strong></div>
+                          <div className="strength-bar"><div className="fill" style={{ width: `${passwordStrength.score}%`, background: passwordStrength.color }} /></div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="form-group">
+                      <label>Confirm New Password</label>
+                      <div className="password-input-wrap">
+                        <input 
+                          type={showPw.conf ? "text" : "password"} 
+                          value={confirmPassword} 
+                          onChange={e => setConfirmPassword(e.target.value)} 
+                          placeholder="••••••••" 
+                        />
+                        <button className="pw-toggle" onClick={() => setShowPw(p => ({...p, conf: !p.conf}))}>
+                          {showPw.conf ? <FaEyeSlash /> : <FaEye />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <button className="pro-btn primary" style={{ marginTop: '12px' }} disabled={!newPassword || saving} onClick={handleUpdatePassword}>
+                      {saving ? "Synchronizing..." : "Update Master Key"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </main>
       </div>
     </section>
@@ -269,6 +458,31 @@ const PRO_CSS = `
   .form-group input, .form-group textarea { padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); font-weight: 600; font-size: 14px; outline: none; transition: 0.2s; color: var(--text); }
   .form-group input:focus, .form-group textarea:focus { border-color: var(--primary); background: var(--surface); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
 
+  .security-view { display: flex; flex-direction: column; gap: 24px; }
+  .mfa-row { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .mfa-info { flex: 1; }
+  .mfa-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .mfa-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+  .password-form-stack { display: flex; flex-direction: column; gap: 24px; max-width: 480px; }
+  .password-input-wrap { position: relative; }
+  .password-input-wrap input { width: 100% !important; padding-right: 48px !important; }
+  .pw-toggle { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 16px; border: none; background: none; cursor: pointer; display: grid; place-items: center; transition: 0.2s; }
+  .pw-toggle:hover { color: var(--primary); }
+
+  .strength-container { margin-top: 12px; }
+  .strength-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
+  .strength-bar { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .strength-bar .fill { height: 100%; transition: 0.3s; }
+
+  .governance-intro { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
+  .admin-list { display: flex; flex-direction: column; gap: 12px; }
+  .admin-row { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 16px; }
+  .admin-info { flex: 1; }
+  .admin-name { font-size: 14px; font-weight: 700; color: var(--text); }
+  .admin-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .empty-admins { padding: 32px; text-align: center; color: var(--text-muted); font-size: 14px; font-style: italic; }
+
   .role-display { margin-top: 20px; padding: 16px; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); }
   .role-display .label { font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
   .role-display .val { font-size: 15px; font-weight: 700; color: var(--text); margin-top: 4px; }
@@ -291,7 +505,6 @@ const PRO_CSS = `
     .avatar-wrapper { width: 110px; height: 110px; margin-bottom: 16px; }
     .profile-identity h3 { font-size: 18px; }
 
-    /* Convert nav card to horizontal-scrolling pill bar */
     .pro-nav-card {
       display: flex;
       overflow-x: auto;
@@ -319,5 +532,8 @@ const PRO_CSS = `
 
     .form-grid { grid-template-columns: 1fr; gap: 14px; }
     .form-group input, .form-group textarea { padding: 14px; font-size: 16px; min-height: 48px; }
+    
+    .admin-row { flex-direction: column; align-items: stretch; gap: 12px; }
+    .admin-row button { width: 100%; justify-content: center; }
   }
 `;

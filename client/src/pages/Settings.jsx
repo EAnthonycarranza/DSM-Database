@@ -60,7 +60,7 @@ function ListEditor({ title, icon: Icon, items, setItems, placeholder, color = "
     <div className="set-card">
       <div className="set-card-head">
         <div className="set-card-title">
-          <div className="set-ico" style={{ background: `${color}15`, color: color }}>
+          <div className="set-ico" style={{ background: `color-mix(in srgb, ${color}, transparent 85%)`, color: color }}>
             {Icon ? <Icon size={14} /> : null}
           </div>
           <strong>{title}</strong>
@@ -254,21 +254,21 @@ export default function Settings() {
       </div>
 
       <div className="set-grid">
-        <ListEditor title="User Statuses" icon={FaTags} items={statuses} setItems={setStatuses} placeholder="New status..." color="#6366f1" />
-        <ListEditor title="Program Phases" icon={FaListOl} items={phases} setItems={setPhases} placeholder="New phase..." color="#8b5cf6" />
-        <ListEditor title="Assigned Squads" icon={FaUsers} items={squads} setItems={setSquads} placeholder="New squad..." color="#3b82f6" />
-        <ListEditor title="Record Types" icon={FaIdBadge} items={recordTypes} setItems={setRecordTypes} placeholder="New type..." color="#ec4899" />
-        <ListEditor title="Housing/Dorms" icon={FaBed} items={dorms} setItems={setDorms} placeholder="New dorm..." color="#10b981" />
-        <ListEditor title="App Statuses" icon={FaClipboardCheck} items={appStatuses} setItems={setAppStatuses} placeholder="New status..." color="#f59e0b" />
-        <ListEditor title="Background Status" icon={FaShieldAlt} items={bgStatuses} setItems={setBgStatuses} placeholder="New status..." color="#ef4444" />
-        <ListEditor title="ID Verification" icon={FaIdCard} items={idOptions} setItems={setIdOptions} placeholder="New option..." color="#14b8a6" />
-        <ListEditor title="Work Readiness" icon={FaBriefcase} items={readinessOptions} setItems={setReadinessOptions} placeholder="New option..." color="#6366f1" />
-        <ListEditor title="Fitness Levels" icon={FaRunning} items={fitnessOptions} setItems={setFitnessOptions} placeholder="New option..." color="#10b981" />
-        <ListEditor title="Genders" icon={FaUser} items={genders} setItems={setGenders} placeholder="New gender..." color="#8b5cf6" />
+        <ListEditor title="User Statuses" icon={FaTags} items={statuses} setItems={setStatuses} placeholder="New status..." color="var(--primary)" />
+        <ListEditor title="Program Phases" icon={FaListOl} items={phases} setItems={setPhases} placeholder="New phase..." color="var(--primary)" />
+        <ListEditor title="Assigned Squads" icon={FaUsers} items={squads} setItems={setSquads} placeholder="New squad..." color="var(--primary)" />
+        <ListEditor title="Record Types" icon={FaIdBadge} items={recordTypes} setItems={setRecordTypes} placeholder="New type..." color="var(--primary)" />
+        <ListEditor title="Housing/Dorms" icon={FaBed} items={dorms} setItems={setDorms} placeholder="New dorm..." color="var(--secondary)" />
+        <ListEditor title="App Statuses" icon={FaClipboardCheck} items={appStatuses} setItems={setAppStatuses} placeholder="New status..." color="var(--accent)" />
+        <ListEditor title="Background Status" icon={FaShieldAlt} items={bgStatuses} setItems={setBgStatuses} placeholder="New status..." color="var(--danger)" />
+        <ListEditor title="ID Verification" icon={FaIdCard} items={idOptions} setItems={setIdOptions} placeholder="New option..." color="var(--secondary)" />
+        <ListEditor title="Work Readiness" icon={FaBriefcase} items={readinessOptions} setItems={setReadinessOptions} placeholder="New option..." color="var(--primary)" />
+        <ListEditor title="Fitness Levels" icon={FaRunning} items={fitnessOptions} setItems={setFitnessOptions} placeholder="New option..." color="var(--secondary)" />
+        <ListEditor title="Genders" icon={FaUser} items={genders} setItems={setGenders} placeholder="New gender..." color="var(--primary)" />
         
         {/* Placeholder for future sections */}
         <div className="set-card info">
-          <div className="set-card-head"><div className="set-card-title"><div className="set-ico" style={{background:'#f59e0b15', color:'#f59e0b'}}><FaShieldAlt size={14}/></div><strong>Security & Access</strong></div></div>
+          <div className="set-card-head"><div className="set-card-title"><div className="set-ico" style={{background:'var(--accent-soft)', color:'var(--accent)'}}><FaShieldAlt size={14}/></div><strong>Security & Access</strong></div></div>
           <div className="set-list-wrap"><p className="hint">Audit logs and permission groups are managed in the Team portal.</p></div>
         </div>
       </div>
@@ -277,69 +277,73 @@ export default function Settings() {
 }
 
 const LOCAL_CSS = `
-  .set-page { padding: 32px; background: #f8fafc; min-height: calc(100vh - 64px); font-family: 'Inter', system-ui, sans-serif; }
+  .set-page { padding: 32px; background: var(--bg); min-height: calc(100vh - 64px); font-family: 'Inter', system-ui, sans-serif; }
   
-  .set-hero { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 24px 32px; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 32px; }
+  .set-hero { display: flex; align-items: center; justify-content: space-between; background: var(--surface); padding: 24px 32px; border-radius: 20px; border: 1px solid var(--border); box-shadow: var(--shadow); margin-bottom: 32px; }
   .set-hero-left { display: flex; align-items: center; gap: 20px; }
   .set-avatar-wrap { position: relative; }
-  .set-avatar-icon { color: #94a3b8; }
-  .set-presence-ring { position: absolute; bottom: 0; right: 0; width: 14px; height: 14px; border-radius: 50%; border: 3px solid #fff; }
-  .set-presence-ring.online { background: #10b981; }
-  .set-presence-ring.away { background: #f59e0b; }
-  .set-presence-ring.offline { background: #94a3b8; }
+  .set-avatar-icon { color: var(--text-muted); }
+  .set-presence-ring { position: absolute; bottom: 0; right: 0; width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--surface); }
+  .set-presence-ring.online { background: var(--success); }
+  .set-presence-ring.away { background: var(--warning); }
+  .set-presence-ring.offline { background: var(--text-muted); }
 
   .set-hero-info { display: flex; flex-direction: column; }
-  .set-signed-label { font-size: 12px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-  .set-username { font-size: 18px; font-weight: 800; color: #0f172a; }
+  .set-signed-label { font-size: 11px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+  .set-username { font-size: 18px; font-weight: 800; color: var(--text); }
 
-  .set-status-pill { display: flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 12px; border: 1px solid #e2e8f0; background: #fff; cursor: pointer; font-size: 13px; font-weight: 700; transition: all 0.2s; position: relative; }
-  .set-status-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; }
-  .set-status-pill.online .dot { background: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
-  .set-status-pill.away .dot { background: #f59e0b; }
-  .set-status-pill.offline .dot { background: #ef4444; }
+  .set-status-pill { display: flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); cursor: pointer; font-size: 13px; font-weight: 700; transition: all 0.2s; position: relative; color: var(--text); }
+  .set-status-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); }
+  .set-status-pill.online .dot { background: var(--success); box-shadow: 0 0 8px rgba(var(--primary-rgb), 0.4); }
+  .set-status-pill.away .dot { background: var(--warning); }
+  .set-status-pill.offline .dot { background: var(--text-muted); }
   
-  .set-status-pop { position: absolute; top: calc(100% + 8px); left: 0; width: 140px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); padding: 6px; z-index: 100; }
-  .set-status-opt { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; border: none; background: none; cursor: pointer; border-radius: 8px; font-size: 13px; font-weight: 600; color: #475569; transition: background 0.2s; }
-  .set-status-opt:hover { background: #f1f5f9; color: #0f172a; }
-  .set-status-opt .dot { width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; }
-  .set-status-opt .dot.online { background: #10b981; }
-  .set-status-opt .dot.away { background: #f59e0b; }
-  .set-status-opt .dot.offline { background: #ef4444; }
+  .set-status-pop { position: absolute; top: calc(100% + 8px); left: 0; width: 140px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-lg); padding: 6px; z-index: 100; }
+  .set-status-opt { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; border: none; background: none; cursor: pointer; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--text-muted); transition: all 0.2s; }
+  .set-status-opt:hover { background: var(--primary-soft); color: var(--primary); }
+  .set-status-opt .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); }
+  .set-status-opt .dot.online { background: var(--success); }
+  .set-status-opt .dot.away { background: var(--warning); }
+  .set-status-opt .dot.offline { background: var(--text-muted); }
 
-  .set-save-btn { display: flex; align-items: center; gap: 10px; padding: 12px 24px; border-radius: 14px; background: #4f46e5; color: #fff; border: none; cursor: pointer; font-weight: 700; font-size: 14px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); transition: all 0.2s; }
-  .set-save-btn:hover { background: #4338ca; transform: translateY(-1px); }
+  .set-save-btn { display: flex; align-items: center; gap: 10px; padding: 12px 24px; border-radius: 14px; background: var(--primary); color: white; border: none; cursor: pointer; font-weight: 700; font-size: 14px; box-shadow: var(--shadow-brand); transition: all 0.2s; }
+  .set-save-btn:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); }
   .set-save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  :root[data-theme="dark"] .set-save-btn { color: #1A1014; }
 
-  .set-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 24px; }
-  .set-card { background: #fff; border-radius: 20px; border: 1px solid #e2e8f0; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .set-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
+  .set-card { background: var(--surface); border-radius: 24px; border: 1px solid var(--border); padding: 24px; box-shadow: var(--shadow); }
   .set-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
   .set-card-title { display: flex; align-items: center; gap: 12px; }
   .set-ico { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; }
-  .set-card-title strong { font-size: 16px; font-weight: 800; color: #1e293b; }
-  .set-card-title .count { font-size: 11px; font-weight: 800; background: #f1f5f9; color: #64748b; padding: 2px 8px; border-radius: 20px; }
+  .set-card-title strong { font-size: 16px; font-weight: 800; color: var(--text); }
+  .set-card-title .count { font-size: 11px; font-weight: 800; background: var(--bg); color: var(--text-muted); padding: 2px 8px; border-radius: 20px; border: 1px solid var(--border); }
 
-  .set-card-add { display: flex; align-items: center; gap: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 4px 6px; }
-  .set-input-small { background: none; border: none; outline: none; font-size: 13px; font-weight: 500; padding: 6px 8px; width: 120px; }
-  .set-add-btn { width: 28px; height: 28px; border-radius: 8px; background: #4f46e5; color: #fff; border: none; cursor: pointer; display: grid; place-items: center; }
+  .set-card-add { display: flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 4px 6px; }
+  .set-input-small { background: none; border: none; outline: none; font-size: 13px; font-weight: 600; padding: 6px 8px; width: 120px; color: var(--text); }
+  .set-add-btn { width: 28px; height: 28px; border-radius: 8px; background: var(--primary); color: white; border: none; cursor: pointer; display: grid; place-items: center; transition: 0.2s; }
+  .set-add-btn:hover { background: var(--primary-hover); transform: scale(1.05); }
+  :root[data-theme="dark"] .set-add-btn { color: #1A1014; }
 
   .set-list-wrap { max-height: 300px; overflow-y: auto; padding-right: 4px; }
   .set-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
   .set-row { display: flex; align-items: center; gap: 8px; animation: slideUp 0.2s ease-out; }
   @keyframes slideUp { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-  .set-chip { flex: 1; padding: 10px 16px; background: #f8fafc; border: 1px solid #eef2f7; border-radius: 12px; font-size: 14px; font-weight: 600; color: #334155; }
-  .set-edit-input { flex: 1; padding: 10px 16px; background: #fff; border: 2px solid #4f46e5; border-radius: 12px; font-size: 14px; font-weight: 600; outline: none; }
+  .set-chip { flex: 1; padding: 10px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; font-size: 14px; font-weight: 600; color: var(--text); }
+  .set-edit-input { flex: 1; padding: 10px 16px; background: var(--surface); border: 2px solid var(--primary); border-radius: 12px; font-size: 14px; font-weight: 600; outline: none; color: var(--text); }
   
-  .set-row-btn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid #e2e8f0; background: #fff; color: #64748b; cursor: pointer; display: grid; place-items: center; transition: all 0.2s; font-size: 12px; }
-  .set-row-btn:hover { background: #f8fafc; color: #4f46e5; border-color: #cbd5e1; }
-  .set-row-btn.del:hover { color: #ef4444; border-color: #fecdd3; background: #fff1f2; }
-  .set-row-btn.save { background: #4f46e5; color: #fff; border: none; }
-  .set-row-btn.cancel { background: #f1f5f9; color: #64748b; border: none; }
+  .set-row-btn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; display: grid; place-items: center; transition: all 0.2s; font-size: 12px; }
+  .set-row-btn:hover { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
+  .set-row-btn.del:hover { color: var(--danger); border-color: var(--danger); background: rgba(var(--primary-rgb), 0.05); }
+  .set-row-btn.save { background: var(--primary); color: white; border: none; }
+  .set-row-btn.cancel { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+  :root[data-theme="dark"] .set-row-btn.save { color: #1A1014; }
 
-  .hint { font-size: 13px; color: #94a3b8; font-style: italic; padding: 10px; text-align: center; }
+  .hint { font-size: 13px; color: var(--text-muted); font-style: italic; padding: 10px; text-align: center; }
   
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
   @media (max-width: 768px) {
     .set-page { padding: 16px 12px; min-height: 0; }
@@ -362,10 +366,8 @@ const LOCAL_CSS = `
   }
 
   .set-success-modal { padding: 24px 8px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .ssm-icon { width: 64px; height: 64px; border-radius: 50%; background: #10b98115; color: #10b981; display: grid; place-items: center; font-size: 24px; margin-bottom: 20px; animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .ssm-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--primary-soft); color: var(--primary); display: grid; place-items: center; font-size: 24px; margin-bottom: 20px; animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
   @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .set-success-modal h2 { font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 12px; }
-  .set-success-modal p { font-size: 14px; color: #64748b; line-height: 1.6; margin: 0 0 24px; }
-  :root[data-theme="dark"] .set-success-modal h2 { color: #f8fafc; }
-  :root[data-theme="dark"] .set-success-modal p { color: #94a3b8; }
+  .set-success-modal h2 { font-size: 20px; font-weight: 800; color: var(--text); margin: 0 0 12px; }
+  .set-success-modal p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin: 0 0 24px; }
 `;
