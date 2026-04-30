@@ -207,7 +207,18 @@ function initGCS() {
         universe_domain: 'googleapis.com'
       };
     } else if (GCS_KEYFILE) {
-      opts.keyFilename = GCS_KEYFILE;
+      // Robust path resolution: try as-is, then relative to server directory
+      let keyPath = GCS_KEYFILE;
+      if (!path.isAbsolute(keyPath)) {
+        const localPath = path.join(__dirname, keyPath);
+        // If it starts with ./keys but is actually in server/keys, help it out
+        if (!require('fs').existsSync(localPath) && keyPath.startsWith('./keys')) {
+          keyPath = path.join(__dirname, 'keys', path.basename(keyPath));
+        } else {
+          keyPath = localPath;
+        }
+      }
+      opts.keyFilename = keyPath;
     }
     
     gcs = new Storage(opts);
@@ -1638,7 +1649,12 @@ app.post(`${API_PREFIX}/upload`, upload.any(), async (req, res) => {
 
     res.json({ success: true, bucket: GCS_BUCKET, public: GCS_PUBLIC, files: out, docs });
   } catch (error) {
-    handleError(res, error, "Failed to upload to Google Cloud Storage");
+    console.error("[Upload Error]:", error);
+    res.status(500).json({ 
+      success: false, 
+      error: "Failed to upload to Google Cloud Storage",
+      details: error.message || String(error)
+    });
   }
 });
 
